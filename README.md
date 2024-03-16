@@ -19,5 +19,7 @@
 - ...
 
 ## Convention
+- commit message는 동사로 시작하면됩니다.
+    - ex) Fix redundant methods
 - 간단한 수정 사항이 아닌 기능 구현의 경우, 가능한 경우 issue를 생성 후, [issue 번호]-[브랜치명]으로 브랜치 생성 후 작업 완료 시 merge 바랍니다.
 - review하거나 확인할 사항이 있는 경우 바로 merge하지 않고, Merge Request를 보내면 됩니다.
