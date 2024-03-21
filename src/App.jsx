@@ -2,6 +2,7 @@ import 'styles/index.css';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import NavBar from 'components/NavBar';
 import Main from 'pages/Main/Main';
+import GradientBackground from 'components/GradientBackground'; // Import the GradientBackground component
 
 
 /*
@@ -23,6 +24,7 @@ function App() {
   return (
     <div className="App">
       <NavBar/>
+      <GradientBackground/>
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Main />} />

@@ -3,16 +3,16 @@ import { Link } from "react-router-dom";
 
 const navBarItems = [
     {
-        key: 1,
-        label: <Link to="/">Home</Link>
+        label: "Home",
+        path: "/"
     },
     {
-        key: 2,
-        label: <Link to="/about">About</Link>
+        label: "About",
+        path: "/about"
     },
     {
-        key: 3,
-        label: <Link to="/contact">Contact</Link>
+        label: "Contact",
+        path: "/contact"
     }
 ]
 
