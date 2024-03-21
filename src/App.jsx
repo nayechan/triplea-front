@@ -1,27 +1,41 @@
-import logo from './logo.svg';
 import axios from 'axios';
-import './App.css';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import Home from './components/Main/Home';
+import Region from './components/Category/Region';
+import Period from './components/Category/Period';
+import Strength from './components/Category/Strength';
 
-function test(){
+function test() {
   axios({
     method: 'get',
     url: 'http://localhost:8080/test',
     responseType: 'stream'
   })
-  .then(function (response) {
-    document.getElementById("content").innerHTML = response.data;
-  });
+    .then(function (response) {
+      document.getElementById("content").innerHTML = response.data;
+    });
 }
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <h1 id="content">test 2</h1>
-        <button onClick={test}>test</button>
-      </header>
-    </div>
+    <Router>
+      <div>
+        <Routes>
+          <Route path="/home" element={<Home/>} />
+          <Route path="/region" element={<Region/>} />
+          <Route path="/period" element={<Period/>} />
+          <Route path="/strength" element={<Strength/>} />
+          <Route path="/" element={
+            <div className="App">
+              <header className="App-header">
+                <Home />
+              </header>
+            </div>
+          } />
+
+        </Routes>
+      </div>
+    </Router>
   );
 }
 

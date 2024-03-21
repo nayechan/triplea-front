@@ -1,0 +1,66 @@
+.calendar-wrapper {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 950px;
+    transform: translate(-50%, -50%);
+    z-index: 1;
+
+    .react-datepicker__day--outside-month {
+        color: #a8a8a8 !important;
+    }
+
+    .react-datepicker {
+        /*font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;*/
+        border: none;
+        /* 기본 테두리 제거 */
+        box-shadow: 0 4px px rgba(0, 0, 0, 0.1);
+        /* 그림자 추가 */
+        margin-top: 90px;
+        width: 100%;
+    }
+
+    .react-datepicker__header {
+        background-color: #8ba49c;
+        border: none;
+        width: 475px;
+        height: 50px;
+    }
+    .react-datepicker__month{
+        padding: 10px 10px;
+    }
+    .react-datepicker__day-name{
+        padding: 3px 10px;
+    }
+    .react-datepicker__day{
+        padding: 3px 10px;
+    }
+    .react-datepicker__header .react-datepicker__current-month,
+    .react-datepicker__header .react-datepicker__current-year {
+        letter-spacing: 5px;
+        margin-top: 4px;
+    }
+
+    .react-datepicker__week {
+        border: none;
+        height: 35px;
+    }
+}
+
+.period-contents {
+    display: flex;
+    height: 100%;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 50px;
+}
+
+.period-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 62%;
+    margin-top: 31px;
+    text-align: left;
+    z-index: 100;
+}
