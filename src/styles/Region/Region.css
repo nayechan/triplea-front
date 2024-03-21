@@ -12,7 +12,7 @@
 }
 
 .region-top {
-    width: 62%;
+    width: 80%;
     height: 80px;
     margin-top: 20px;
     margin-bottom: 0;
@@ -52,3 +52,10 @@
     background-color: #ccc;
     cursor: pointer;
 } 
+
+.region-buttons{
+    display: flex;
+    flex-direction: row;
+    justify-content: end;
+    margin: 30px;
+}
