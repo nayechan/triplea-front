@@ -1,0 +1,54 @@
+.region-container {
+    position: relative;
+    height: 690px;
+}
+
+.region-contents{
+    display: flex;
+    height: 100%;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 50px;
+}
+
+.region-top {
+    width: 62%;
+    height: 80px;
+    margin-top: 20px;
+    margin-bottom: 0;
+    text-align: left;
+    z-index: 100;
+}
+
+.region-top h4{
+    margin-bottom: 1px;
+}
+
+.region-top h1{
+    margin-top: 1px;
+}
+
+.region-lists {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    list-style-type: none;
+    padding: 0;
+    z-index: 100;
+}
+
+.region-lists li {
+    width: calc(22% - 15px); 
+    margin-bottom: 30px;
+    text-align: center;
+    background-color: #ffffffea;
+    border-radius: 10px;
+    padding: 13px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease;
+}
+
+.region-lists li:hover {
+    background-color: #ccc;
+    cursor: pointer;
+} 

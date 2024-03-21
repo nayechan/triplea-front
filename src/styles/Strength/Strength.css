@@ -1,0 +1,44 @@
+.strength-container {
+    position: relative;
+    height: 690px;
+}
+
+.strength-contents {
+    display: flex;
+    height: 100%;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 50px;
+}
+
+.strength-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 62%;
+    margin-top: 31px;
+    text-align: left;
+    z-index: 100;
+}
+
+.strength-lists{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    list-style-type: none;
+    z-index: 100;
+}
+
+.strength-lists li{
+    width: calc(20% - 10px); 
+    text-align: center;
+    background-color: #ffffffea;
+    border-radius: 10px;
+    padding: 13px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease;
+}
+
+.strength-lists li:hover{
+    cursor: pointer;
+}

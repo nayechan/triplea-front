@@ -1,35 +1,33 @@
 import 'styles/index.css';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import NavBar from 'components/NavBar';
-import Main from 'pages/Main/Main';
-import GradientBackground from 'components/GradientBackground'; // Import the GradientBackground component
 
-
-/*
 import axios from 'axios';
 
-function test(){
-  axios({
-    method: 'get',
-    url: 'http://localhost:8080/get/test1',
-    responseType: 'stream'
-  })
-  .then(function (response) {
-    document.getElementById("content").innerHTML = response.data;
-  });
-}
-*/
+import Header from 'components/Header';
+
+import Home from 'pages/Main/Home';
+import Region from 'pages/Region/Region';
+import Period from 'pages/Period/Period';
+import Strength from 'pages/Strength/Strength';
 
 function App() {
   return (
     <div className="App">
-      <NavBar/>
-      <GradientBackground/>
       <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Main />} />
-          <Route path="/about" element={<Main />} />
-          <Route path="/contact" element={<Main />} />
+      <Header/>
+      <Routes>
+          <Route path="/home" element={<Home/>} />
+          <Route path="/region" element={<Region/>} />
+          <Route path="/period" element={<Period/>} />
+          <Route path="/strength" element={<Strength/>} />
+          <Route path="/" element={
+            <div className="App">
+              <header className="App-header">
+                <Home />
+              </header>
+            </div>
+          } />
+
         </Routes>
     </BrowserRouter>
     </div>

@@ -1,0 +1,92 @@
+#header-container {
+    width: 100%;
+    height: 70px;
+    position:absolute;
+    z-index: 110;
+}
+
+.header-contents {
+    max-width: 1920px;
+    margin: 0 auto;
+    position: relative;
+}
+
+.header-image {
+    position: absolute;
+    top: 7px;
+    left: 50px;
+    font-size: 30px;
+}
+
+.header-menu{
+    margin: 0 40% 0 25%;
+}
+
+.header-menu-button{
+    overflow: inherit;
+    position: relative;
+    list-style: none;
+}
+
+.menu-button{
+    justify-content: center;
+    position: relative;
+    z-index: 1;
+    display: flex;
+    gap: 30px;
+}
+
+.travel-button,
+.hotel-button,
+.community-button{
+    font-size: 20px;
+    margin: 0 2%;
+    width: auto;
+    line-height: 50px;
+}
+
+.header-search{
+    width: 240px;
+    right: 80px;
+    position: absolute;
+    top: 7px;
+}
+
+.search-bar{
+    display: flex;
+}
+
+.search-icon{
+    margin-top: 3px;
+}
+
+a, .search-bar{
+    text-decoration: none;
+    color: #181b12;
+}
+
+.header-contents a:hover{
+    cursor: pointer;
+    color: #e1c1bbf1;
+}
+.search-icon:hover{
+    cursor: pointer;
+}
+
+input{
+    width: 260px;
+    margin-right: 2px;
+    border-width: 0 0 3px;
+    line-height: 2;
+    border-radius: 3px;
+    outline: none;
+    background-color: inherit;
+}
+
+input:focus{
+    outline: 2px solid #181b124a;
+}
+
+ul{
+    list-style: none;
+}
