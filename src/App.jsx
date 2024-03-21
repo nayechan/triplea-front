@@ -1,26 +1,35 @@
-import logo from './logo.svg';
+import 'styles/index.css';
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import NavBar from 'components/NavBar';
+import Main from 'pages/Main/Main';
+
+
+/*
 import axios from 'axios';
-import './App.css';
 
 function test(){
   axios({
     method: 'get',
-    url: 'http://localhost:8080/test',
+    url: 'http://localhost:8080/get/test1',
     responseType: 'stream'
   })
   .then(function (response) {
     document.getElementById("content").innerHTML = response.data;
   });
 }
+*/
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <h1 id="content">test 2</h1>
-        <button onClick={test}>test</button>
-      </header>
+      <NavBar/>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Main />} />
+          <Route path="/about" element={<Main />} />
+          <Route path="/contact" element={<Main />} />
+        </Routes>
+    </BrowserRouter>
     </div>
   );
 }
