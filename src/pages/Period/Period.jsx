@@ -5,8 +5,9 @@ import "react-datepicker/dist/react-datepicker.css";
 import dayjs from 'dayjs';
 import 'styles/Period/Period.css';
 import ContentTemplate from 'components/ContentsTemplate';
-import NextButton from "components/NextButton";
+import LinkedButton from "components/LinkedButton";
 import BackButton from "components/BackButton";
+import NewContentTemplate from "components/NewContentsTemplate";
 
 const CustomDatePicker = ({ startDate, endDate, onChange }) => {
     return (
@@ -46,7 +47,7 @@ const Period = () => {
 
     return (
         <div className="period-container">
-            <ContentTemplate>
+            <NewContentTemplate>
                 <div className="period-contents">
                     <div className="period-top">
                         <h1>여행 기간을 선택해주세요.</h1>
@@ -73,9 +74,11 @@ const Period = () => {
                         />
                     </div>
                 </div>
-            </ContentTemplate>
-            <NextButton to="/strength"/>
-            <BackButton />
+                <div className="period-buttons">
+                    <BackButton />
+                    <LinkedButton to="/strength">다음</LinkedButton>
+                </div>
+            </NewContentTemplate>
         </div>
     )
 }

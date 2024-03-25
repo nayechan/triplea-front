@@ -1,25 +1,36 @@
 #header-container {
     width: 100%;
+    max-width: 1920px;
     height: 70px;
-    position:absolute;
+
+    position: fixed;
+    top: 0;
+    
     z-index: 110;
 }
 
 .header-contents {
-    max-width: 1920px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
     margin: 0 auto;
-    position: relative;
+    padding: 0 20px;
 }
 
 .header-image {
-    position: absolute;
-    top: 7px;
-    left: 50px;
     font-size: 30px;
+    display: inline;
+    z-index: 1;
 }
 
 .header-menu{
-    margin: 0 40% 0 25%;
+    z-index: 1;
+}
+
+.header-search{
+    width: 240px;
+    z-index: 1;
 }
 
 .header-menu-button{
@@ -31,25 +42,27 @@
 .menu-button{
     justify-content: center;
     position: relative;
-    z-index: 1;
     display: flex;
     gap: 30px;
 }
 
 .travel-button,
 .hotel-button,
-.community-button{
+.community-button,
+.contact-button{
     font-size: 20px;
     margin: 0 2%;
-    width: auto;
-    line-height: 50px;
-}
 
-.header-search{
-    width: 240px;
-    right: 80px;
-    position: absolute;
-    top: 7px;
+    white-space: nowrap;
+
+    min-width: 100px;
+    max-width: 300px;
+
+    line-height: 32px;
+    text-align: center;
+
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .search-bar{
@@ -62,7 +75,7 @@
 
 a, .search-bar{
     text-decoration: none;
-    color: #181b12;
+    color: #237067;
 }
 
 .header-contents a:hover{

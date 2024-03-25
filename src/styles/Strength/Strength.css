@@ -15,7 +15,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    width: 62%;
+    width: 80%;
     margin-top: 31px;
     text-align: left;
     z-index: 100;
@@ -41,4 +41,11 @@
 
 .strength-lists li:hover{
     cursor: pointer;
+}
+
+.strength-buttons{
+    display: flex;
+    flex-direction: row;
+    justify-content: end;
+    margin: 30px;
 }

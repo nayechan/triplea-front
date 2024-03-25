@@ -3,17 +3,17 @@ import { FaSearch } from "react-icons/fa";
 import { Link } from 'react-router-dom';
 import 'styles/Header/Header.css';
 
-const Header = () => {
+const Header = ({className}) => {
     const inputRef = useRef(null);
     const handleSearchIconClick = () => {
         inputRef.current.focus();
     };
 
     return (
-        <header id="header-container">
+        <header className={className}>
             <div className="header-contents">
                 <div className="header-image">
-                    <Link to="/">Trip:lanner</Link>
+                    <Link to="/"><b>Trip:lenner</b></Link>
                 </div>
                 <div className="header-menu">
                     <div className="header-button">
@@ -27,6 +27,9 @@ const Header = () => {
                                 </li>
                                 <li className="community-button">
                                     <Link to="https://www.naver.com" target="_blank">게시판</Link>
+                                </li>
+                                <li className="contact-button">
+                                    <Link to="https://www.naver.com" target="_blank">문의</Link>
                                 </li>
                             </ul>
                         </div>

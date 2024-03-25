@@ -1,10 +1,5 @@
 .calendar-wrapper {
-    position: absolute;
-    top: 50%;
-    left: 50%;
     width: 950px;
-    transform: translate(-50%, -50%);
-    z-index: 1;
 
     .react-datepicker__day--outside-month {
         color: #a8a8a8 !important;
@@ -59,8 +54,15 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    width: 62%;
+    width: 80%;
     margin-top: 31px;
     text-align: left;
     z-index: 100;
+}
+
+.period-buttons{
+    display: flex;
+    flex-direction: row;
+    justify-content: end;
+    margin: 30px;
 }
