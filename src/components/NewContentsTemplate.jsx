@@ -16,6 +16,19 @@ const ContentWrapper = styled.div`
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+
+    /* Make content scrollable */
+    overflow-y: auto;
+    max-height: calc(100vh - 160px); /* Adjust max height as needed */
+
+    /* Hide scrollbar for Chrome, Safari, and Opera */
+    &::-webkit-scrollbar {
+      display: none;
+    }
+
+    /* Hide scrollbar for IE, Edge, and Firefox */
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
 `;
 
 const StyledHeader = styled(Header)`

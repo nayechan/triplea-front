@@ -1,36 +1,39 @@
 import 'styles/index.css';
+
+import React from 'react';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
-import axios from 'axios';
-
-import Header from 'components/Header';
+import { RouteDataProvider } from 'contexts/RouteDataContext';
 
 import Home from 'pages/Main/Home';
 import Region from 'pages/Region/Region';
 import Period from 'pages/Period/Period';
 import Strength from 'pages/Strength/Strength';
 import ResultRoute from 'pages/ResultRoute/ResultRoute';
+import RouteDetail from 'pages/RouteDetail/RouteDetail';
 
 function App() {
   return (
     <div className="App">
       <BrowserRouter>
-      <Routes>
-          <Route path="/home" element={<Home/>} />
-          <Route path="/region" element={<Region/>} />
-          <Route path="/period" element={<Period/>} />
-          <Route path="/strength" element={<Strength/>} />
-          <Route path="/resultRoute" element={<ResultRoute/>}/>
-          <Route path="/" element={
-            <div className="App">
-              <header className="App-header">
-                <Home />
-              </header>
-            </div>
-          } />
-
-        </Routes>
-    </BrowserRouter>
+        <RouteDataProvider>
+          <Routes>
+            <Route path="/resultRoute" element={<ResultRoute />} />
+            <Route path="/routeDetail" element={<RouteDataProvider><RouteDetail /></RouteDataProvider>} />
+            <Route path="/home" element={<Home />} />
+            <Route path="/region" element={<Region />} />
+            <Route path="/period" element={<Period />} />
+            <Route path="/strength" element={<Strength />} />
+            <Route path="/" element={
+              <div className="App">
+                <header className="App-header">
+                  <Home />
+                </header>
+              </div>
+            } />
+          </Routes>
+        </RouteDataProvider>
+      </BrowserRouter>
     </div>
   );
 }

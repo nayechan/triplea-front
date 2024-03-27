@@ -10,6 +10,8 @@ const ContentBackground = styled.img`
     left: 0;
     right: 0;
     bottom: 0;
+    width:100%;
+    object-fit: cover;
 `;
 
 export default ContentBackground;
