@@ -5,10 +5,10 @@ import ContentBackground from './ContentBackground';
 
 const ContentWrapper = styled.div`
     width: 1200px;
-    height: 600px;
+    height: calc(100vh - 224px);
 
     padding: 20px; /* Adjust padding as needed */
-    margin: 40px auto; /* 헤더와 상단 마진 설정 */
+    margin: 50px auto; /* 헤더와 상단 마진 설정 */
     background-color: #e3ece8;
     border-radius: 10px;
     box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.04);
@@ -19,7 +19,6 @@ const ContentWrapper = styled.div`
 
     /* Make content scrollable */
     overflow-y: auto;
-    max-height: calc(100vh - 160px); /* Adjust max height as needed */
 
     /* Hide scrollbar for Chrome, Safari, and Opera */
     &::-webkit-scrollbar {
