@@ -5,7 +5,7 @@ import ContentBackground from './ContentBackground';
 
 const ContentWrapper = styled.div`
     width: 1200px;
-    min-height: 700px;
+    height: 600px;
 
     padding: 20px; /* Adjust padding as needed */
     margin: 40px auto; /* 헤더와 상단 마진 설정 */
