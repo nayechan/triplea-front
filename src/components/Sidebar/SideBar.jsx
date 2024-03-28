@@ -1,16 +1,21 @@
 import React from 'react';
+import styled from 'styled-components';
 
-const Sidebar = () => {
-  return (
-    <div className="sidebar">
-      {/* Sidebar content goes here */}
-      <ul>
-        <li>Link 1</li>
-        <li>Link 2</li>
-        <li>Link 3</li>
-      </ul>
-    </div>
-  );
-};
+const SideBar = styled.div`
+    position: fixed;
+    top: 0;
+    left: ${({ position }) => position}; /* Dynamic width */;
+    bottom: 0;
+    background-color: #f0f0f0; /* Example background color */
+    padding: 20px;
+    overflow-y: auto; /* Enable scrolling if content exceeds sidebar height */
+    z-index: 100;
+    width: 25%;
+    transition: width 0.3s ease; /* Smooth transition effect */
+    box-shadow: 10px 0 10px rgba(0, 0, 0, 0.1);
 
-export default Sidebar;
+    /* Add additional styles as needed */
+`;
+
+
+export default SideBar;
