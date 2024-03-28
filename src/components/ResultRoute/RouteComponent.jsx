@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom'; // Assuming you're using React Router
 import { useRouteData } from  'contexts/RouteDataContext'
 import styled from 'styled-components';
-import RouteTemplate from './RouteTemplate';
+import RouteLayout from './RouteLayout';
 
 // Function to group planner items by day
 const groupPlannersByDay = (planners) => {
@@ -16,7 +16,7 @@ const groupPlannersByDay = (planners) => {
   return groupedByDay;
 };
 
-const RouteContent = ({ route }) => {
+const RouteComponent = ({ route }) => {
   const {routeData, setRouteData} = useRouteData();
   
   const navigate = useNavigate();
@@ -36,7 +36,7 @@ const RouteContent = ({ route }) => {
   let groupedPlanners = groupPlannersByDay(route.planners);
 
 
-  return <RouteTemplate groupedPlanners={groupedPlanners} routeNumber={route.number} onDetailsClick={onDetailsClick}/>;
+  return <RouteLayout groupedPlanners={groupedPlanners} routeNumber={route.number} onDetailsClick={onDetailsClick}/>;
 };
 
-export default RouteContent;
+export default RouteComponent;

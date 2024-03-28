@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import NewContentTemplate from 'components/NewContentsTemplate';
-import RouteContent from 'components/ResultRoute/RouteContent';
+import RouteComponent from 'components/ResultRoute/RouteComponent';
 import { useRouteData } from 'contexts/RouteDataContext'
 
 const route = {
@@ -76,8 +76,8 @@ const ResultRoute = () => {
   return (
       <div className="result-route-container">
         <NewContentTemplate>
-          <RouteContent route={route} />
-          <RouteContent route={route} />
+          <RouteComponent route={route} />
+          <RouteComponent route={route} />
         </NewContentTemplate>
       </div>
   )

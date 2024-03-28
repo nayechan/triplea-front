@@ -9,14 +9,15 @@ const RouteDetail = () => {
 
   console.log("Route data changed:", routeData);
 
-  useEffect(() => 
-    {
+    useEffect(() => {
+      handleRouteData();
+    }, [routeData, navigate]);
+
+    const handleRouteData = () => {
       if (!routeData) {
         navigate('/resultRoute');
       }
-    },
-    [routeData, navigate]
-  );
+    };
 
   return (
     <div className="route-detail-container">

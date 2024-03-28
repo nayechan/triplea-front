@@ -48,7 +48,7 @@ const DailyRoute = ({ day, planners }) => {
   );
 };
 
-const RouteTemplate = ({ routeNumber, groupedPlanners, onDetailsClick }) => {
+const RouteLayout = ({ routeNumber, groupedPlanners, onDetailsClick }) => {
   return (
     <RouteContainer>
       <RouteHeader>
@@ -66,4 +66,4 @@ const RouteTemplate = ({ routeNumber, groupedPlanners, onDetailsClick }) => {
   );
 };
 
-export default RouteTemplate;
+export default RouteLayout;
