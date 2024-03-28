@@ -6,9 +6,7 @@ import Header from 'components/Header';
 import ContentBackground from 'components/ContentBackground';
 import RouteDetailMapComponent from 'components/RouteDetail/RouteDetailMapComponent';
 import RouteDetailDataComponent from 'components/RouteDetail/RouteDetailDataComponent';
-import SideBar from 'components/SideBar/SideBar';
 import ShrinkableSidebar from 'components/SideBar/ShrinkableSideBar';
-
 const RouteDetail = () => {
   const { routeData } = useRouteData();
   const navigate = useNavigate();

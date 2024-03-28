@@ -30,8 +30,10 @@
 }
 
 .strength-lists li{
-    width: calc(21% - 10px); 
-    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* 수직 정렬 */
+    width: calc(21% - 10px);
     background-color: #ffffffea;
     border-radius: 10px;
     padding: 13px;
