@@ -6,6 +6,9 @@ import LinkedButton from 'components/LinkedButton';
 import BackButton from "components/BackButton";
 import 'styles/Strength/Strength.css';
 
+
+
+
 const Strength = () => {
     return (
         <div className="strength-container">
@@ -15,9 +18,18 @@ const Strength = () => {
                         <h1>여행 강도를 선택해주세요.</h1>
                     </div>
                     <ul className="strength-lists">
-                        <li>약함</li>
-                        <li>중간</li>
-                        <li>강함</li>
+                        <li>
+                            <img src={process.env.PUBLIC_URL + '/images/strength_weak.png'} alt="이미지 설명" className="strength-image" />
+                            약함
+                        </li>
+                        <li>
+                            <img src={process.env.PUBLIC_URL + '/images/strength_normal.png'} alt="이미지 설명" className="strength-image" />
+                            중간
+                        </li>
+                        <li>
+                            <img src={process.env.PUBLIC_URL + '/images/strength_strong.png'} alt="이미지 설명" className="strength-image" />
+                            강함
+                        </li>
                     </ul>
                 </div>
                 <div className="strength-buttons">

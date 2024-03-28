@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import Button from './Button';
 
 const StyledBackButton = styled(Button)`
-    background-color: #ccc;
+    background-color: #fff;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
     color: #000;
 `;

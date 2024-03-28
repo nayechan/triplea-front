@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import dayjs from 'dayjs';
+import { ko } from 'date-fns/locale';
 import 'styles/Period/Period.css';
 import ContentTemplate from 'components/ContentsTemplate';
 import LinkedButton from "components/LinkedButton";
@@ -21,6 +22,7 @@ const CustomDatePicker = ({ startDate, endDate, onChange }) => {
             onChange={onChange}
             minDate={new Date(2023, 0, 1)}
             maxDate={new Date(2100, 11, 31)}
+            locale={ko}
         />
     );
 };
