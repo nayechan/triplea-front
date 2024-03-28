@@ -19,7 +19,7 @@ function App() {
         <RouteDataProvider>
           <Routes>
             <Route path="/resultRoute" element={<ResultRoute />} />
-            <Route path="/routeDetail" element={<RouteDataProvider><RouteDetail /></RouteDataProvider>} />
+            <Route path="/routeDetail" element={<RouteDetail />} />
             <Route path="/home" element={<Home />} />
             <Route path="/region" element={<Region />} />
             <Route path="/period" element={<Period />} />
