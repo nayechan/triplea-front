@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import NewContentTemplate from 'components/NewContentsTemplate';
+import ContentTemplate from 'components/ContentsTemplate';
 import RouteComponent from 'components/ResultRoute/RouteComponent';
 import { useRouteData } from 'contexts/RouteDataContext'
 
@@ -75,10 +75,10 @@ const ResultRoute = () => {
 
   return (
       <div className="result-route-container">
-        <NewContentTemplate>
+        <ContentTemplate>
           <RouteComponent route={route} />
           <RouteComponent route={route} />
-        </NewContentTemplate>
+        </ContentTemplate>
       </div>
   )
 }

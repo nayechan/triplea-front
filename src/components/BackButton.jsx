@@ -1,10 +1,9 @@
-// NextButton.js
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import Button from './Button';
+import DefaultButton from './DefaultButton';
 
-const StyledBackButton = styled(Button)`
+const StyledBackButton = styled(DefaultButton)`
     background-color: #fff;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
     color: #000;

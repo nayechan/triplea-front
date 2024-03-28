@@ -1,41 +1,51 @@
 import React from 'react';
 import styled from 'styled-components';
 import Header from './Header';
+import ContentBackground from './ContentBackground';
 
-const StyledTemplate = styled.div`
-    width: 1150px;
-    height: 550px;
-    margin: 100px auto 32px; /* 헤더와 상단 마진 설정 */
-    position: absolute; /* 절대적 위치 설정 */
-    top: 320px;
-    left: 50%;
-    transform: translate(-50%, -50%); /* 요소를 수평 및 수직으로 중앙에 정렬 */
+const ContentWrapper = styled.div`
+    width: 1200px;
+    height: calc(100vh - 224px);
+
+    padding: 20px; /* Adjust padding as needed */
+    margin: 50px auto; /* 헤더와 상단 마진 설정 */
     background-color: #e3ece8;
     border-radius: 10px;
     box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.04);
+
     display: flex;
     flex-direction: column;
-    align-items: center; /* 수직 방향으로 중앙 정렬 */
-    z-index: 1;
-`;
-const StyledHeader = styled(Header)`
-    position: fixed;
-    top: 0;
-    width: 100%;
-    z-index: 2;
+    justify-content: space-between;
+
+    /* Make content scrollable */
+    overflow-y: auto;
+
+    /* Hide scrollbar for Chrome, Safari, and Opera */
+    &::-webkit-scrollbar {
+      display: none;
+    }
+
+    /* Hide scrollbar for IE, Edge, and Firefox */
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
 `;
 
-const ContentTemplate = ({children}) => {
+const StyledHeader = styled(Header)`
+    background-color: white;
+    box-shadow: 0 0 16px 0 rgba(0, 0, 0, 0.3);
+`;
+
+const ContentTemplate = ({className, children}) => {
     return (
         <div className="template-contents">
             <StyledHeader />
-            <div className="header-placeholder" style={{height: '70px'}}></div>
-            <StyledTemplate />
-            <img src={process.env.PUBLIC_URL + '/images/category-background.jpg'} alt="이미지 설명" className="background-image" style={{position: 'fixed'}}/>
-            {children} {/* Region 컴포넌트를 props.children을 통해 렌더링합니다. */}
-            
-        </div>
-        
+
+            <ContentWrapper className={className}>
+                {children} {/* Region 컴포넌트를 props.children을 통해 렌더링합니다. */}
+            </ContentWrapper>
+
+            <ContentBackground src={`${process.env.PUBLIC_URL}/images/category-background.jpg`} alt="이미지 설명"/>
+        </div>        
     );
 }
 

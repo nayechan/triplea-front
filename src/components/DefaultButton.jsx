@@ -1,15 +1,16 @@
-// NextButton.js
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
-const StyledButton = styled.div`
+const StyledButton = styled.button`
     display: flex;
     justify-content: center; /* Center horizontally */
     align-items: center; /* Center vertically */
 
     width: 120px;
-    height: 30px;
+    height: 40px;
+
+    border: 0;
     
 
     border-radius: 10px;
@@ -33,7 +34,7 @@ const StyledButton = styled.div`
     }
 `;
 
-const Button = ({className, children, onClick}) => {
+const DefaultButton = ({className, children, onClick}) => {
 
     return (
         <StyledButton className={className} onClick={onClick}>
@@ -42,4 +43,4 @@ const Button = ({className, children, onClick}) => {
     );
 }
 
-export default Button;
+export default DefaultButton;

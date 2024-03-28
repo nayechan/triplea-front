@@ -2,9 +2,9 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import Button from './Button';
+import DefaultButton from './DefaultButton';
 
-const StyledLinkedButton = styled(Button)`
+const StyledLinkedButton = styled(DefaultButton)`
     background-color: black;
     color: white;
 `;

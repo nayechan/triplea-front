@@ -1,14 +1,12 @@
 import React from 'react';
-import ContentTemplate from 'components/ContentsTemplate';
-import NextButton from 'components/NextButton';
 import 'styles/Region/Region.css';
-import NewContentTemplate from 'components/NewContentsTemplate';
+import ContentTemplate from 'components/ContentsTemplate';
 import LinkedButton from 'components/LinkedButton';
 
 const Region = () => {
     return (
         <div className="region-container">
-            <NewContentTemplate>
+            <ContentTemplate>
                 <div className="region-contents">
                     <div className="region-top">
                         <h4>이번 여행, 어디로 떠날까?</h4>
@@ -37,7 +35,7 @@ const Region = () => {
                 <div className="region-buttons">
                     <LinkedButton to="/period">다음</LinkedButton>
                 </div>
-            </NewContentTemplate>
+            </ContentTemplate>
         </div>
     )
 }

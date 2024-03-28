@@ -1,7 +1,5 @@
 import React from 'react';
 import ContentTemplate from 'components/ContentsTemplate';
-import NewContentTemplate from 'components/NewContentsTemplate';
-import NextButton from "components/NextButton";
 import LinkedButton from 'components/LinkedButton';
 import BackButton from "components/BackButton";
 import 'styles/Strength/Strength.css';
@@ -12,7 +10,7 @@ import 'styles/Strength/Strength.css';
 const Strength = () => {
     return (
         <div className="strength-container">
-            <NewContentTemplate >
+            <ContentTemplate >
                 <div className="strength-contents">
                     <div className="strength-top">
                         <h1>여행 강도를 선택해주세요.</h1>
@@ -36,7 +34,7 @@ const Strength = () => {
                     <BackButton />
                     <LinkedButton to="/resultRoute">다음</LinkedButton>
                 </div>
-            </NewContentTemplate>
+            </ContentTemplate>
         </div>
     )
 }

@@ -3,7 +3,7 @@ import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useRouteData } from  'contexts/RouteDataContext';
 import styled from 'styled-components';
-import Button from 'components/Button';
+import DefaultButton from 'components/DefaultButton';
 
 // Styled components
 const RouteContainer = styled.div`
@@ -84,7 +84,7 @@ const RouteComponent = ({ route }) => {
           </DailyRouteWrapper>
         ))}
       </DailyRoutesContainer>
-      <Button onClick={onDetailsClick}>자세히 보기</Button>
+      <DefaultButton onClick={onDetailsClick}>자세히 보기</DefaultButton>
     </RouteContainer>
   );
 };
