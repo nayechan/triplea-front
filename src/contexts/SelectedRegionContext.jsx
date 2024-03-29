@@ -3,7 +3,7 @@ import React, { createContext, useContext, useState } from 'react';
 // 여러 데이터를 관리할 컨텍스트 생성
 const SelectedRegionContext = createContext();
 
-// AppProvider 컴포넌트 정의
+// Provider 컴포넌트 정의
 export const SelectedRegionProvider = ({ children }) => {
     const [selectedRegion, setSelectedRegion] = useState(null);
 
