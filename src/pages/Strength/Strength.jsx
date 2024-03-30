@@ -1,13 +1,25 @@
-import React from 'react';
+import React, { useState } from 'react';
 import ContentTemplate from 'components/ContentsTemplate';
 import LinkedButton from 'components/LinkedButton';
 import BackButton from "components/BackButton";
 import 'styles/Strength/Strength.css';
-
-
-
+import { useSelectedStrengthContext } from 'contexts/SelectedStrengthContext';
 
 const Strength = () => {
+    const { setSelectedStrength } = useSelectedStrengthContext();
+    const [lastSelectedStrength, setLastSelectedStrength] = useState(null);
+
+    const handleStrengthSelect = (strength) => {
+        setLastSelectedStrength(strength);
+    };
+
+    const handleNextButtonClick = () => {
+        if(lastSelectedStrength !== null){
+            setSelectedStrength(lastSelectedStrength);
+            console.log(`${lastSelectedStrength} last`);
+        }
+    };
+
     return (
         <div className="strength-container">
             <ContentTemplate >
@@ -16,23 +28,23 @@ const Strength = () => {
                         <h1>여행 강도를 선택해주세요.</h1>
                     </div>
                     <ul className="strength-lists">
-                        <li>
-                            <img src={process.env.PUBLIC_URL + '/images/strength_weak.png'} alt="이미지 설명" className="strength-image" />
+                        <li >
+                            <img src={process.env.PUBLIC_URL + '/images/strength_weak.png'} onClick={() => handleStrengthSelect('weak')} alt="이미지 설명" className="strength-image" />
                             약함
                         </li>
-                        <li>
-                            <img src={process.env.PUBLIC_URL + '/images/strength_normal.png'} alt="이미지 설명" className="strength-image" />
+                        <li >
+                            <img src={process.env.PUBLIC_URL + '/images/strength_normal.png'} onClick={() => handleStrengthSelect('normal')} alt="이미지 설명" className="strength-image" />
                             중간
                         </li>
-                        <li>
-                            <img src={process.env.PUBLIC_URL + '/images/strength_strong.png'} alt="이미지 설명" className="strength-image" />
+                        <li >
+                            <img src={process.env.PUBLIC_URL + '/images/strength_strong.png'} onClick={() => handleStrengthSelect('hard')} alt="이미지 설명" className="strength-image" />
                             강함
                         </li>
                     </ul>
                 </div>
                 <div className="strength-buttons">
                     <BackButton />
-                    <LinkedButton to="/resultRoute">다음</LinkedButton>
+                    <LinkedButton to="/resultRoute" onClick={handleNextButtonClick}>다음</LinkedButton>
                 </div>
             </ContentTemplate>
         </div>
