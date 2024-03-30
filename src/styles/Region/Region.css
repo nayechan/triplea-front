@@ -46,8 +46,7 @@
     transition: background-color 0.3s ease;
 }
 
-.region-lists li:hover
-.region-list li.selected {
+.region-lists li:hover{
     background-color: #ccc;
     cursor: pointer;
 } 

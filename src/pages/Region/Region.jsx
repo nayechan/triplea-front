@@ -6,7 +6,7 @@ import LinkedButton from 'components/LinkedButton';
 
 const Region = () => {
     const { setSelectedRegion } = useSelectedRegionContext();
-    const { lastSelectedRegion, setLastSelectedRegion } = useState(null);
+    const [ lastSelectedRegion, setLastSelectedRegion ] = useState(null);
 
     const handleRegionSelect = (region) => {
         setLastSelectedRegion(region);
@@ -16,6 +16,7 @@ const Region = () => {
     const handleNextButtonClick = () => {
         if(lastSelectedRegion !== null){
             setSelectedRegion(lastSelectedRegion);
+            console.log(`${lastSelectedRegion} last`);
         }
     };
 
@@ -29,22 +30,22 @@ const Region = () => {
                     </div>
                     <ul className="region-lists"> 
                         <li onClick={()=> handleRegionSelect('서울')}>서울</li>
-                        <li onClick={()=> handleRegionSelect('서울')}>부산</li>
-                        <li onClick={()=> handleRegionSelect('서울')}>대구</li>
-                        <li onClick={()=> handleRegionSelect('서울')}>인천</li>
-                        <li onClick={()=> handleRegionSelect('서울')}>광주</li>
-                        <li onClick={()=> handleRegionSelect('서울')}>대전</li>
-                        <li onClick={()=> handleRegionSelect('서울')}>울산</li>
-                        <li onClick={()=> handleRegionSelect('서울')}>세종</li>
-                        <li onClick={()=> handleRegionSelect('서울')}>경기</li>
-                        <li onClick={()=> handleRegionSelect('서울')}>강원</li>
-                        <li onClick={()=> handleRegionSelect('서울')}>충북</li>
-                        <li onClick={()=> handleRegionSelect('서울')}>충남</li>
-                        <li onClick={()=> handleRegionSelect('서울')}>전북</li>
-                        <li onClick={()=> handleRegionSelect('서울')}>전남</li>
-                        <li onClick={()=> handleRegionSelect('서울')}>경북</li>
-                        <li onClick={()=> handleRegionSelect('서울')}>경남</li>
-                        <li onClick={()=> handleRegionSelect('서울')}>제주</li>
+                        <li onClick={()=> handleRegionSelect('부산')}>부산</li>
+                        <li onClick={()=> handleRegionSelect('대구')}>대구</li>
+                        <li onClick={()=> handleRegionSelect('인천')}>인천</li>
+                        <li onClick={()=> handleRegionSelect('광주')}>광주</li>
+                        <li onClick={()=> handleRegionSelect('대전')}>대전</li>
+                        <li onClick={()=> handleRegionSelect('울산')}>울산</li>
+                        <li onClick={()=> handleRegionSelect('세종')}>세종</li>
+                        <li onClick={()=> handleRegionSelect('경기')}>경기</li>
+                        <li onClick={()=> handleRegionSelect('강원')}>강원</li>
+                        <li onClick={()=> handleRegionSelect('충북')}>충북</li>
+                        <li onClick={()=> handleRegionSelect('충남')}>충남</li>
+                        <li onClick={()=> handleRegionSelect('전북')}>전북</li>
+                        <li onClick={()=> handleRegionSelect('전남')}>전남</li>
+                        <li onClick={()=> handleRegionSelect('경북')}>경북</li>
+                        <li onClick={()=> handleRegionSelect('경남')}>경남</li>
+                        <li onClick={()=> handleRegionSelect('제주')}>제주</li>
                     </ul>
                 </div>
                 <div className="region-buttons">

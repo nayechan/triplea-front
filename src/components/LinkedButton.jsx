@@ -9,9 +9,12 @@ const StyledLinkedButton = styled(DefaultButton)`
     color: white;
 `;
 
-const LinkedButton = ({ className, children, to }) => {
+const LinkedButton = ({ className, children, to, onClick }) => {
     const navigate = useNavigate();
     const handleNextButton = () => {
+        if(onClick){
+            onClick();
+        }
         navigate(to);
     };
 

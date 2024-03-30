@@ -4,6 +4,7 @@ import React from 'react';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import { RouteDataProvider } from 'contexts/RouteDataContext';
+import { SelectedRegionProvider } from 'contexts/SelectedRegionContext';
 
 import Home from 'pages/Main/Home';
 import Region from 'pages/Region/Region';
@@ -17,21 +18,23 @@ function App() {
     <div className="App">
       <BrowserRouter>
         <RouteDataProvider>
-          <Routes>
-            <Route path="/resultRoute" element={<ResultRoute />} />
-            <Route path="/routeDetail" element={<RouteDetail />} />
-            <Route path="/home" element={<Home />} />
-            <Route path="/region" element={<Region />} />
-            <Route path="/period" element={<Period />} />
-            <Route path="/strength" element={<Strength />} />
-            <Route path="/" element={
-              <div className="App">
-                <header className="App-header">
-                  <Home />
-                </header>
-              </div>
-            } />
-          </Routes>
+          <SelectedRegionProvider>
+            <Routes>
+              <Route path="/resultRoute" element={<ResultRoute />} />
+              <Route path="/routeDetail" element={<RouteDetail />} />
+              <Route path="/home" element={<Home />} />
+              <Route path="/region" element={<Region />} />
+              <Route path="/period" element={<Period />} />
+              <Route path="/strength" element={<Strength />} />
+              <Route path="/" element={
+                <div className="App">
+                  <header className="App-header">
+                    <Home />
+                  </header>
+                </div>
+              } />
+            </Routes>
+          </SelectedRegionProvider>
         </RouteDataProvider>
       </BrowserRouter>
     </div>
