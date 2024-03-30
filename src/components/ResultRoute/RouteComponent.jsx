@@ -52,27 +52,27 @@ const groupPlannersByDay = (planners) => {
 };
 
 const RouteComponent = ({ route }) => {
-  const { routeData, setRouteData } = useRouteData();
+  const { routeData, selectedRouteKey, selectRouteKey } = useRouteData();
   const navigate = useNavigate();
 
   const onDetailsClick = () => {
-    setRouteData(route);
-    console.log("Route clicked:", route);
+    selectRouteKey(route.number);
+    console.log("Route clicked:", routeData[route.number]);
   };
 
   useEffect(() => {
-    if (routeData !== null) {
-      console.log("Route data changed:", routeData);
+    if (selectedRouteKey !== -1) {
+      console.log("Route data changed:", selectedRouteKey);
       navigate('/routeDetail');
     }
-  }, [routeData]);
+  }, [selectedRouteKey]);
 
-  let groupedPlanners = groupPlannersByDay(route.planners);
+  let groupedPlanners = groupPlannersByDay(route.planers); //TODO : fix to 'planners' from 'planers'
 
   return (
     <RouteContainer>
       <RouteHeader>
-        <RouteNumber>경로 {route.number + 1}</RouteNumber>
+        <RouteNumber>경로 {route.number}</RouteNumber>
       </RouteHeader>
       <DailyRoutesContainer>
         {Object.keys(groupedPlanners).map((day, index) => (

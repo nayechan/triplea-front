@@ -8,16 +8,11 @@ export const useRouteData = () => useContext(RouteDataContext);
 
 // Provider component to manage route data state
 export const RouteDataProvider = ({ children }) => {
-  const [routeData, setRouteData] = useState(null);
-
-  // Function to update route data
-  const updateRouteData = (data) => {
-    setRouteData(data);
-    console.log(data);
-  };
+  const [routeData, setRouteData] = useState([]);
+  const [selectedRouteKey, selectRouteKey] = useState(-1);
 
   return (
-    <RouteDataContext.Provider value={{ routeData, setRouteData, updateRouteData }}>
+    <RouteDataContext.Provider value={{ selectedRouteKey, selectRouteKey, routeData, setRouteData }}>
       {children}
     </RouteDataContext.Provider>
   );

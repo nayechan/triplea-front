@@ -1,14 +1,19 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
+
+import useFetchRouteData from 'hooks/api/FetchRouteData'; // Import the custom hook
+
 import ContentTemplate from 'components/ContentsTemplate';
 import RouteComponent from 'components/ResultRoute/RouteComponent';
-import { useRouteData } from 'contexts/RouteDataContext'
 
+import { useRouteData } from 'contexts/RouteDataContext'
 import { useSelectedRegionContext } from 'contexts/SelectedRegionContext';
 import { useSelectedPeriodContext } from 'contexts/SelectedPeriodContext';
 import { useSelectedStrengthContext } from 'contexts/SelectedStrengthContext';
 
-const routes = [
-  {
+
+
+const routes = []
+/*  {
     "number": 0,
     "planners": [
       {
@@ -133,38 +138,41 @@ const routes = [
     ]
   }
 ];
-;
+*/
 
 const ResultRoute = () => {
-  const { routeData, setRouteData } = useRouteData();
+  const { selectedRouteIndex, selectRouteIndex } = useRouteData();
 
   const { selectedRegion } = useSelectedRegionContext();
   const { selectedPeriod } = useSelectedPeriodContext();
   const { selectedStrength } = useSelectedStrengthContext();
+  const { routeData, setRouteData } = useRouteData();
 
-  useEffect(() => {
-    // 선택된 데이터를 콘솔에 출력합니다.
-    console.log("선택된 여행지역:", selectedRegion);
-    console.log("선택된 여행기간:", selectedPeriod);
-    console.log("선택된 여행강도:", selectedStrength);
-  }, []);
+  const { fetchedRouteData, isLoading } = useFetchRouteData(selectedRegion, selectedPeriod, selectedStrength);
 
-
-  useEffect(() => {
-    // do stuff here...
-    setRouteData(null);
-  }, []) // <-- empty dependency array
+  useEffect(
+    ()=>{
+      if(fetchedRouteData)
+      {
+        setRouteData(fetchedRouteData);
+      }
+    },
+    [fetchedRouteData, setRouteData]
+  )
 
   return (
     <div className="result-route-container">
       <ContentTemplate>
-        {
-          routes.map((route) => (
-            <RouteComponent route={route} />
+        {isLoading ? (
+          <p>Loading...</p>
+        ) : (
+          routeData.map((route) => (
+            <RouteComponent route={route} key={route.number} />
           ))
-        }
+        )}
       </ContentTemplate>
     </div>
-  )
-}
+  );
+};
+
 export default ResultRoute;

@@ -8,32 +8,35 @@ import RouteDetailMapComponent from 'components/RouteDetail/RouteDetailMapCompon
 import RouteDetailDataComponent from 'components/RouteDetail/RouteDetailDataComponent';
 import ShrinkableSidebar from 'components/SideBar/ShrinkableSideBar';
 const RouteDetail = () => {
-  const { routeData } = useRouteData();
+  const { selectedRouteKey, routeData } = useRouteData();
   const navigate = useNavigate();
 
   const [routeName, setRouteName] = useState('');
   const [dates, setDates] = useState([]);
 
+  const selectedRoute = routeData[selectedRouteKey];
+
   useEffect(() => {
-    if (!routeData) {
+    if (!selectedRoute) {
       navigate('/resultRoute');
     } else {
-      const transformedData = routeData.planners.reduce((acc, planner) => {
+      const transformedData = selectedRoute.planers.reduce((acc, planner) => {
         const { day, touristDestinationName, latitude, longitude } = planner;
         acc[day] = acc[day] || [];
         acc[day].push({ location: touristDestinationName, latitude, longitude });
         return acc;
       }, {});
+      // TODO : fix 'planers' to 'planners'
 
       const convertedData = Object.entries(transformedData).map(([day, locations]) => ({
         date: day,
         locations
       }));
 
-      setRouteName(`경로 ${routeData.number + 1}`);
+      setRouteName(`경로 ${selectedRouteKey}`);
       setDates(convertedData);
     }
-  }, [routeData, navigate]);
+  }, [selectedRoute, navigate]);
 
   const [isOpen, setIsOpen] = useState(true);
 
@@ -43,7 +46,7 @@ const RouteDetail = () => {
 
   return (
     <>
-      {routeData && (
+      {selectedRoute && (
         <div className="routeDetailWrapper">
           <Header />
           <ShrinkableSidebar isOpen={isOpen} toggleSidebar={toggleSidebar}>
