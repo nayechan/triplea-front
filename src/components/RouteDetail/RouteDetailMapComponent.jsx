@@ -15,10 +15,10 @@ const getCentralPoint = (points) => {
   return { latitude: avgLat, longitude: avgLng };
 };
 
-const RouteDetailMapComponent = ({route}) => {
+const RouteDetailMapComponent = ({ route }) => {
 
   const points = route.planers.map((planner) => ({
-    name: planner.touristDestinationName,
+    name: planner.order,
     latitude: planner.latitude,
     longitude: planner.longitude
   }));
@@ -43,7 +43,6 @@ const RouteDetailMapComponent = ({route}) => {
           key={index}
           position={{ lat: point.latitude, lng: point.longitude }}
         >
-          <div style={{ color: "#000" }}>{point.name}</div>
         </MapMarker>
       ))}
       <Polyline
@@ -54,9 +53,10 @@ const RouteDetailMapComponent = ({route}) => {
         strokeColor={"#3377ff"} // 선의 색깔입니다
         strokeOpacity={0.7} // 선의 불투명도 입니다 1에서 0 사이의 값이며 0에 가까울수록 투명합니다
         strokeStyle={"solid"} // 선의 스타일입니다
+        endArrow={true}
       />
     </Map>
-    );
+  );
 };
 
 export default RouteDetailMapComponent;
