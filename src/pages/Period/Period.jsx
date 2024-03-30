@@ -8,6 +8,7 @@ import 'styles/Period/Period.css';
 import LinkedButton from "components/LinkedButton";
 import BackButton from "components/BackButton";
 import ContentTemplate from "components/ContentsTemplate";
+import { useSelectedPeriodContext } from "contexts/SelectedPeriodContext";
 
 const CustomDatePicker = ({ startDate, endDate, onChange }) => {
     return (
@@ -44,7 +45,12 @@ const Period = () => {
     const [startDate, setStartDate] = useState(null);
     const [endDate, setEndDate] = useState(null);
     const dateDifference = formatDateRangeAndDifference(startDate, endDate);
+    const { setSelectedPeriod } = useSelectedPeriodContext();
 
+    const handleNextButtonClick = () => {
+        setSelectedPeriod(dateDifference.differenceInDays);
+        console.log(`${dateDifference.differenceInDays}일 last `);
+    }
 
     return (
         <div className="period-container">
@@ -77,7 +83,7 @@ const Period = () => {
                 </div>
                 <div className="period-buttons">
                     <BackButton />
-                    <LinkedButton to="/strength">다음</LinkedButton>
+                    <LinkedButton to="/strength" onClick={handleNextButtonClick}>다음</LinkedButton>
                 </div>
             </ContentTemplate>
         </div>

@@ -5,6 +5,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import { RouteDataProvider } from 'contexts/RouteDataContext';
 import { SelectedRegionProvider } from 'contexts/SelectedRegionContext';
+import { SelectedPeriodProvider } from 'contexts/SelectedPeriodContext';
 
 import Home from 'pages/Main/Home';
 import Region from 'pages/Region/Region';
@@ -18,7 +19,7 @@ function App() {
     <div className="App">
       <BrowserRouter>
         <RouteDataProvider>
-          <SelectedRegionProvider>
+          <SelectedRegionProvider><SelectedPeriodProvider>
             <Routes>
               <Route path="/resultRoute" element={<ResultRoute />} />
               <Route path="/routeDetail" element={<RouteDetail />} />
@@ -34,7 +35,7 @@ function App() {
                 </div>
               } />
             </Routes>
-          </SelectedRegionProvider>
+          </SelectedPeriodProvider></SelectedRegionProvider>
         </RouteDataProvider>
       </BrowserRouter>
     </div>
