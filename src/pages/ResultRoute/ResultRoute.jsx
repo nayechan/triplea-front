@@ -141,7 +141,6 @@ const routes = []
 */
 
 const ResultRoute = () => {
-  const { selectedRouteIndex, selectRouteIndex } = useRouteData();
 
   const { selectedRegion } = useSelectedRegionContext();
   const { selectedPeriod } = useSelectedPeriodContext();
