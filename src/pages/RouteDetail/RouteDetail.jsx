@@ -60,7 +60,7 @@ const RouteDetail = () => {
               setDates={setDates}
             />
           </ShrinkableSidebar>
-          <RouteDetailMapComponent />
+          <RouteDetailMapComponent route={routeData[selectedRouteKey]}/>
         </div>
       )}
     </>
