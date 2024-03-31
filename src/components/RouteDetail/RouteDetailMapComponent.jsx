@@ -17,7 +17,7 @@ const getCentralPoint = (points) => {
 
 const RouteDetailMapComponent = ({ route }) => {
 
-  const points = route.planers.map((planner) => ({
+  const points = route.planners.map((planner) => ({
     name: planner.order,
     latitude: planner.latitude,
     longitude: planner.longitude
@@ -27,8 +27,6 @@ const RouteDetailMapComponent = ({ route }) => {
     lat: point.latitude,
     lng: point.longitude
   }));
-
-  //TODO : fix to 'planners' from 'planers'
 
   const centralPoint = getCentralPoint(points);
 
