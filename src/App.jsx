@@ -15,29 +15,67 @@ import Strength from 'pages/Strength/Strength';
 import ResultRoute from 'pages/ResultRoute/ResultRoute';
 import RouteDetail from 'pages/RouteDetail/RouteDetail';
 
+// HOC for wrapping components with providers
+const withProviders = (Component, providers) => {
+  return providers.reduceRight((WrappedComponent, Provider) => {
+    return <Provider>{WrappedComponent}</Provider>;
+  }, Component);
+};
+
+
 function App() {
   return (
     <div className="App">
       <BrowserRouter>
-        <RouteDataProvider>
-          <SelectedRegionProvider><SelectedPeriodProvider><SelectedStrengthProvider>
-            <Routes>
-              <Route path="/resultRoute" element={<ResultRoute />} />
-              <Route path="/routeDetail" element={<RouteDetail />} />
-              <Route path="/home" element={<Home />} />
-              <Route path="/region" element={<Region />} />
-              <Route path="/period" element={<Period />} />
-              <Route path="/strength" element={<Strength />} />
-              <Route path="/" element={
-                <div className="App">
-                  <header className="App-header">
-                    <Home />
-                  </header>
-                </div>
-              } />
-            </Routes>
-          </SelectedStrengthProvider></SelectedPeriodProvider></SelectedRegionProvider>
-        </RouteDataProvider>
+        <Routes>
+          <Route path="/home" element={<Home />} />
+          <Route
+            path="/region"
+            element={withProviders(<Region />, [
+              SelectedRegionProvider,
+            ])}
+          />
+          <Route
+            path="/period"
+            element={withProviders(<Period />, [
+              SelectedPeriodProvider,
+            ])}
+          />
+          <Route
+            path="/strength"
+            element={withProviders(<Strength />, [
+              SelectedStrengthProvider,
+            ])}
+          />
+          <Route
+            path="/resultRoute"
+            element={withProviders(<ResultRoute />, [
+              RouteDataProvider,
+              SelectedRegionProvider,
+              SelectedPeriodProvider,
+              SelectedStrengthProvider,
+            ])}
+          />
+          <Route
+            path="/routeDetail"
+            element={withProviders(<RouteDetail />, [
+              RouteDataProvider,
+              SelectedRegionProvider,
+              SelectedPeriodProvider,
+              SelectedStrengthProvider,
+            ])}
+          />
+          <Route
+            path="/"
+            element={
+              <div className="App">
+                <header className="App-header">
+                  <Home />
+                </header>
+              </div>
+            }
+          />
+        </Routes>
       </BrowserRouter>
     </div>
   );
