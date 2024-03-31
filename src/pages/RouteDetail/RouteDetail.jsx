@@ -20,13 +20,12 @@ const RouteDetail = () => {
     if (!selectedRoute) {
       navigate('/resultRoute');
     } else {
-      const transformedData = selectedRoute.planers.reduce((acc, planner) => {
+      const transformedData = selectedRoute.planners.reduce((acc, planner) => {
         const { day, touristDestinationName, latitude, longitude } = planner;
         acc[day] = acc[day] || [];
         acc[day].push({ location: touristDestinationName, latitude, longitude });
         return acc;
       }, {});
-      // TODO : fix 'planers' to 'planners'
 
       const convertedData = Object.entries(transformedData).map(([day, locations]) => ({
         date: day,

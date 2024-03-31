@@ -67,8 +67,7 @@ const RouteComponent = ({ route }) => {
     }
   }, [selectedRouteKey]);
 
-  let groupedPlanners = groupPlannersByDay(route.planers); //TODO : fix to 'planners' from 'planers'
-
+  let groupedPlanners = groupPlannersByDay(route.planners);
   return (
     <RouteContainer>
       <RouteHeader>
