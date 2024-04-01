@@ -49,7 +49,12 @@
 .region-lists li:hover{
     background-color: #ccc;
     cursor: pointer;
-} 
+}
+
+.region-lists li.selected {
+    background-color: #cccccc; /* Change to the desired highlight color */
+    cursor: pointer;
+}
 
 .region-buttons{
     display: flex;
