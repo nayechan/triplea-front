@@ -6,7 +6,7 @@ import Header from 'components/Header';
 import ContentBackground from 'components/ContentBackground';
 import RouteDetailMapComponent from 'components/RouteDetail/RouteDetailMapComponent';
 import RouteDetailDataComponent from 'components/RouteDetail/RouteDetailDataComponent';
-import ShrinkableSidebar from 'components/SideBar/ShrinkableSideBar';
+import ShrinkableSidebar from 'components/Sidebar/ShrinkableSidebar';
 const RouteDetail = () => {
   const { selectedRouteKey, routeData } = useRouteData();
   const navigate = useNavigate();

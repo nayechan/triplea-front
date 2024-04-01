@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import SideBar from './SideBar';
+import Sidebar from './Sidebar';
 
 const SidebarContainer = styled.div`
     position: absolute;
@@ -35,9 +35,9 @@ const ShrinkableSidebar = ({ isOpen, toggleSidebar, width, children, className }
 
     return (
         <SidebarContainer>
-            <SideBar position={isOpen ? '0%' : '-30%'} className={className}>
+            <Sidebar position={isOpen ? '0%' : '-30%'} className={className}>
                 {children}
-            </SideBar>
+            </Sidebar>
             <ToggleButton isOpen={isOpen} onClick={handleClick}>
                 <ArrowIcon isOpen={isOpen} />
             </ToggleButton>
