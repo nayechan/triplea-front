@@ -29,15 +29,15 @@ const Strength = () => {
                     </div>
                     <ul className="strength-lists">
                         <li >
-                            <img src={process.env.PUBLIC_URL + '/images/strength_weak.png'} onClick={() => handleStrengthSelect('weak')} alt="이미지 설명" className="strength-image" />
+                            <img src={process.env.PUBLIC_URL + '/images/strength_weak.png'} onClick={() => handleStrengthSelect('weak')} className={lastSelectedStrength === 'weak' ? 'selected' : ''} alt="이미지 설명"/>
                             약함
                         </li>
                         <li >
-                            <img src={process.env.PUBLIC_URL + '/images/strength_normal.png'} onClick={() => handleStrengthSelect('normal')} alt="이미지 설명" className="strength-image" />
+                            <img src={process.env.PUBLIC_URL + '/images/strength_normal.png'} onClick={() => handleStrengthSelect('normal')} className={lastSelectedStrength === 'normal' ? 'selected' : ''} alt="이미지 설명" />
                             중간
                         </li>
                         <li >
-                            <img src={process.env.PUBLIC_URL + '/images/strength_strong.png'} onClick={() => handleStrengthSelect('hard')} alt="이미지 설명" className="strength-image" />
+                            <img src={process.env.PUBLIC_URL + '/images/strength_strong.png'} onClick={() => handleStrengthSelect('hard')} className={lastSelectedStrength === 'hard' ? 'selected' : ''} alt="이미지 설명" />
                             강함
                         </li>
                     </ul>
