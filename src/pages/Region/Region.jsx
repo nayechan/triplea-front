@@ -9,14 +9,26 @@ const Region = () => {
     const [lastSelectedRegion, setLastSelectedRegion] = useState(null);
 
     const handleRegionSelect = (region) => {
-        setLastSelectedRegion(region);
-        console.log(region);
-    };
+        // 선택한 지역이 다른 지역과 같지 않은 경우 (다른 지역을 선택한 경우)
+        if (lastSelectedRegion != region) {
+            // 이전에 선택한 지역이 null이 아닌 경우 (이미 선택된 지역이 있는 경우)
+            if (lastSelectedRegion != null) {
+                console.log(`${lastSelectedRegion} deselected`);
+            }
+            setLastSelectedRegion(region);
+            console.log(`${region} selected`);
+        } else { // 선택한 지역을 다시 선택한 경우
+            console.log(`${lastSelectedRegion} deselected`);
+            setLastSelectedRegion(null); // 선택한 지역을 해제
+        }
+    }
 
     const handleNextButtonClick = () => {
-        if (lastSelectedRegion !== null) {
+        if (lastSelectedRegion != null) { // 선택한 지역이 있는 경우
             setSelectedRegion(lastSelectedRegion);
-            console.log(`${lastSelectedRegion} last`);
+            console.log(`${lastSelectedRegion} last selected`);
+        }else{ // 선택한 지역이 없을 경우
+            alert("지역을 선택해주세요.")
         }
     };
 
@@ -49,7 +61,7 @@ const Region = () => {
                     </ul>
                 </div>
                 <div className="region-buttons">
-                    <LinkedButton to="/period" onClick={handleNextButtonClick}>다음</LinkedButton>
+                    <LinkedButton to={lastSelectedRegion ? "/period" : "/region"} onClick={handleNextButtonClick}>다음</LinkedButton>
                 </div>
             </ContentTemplate>
         </div>
