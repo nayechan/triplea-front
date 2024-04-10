@@ -1,5 +1,4 @@
 import 'styles/index.css';
-
 import React from 'react';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
@@ -22,59 +21,28 @@ const withProviders = (Component, providers) => {
   }, Component);
 };
 
+// HOC for wrapping page components with required providers
+const withRequiredProviders = (Component) => {
+  return withProviders(Component, [
+    RouteDataProvider,
+    SelectedRegionProvider,
+    SelectedPeriodProvider,
+    SelectedStrengthProvider,
+  ]);
+};
 
 function App() {
   return (
     <div className="App">
       <BrowserRouter>
         <Routes>
-          <Route path="/home" element={<Home />} />
-          <Route
-            path="/region"
-            element={withProviders(<Region />, [
-              SelectedRegionProvider,
-            ])}
-          />
-          <Route
-            path="/period"
-            element={withProviders(<Period />, [
-              SelectedPeriodProvider,
-            ])}
-          />
-          <Route
-            path="/strength"
-            element={withProviders(<Strength />, [
-              SelectedStrengthProvider,
-            ])}
-          />
-          <Route
-            path="/resultRoute"
-            element={withProviders(<ResultRoute />, [
-              RouteDataProvider,
-              SelectedRegionProvider,
-              SelectedPeriodProvider,
-              SelectedStrengthProvider,
-            ])}
-          />
-          <Route
-            path="/routeDetail"
-            element={withProviders(<RouteDetail />, [
-              RouteDataProvider,
-              SelectedRegionProvider,
-              SelectedPeriodProvider,
-              SelectedStrengthProvider,
-            ])}
-          />
-          <Route
-            path="/"
-            element={
-              <div className="App">
-                <header className="App-header">
-                  <Home />
-                </header>
-              </div>
-            }
-          />
+          <Route path="/home" element={withRequiredProviders(<Home/>)} />
+          <Route path="/region" element={withRequiredProviders(<Region/>)} />
+          <Route path="/period" element={withRequiredProviders(<Period/>)} />
+          <Route path="/strength" element={withRequiredProviders(<Strength/>)} />
+          <Route path="/resultRoute" element={withRequiredProviders(<ResultRoute/>)} />
+          <Route path="/routeDetail" element={withRequiredProviders(<RouteDetail/>)} />
+          <Route path="/" element={withRequiredProviders(<Home/>)} />
         </Routes>
       </BrowserRouter>
     </div>

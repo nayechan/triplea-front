@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const SideBar = styled.div`
+const Sidebar = styled.div`
     position: fixed;
     top: 0;
     left: ${({ position }) => position}; /* Dynamic width */;
@@ -18,4 +18,4 @@ const SideBar = styled.div`
 `;
 
 
-export default SideBar;
+export default Sidebar;
