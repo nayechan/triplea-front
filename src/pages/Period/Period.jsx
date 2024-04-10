@@ -1,5 +1,5 @@
 // period.js
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import dayjs from 'dayjs';
@@ -48,9 +48,25 @@ const Period = () => {
     const { setSelectedPeriod } = useSelectedPeriodContext();
 
     const handleNextButtonClick = () => {
+        if (!dateDifference) {
+            alert("여행 기간을 선택해주세요.");
+            return;
+        }
         setSelectedPeriod(dateDifference.differenceInDays);
-        console.log(`${dateDifference.differenceInDays}일 last `);
+        console.log(`${dateDifference.differenceInDays}일 last selected`);
     }
+
+    const handlePeriodSelect = () => {
+        if (dayjs(startDate).isValid() && dayjs(endDate).isValid()) {
+            console.log(`${dayjs(startDate).format('YYYY.MM.DD')} ~ ${dayjs(endDate).format('YYYY.MM.DD')} selected`);
+        }
+    }
+
+    useEffect(() => {
+        if (dayjs(startDate).isValid() && dayjs(endDate).isValid()) {
+            handlePeriodSelect(); // startDate 또는 endDate가 변경될 때마다 실행
+        }
+    }, [startDate, endDate]);
 
     return (
         <div className="period-container">
@@ -76,6 +92,9 @@ const Period = () => {
                             onChange={(dates) => {
                                 const [start, end] = dates;
                                 setStartDate(start);
+                                if (!endDate) { // endDate가 null인 경우에만 handlePeriodSelect 호출
+                                    handlePeriodSelect();
+                                }
                                 setEndDate(end);
                             }}
                         />
@@ -83,7 +102,7 @@ const Period = () => {
                 </div>
                 <div className="period-buttons">
                     <BackButton />
-                    <LinkedButton to="/strength" onClick={handleNextButtonClick}>다음</LinkedButton>
+                    <LinkedButton to={dateDifference ? "/strength" : "/period"} onClick={handleNextButtonClick}>다음</LinkedButton>
                 </div>
             </ContentTemplate>
         </div>
