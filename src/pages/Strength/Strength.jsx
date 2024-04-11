@@ -10,13 +10,25 @@ const Strength = () => {
     const [lastSelectedStrength, setLastSelectedStrength] = useState(null);
 
     const handleStrengthSelect = (strength) => {
-        setLastSelectedStrength(strength);
+        if (lastSelectedStrength != strength) {
+            // 이전에 선택한 강도가 null이 아닌 경우 (이미 선택된 강도가 있는 경우)
+            if (lastSelectedStrength != null) {
+                console.log(`${lastSelectedStrength} deselected`);
+            }
+            setLastSelectedStrength(strength);
+            console.log(`${strength} selected`);
+        } else { // 선택한 강도를 다시 선택한 경우
+            console.log(`${lastSelectedStrength} deselected`);
+            lastSelectedStrength(null); // 선택한 강도를 해제
+        }
     };
 
     const handleNextButtonClick = () => {
-        if(lastSelectedStrength !== null){
+        if(lastSelectedStrength != null){
             setSelectedStrength(lastSelectedStrength);
             console.log(`${lastSelectedStrength} last`);
+        }else{
+            alert("강도를 선택해주세요.")
         }
     };
 
@@ -44,7 +56,7 @@ const Strength = () => {
                 </div>
                 <div className="strength-buttons">
                     <BackButton />
-                    <LinkedButton to="/resultRoute" onClick={handleNextButtonClick}>다음</LinkedButton>
+                    <LinkedButton to={lastSelectedStrength ? "/resultRoute" : "/strength"} onClick={handleNextButtonClick}>다음</LinkedButton>
                 </div>
             </ContentTemplate>
         </div>
