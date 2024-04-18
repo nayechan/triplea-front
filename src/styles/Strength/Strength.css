@@ -15,7 +15,7 @@
     justify-content: space-between;
     align-items: center;
     width: 80%;
-    margin-top: 31px;
+    margin-top: 25px;
     text-align: left;
     z-index: 100;
 }
@@ -24,6 +24,7 @@
     display: flex;
     width: 70%;
     flex-wrap: wrap;
+    margin-top: 70px;
     justify-content: space-between;
     list-style-type: none;
     z-index: 100;
@@ -36,13 +37,11 @@
     width: calc(21% - 10px);
     background-color: #ffffffea;
     border-radius: 10px;
-    padding: 13px;
+    padding: 24px;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
     transition: background-color 0.3s ease;
-    font-size: 1.2em;
+    font-size: 1.4em;
 }
-
-
 .strength-lists li:hover{
     cursor: pointer;
 }
@@ -52,4 +51,10 @@
     flex-direction: row;
     justify-content: end;
     margin: 30px;
+}
+
+.selected {
+    font-weight: bold; /* 굵게 설정 */
+    color: #83a69bc0; /* 색상 변경 */
+    font-size:1.5em;
 }

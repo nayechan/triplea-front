@@ -19,7 +19,7 @@ const Strength = () => {
             console.log(`${strength} selected`);
         } else { // 선택한 강도를 다시 선택한 경우
             console.log(`${lastSelectedStrength} deselected`);
-            lastSelectedStrength(null); // 선택한 강도를 해제
+            setLastSelectedStrength(null); // 선택한 강도를 해제
         }
     };
 
@@ -40,16 +40,18 @@ const Strength = () => {
                         <h1>여행 강도를 선택해주세요.</h1>
                     </div>
                     <ul className="strength-lists">
-                        <li >
-                            <img src={process.env.PUBLIC_URL + '/images/strength_weak.png'} onClick={() => handleStrengthSelect('weak')} className={lastSelectedStrength === 'weak' ? 'selected' : ''} alt="이미지 설명"/>
+                        <li onClick={() => handleStrengthSelect('weak')} 
+                        className={lastSelectedStrength === 'weak' ? 'selected' : ''} >
+                            <img src={process.env.PUBLIC_URL + '/images/strength_weak.png'} alt="이미지 설명" style={{ width: '150px' }}/>
                             약함
                         </li>
-                        <li >
-                            <img src={process.env.PUBLIC_URL + '/images/strength_normal.png'} onClick={() => handleStrengthSelect('normal')} className={lastSelectedStrength === 'normal' ? 'selected' : ''} alt="이미지 설명" />
+                        <li onClick={() => handleStrengthSelect('normal')}
+                        className={lastSelectedStrength === 'normal' ? 'selected' : ''} >
+                            <img src={process.env.PUBLIC_URL + '/images/strength_normal.png'} alt="이미지 설명" style={{ width: '150px' }}/>
                             중간
                         </li>
-                        <li >
-                            <img src={process.env.PUBLIC_URL + '/images/strength_strong.png'} onClick={() => handleStrengthSelect('hard')} className={lastSelectedStrength === 'hard' ? 'selected' : ''} alt="이미지 설명" />
+                        <li onClick={() => handleStrengthSelect('hard')} className={lastSelectedStrength === 'hard' ? 'selected' : ''} >
+                            <img src={process.env.PUBLIC_URL + '/images/strength_strong.png'} alt="이미지 설명" style={{ width: '150px' }}/>
                             강함
                         </li>
                     </ul>
