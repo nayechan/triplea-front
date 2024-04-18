@@ -53,8 +53,7 @@
     margin: 30px;
 }
 
-.selected {
+.strength-lists .selected {
     font-weight: bold; /* 굵게 설정 */
     color: #83a69bc0; /* 색상 변경 */
-    font-size:1.5em;
 }
