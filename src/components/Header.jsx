@@ -26,7 +26,7 @@ const Header = ({className}) => {
                                     <Link to="https://www.agoda.com" target="_blank">숙소</Link>
                                 </li>
                                 <li className="community-button">
-                                    <Link to="https://www.naver.com" target="_blank">게시판</Link>
+                                    <Link to="/boardList">게시판</Link>
                                 </li>
                                 <li className="contact-button">
                                     <Link to="https://www.naver.com" target="_blank">문의</Link>

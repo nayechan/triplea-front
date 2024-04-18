@@ -11,6 +11,8 @@ import Home from 'pages/Main/Home';
 import Region from 'pages/Region/Region';
 import Period from 'pages/Period/Period';
 import Strength from 'pages/Strength/Strength';
+import BoardList from 'pages/Board/BoardList';
+import BoardDetail from 'pages/Board/BoardDetail'
 import ResultRoute from 'pages/ResultRoute/ResultRoute';
 import RouteDetail from 'pages/RouteDetail/RouteDetail';
 
@@ -40,6 +42,8 @@ function App() {
           <Route path="/region" element={withRequiredProviders(<Region/>)} />
           <Route path="/period" element={withRequiredProviders(<Period/>)} />
           <Route path="/strength" element={withRequiredProviders(<Strength/>)} />
+          <Route path="/boardList" element={withRequiredProviders(<BoardList/>)} />
+          <Route path="/post/:id" element={withRequiredProviders(<BoardDetail/>)} />
           <Route path="/resultRoute" element={withRequiredProviders(<ResultRoute/>)} />
           <Route path="/routeDetail" element={withRequiredProviders(<RouteDetail/>)} />
           <Route path="/" element={withRequiredProviders(<Home/>)} />
