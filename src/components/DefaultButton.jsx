@@ -26,6 +26,7 @@ const StyledButton = styled.button`
 
     &:hover {
         cursor: pointer;
+        background-color: #ccc;
     }
 
     > p{

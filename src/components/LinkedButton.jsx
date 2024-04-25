@@ -7,6 +7,11 @@ import DefaultButton from './DefaultButton';
 const StyledLinkedButton = styled(DefaultButton)`
     background-color: black;
     color: white;
+
+    &:hover {
+        cursor: pointer;
+        background-color: #666;
+    }
 `;
 
 const LinkedButton = ({ className, children, to, onClick }) => {
