@@ -2,7 +2,8 @@ import 'styles/index.css';
 import React from 'react';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
-import { RouteDataProvider } from 'contexts/RouteDataContext';
+import { ResultRouteDataProvider } from 'contexts/ResultRouteDataContext';
+import { CurrentRouteDataProvider } from 'contexts/CurrentRouteDataContext';
 import { SelectedRegionProvider } from 'contexts/SelectedRegionContext';
 import { SelectedPeriodProvider } from 'contexts/SelectedPeriodContext';
 import { SelectedStrengthProvider } from 'contexts/SelectedStrengthContext';
@@ -27,7 +28,8 @@ const withProviders = (Component, providers) => {
 // HOC for wrapping page components with required providers
 const withRequiredProviders = (Component) => {
   return withProviders(Component, [
-    RouteDataProvider,
+    ResultRouteDataProvider,
+    CurrentRouteDataProvider,
     SelectedRegionProvider,
     SelectedPeriodProvider,
     SelectedStrengthProvider,

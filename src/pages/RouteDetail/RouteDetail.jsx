@@ -1,65 +1,71 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
-import { useRouteData } from 'contexts/RouteDataContext';
+
+import { useCurrentRouteData } from 'contexts/CurrentRouteDataContext';
+
 import Header from 'components/Header';
-import ContentBackground from 'components/ContentBackground';
-import RouteDetailMapComponent from 'components/RouteDetail/RouteDetailMapComponent';
-import RouteDetailDataComponent from 'components/RouteDetail/RouteDetailDataComponent';
+import RouteMap from 'components/RouteDetail/RouteMap';
+import RouteContent from 'components/RouteDetail/RouteContent';
 import ShrinkableSidebar from 'components/Sidebar/ShrinkableSidebar';
+import Modal from 'components/Modal/Modal';
+import EditLocation from 'components/Modal/RouteDetail/EditLocation';
+
+
+const RouteDetailModalWrapper = styled.div``;
+
 const RouteDetail = () => {
-  const { selectedRouteKey, routeData } = useRouteData();
   const navigate = useNavigate();
+  const location = useLocation();
+  const { currentRoute, propagateCurrentRoute } = useCurrentRouteData();
+  const [isOpen, setIsOpen] = useState(true);
+  const [modalVisibility, setModelVisibility] = useState({
+    editLocation: true
+  });
 
-  const [routeName, setRouteName] = useState('');
-  const [dates, setDates] = useState([]);
-
-  const selectedRoute = routeData[selectedRouteKey];
+  const updateStatus = (modalName, isVisible) =>
+  {
+    setModelVisibility({ ...myObject, [modalName]: isVisible });
+  }
 
   useEffect(() => {
-    if (!selectedRoute) {
+    const unlisten = () => {
+      if (location.action === 'POP') {
+        propagateCurrentRoute();
+      }
+    };
+
+    unlisten(); // Call unlisten immediately to check initial location
+
+    return () => {
+      unlisten();
+    };
+  }, [location, propagateCurrentRoute]);
+
+  useEffect(() => {
+    if (currentRoute === null) {
       navigate('/resultRoute');
-    } else {
-      const transformedData = selectedRoute.planners.reduce((acc, planner) => {
-        const { day, touristDestinationName, latitude, longitude } = planner;
-        acc[day] = acc[day] || [];
-        acc[day].push({ location: touristDestinationName, latitude, longitude });
-        return acc;
-      }, {});
-
-      const convertedData = Object.entries(transformedData).map(([day, locations]) => ({
-        date: day,
-        locations
-      }));
-
-      setRouteName(`경로 ${selectedRouteKey}`);
-      setDates(convertedData);
     }
-  }, [selectedRoute, navigate]);
-
-  const [isOpen, setIsOpen] = useState(true);
+  }, [currentRoute, navigate]);
 
   const toggleSidebar = () => {
-      setIsOpen(!isOpen);
+    setIsOpen(!isOpen);
   };
 
   return (
     <>
-      {selectedRoute && (
+      {currentRoute && (
         <div className="routeDetailWrapper">
           <Header />
           <ShrinkableSidebar isOpen={isOpen} toggleSidebar={toggleSidebar}>
-            {/* Sidebar content goes here */}
-            {/* You can put your navigation links or any other content */}
-
-            <RouteDetailDataComponent
-              routeName={routeName}
-              setRouteName={setRouteName}
-              dates={dates}
-              setDates={setDates}
-            />
+            <RouteContent route={currentRoute} />
           </ShrinkableSidebar>
-          <RouteDetailMapComponent route={routeData[selectedRouteKey]}/>
+          <RouteDetailModalWrapper>
+            <Modal>
+              <EditLocation />
+            </Modal>
+          </RouteDetailModalWrapper>
+          <RouteMap route={currentRoute} />
         </div>
       )}
     </>

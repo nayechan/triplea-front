@@ -56,54 +56,33 @@ const interpolateColorHSV = (lineIndex, lineCount, startHue, startSaturation, st
   return rgbToHex(r, g, b);
 };
 
-const RouteDetailMapComponent = ({ route }) => {
+const RouteMap = ({ route }) => {
+  const centralPoint = getCentralPoint(Object.values(route.plannersByDay).flat());
 
-  const points = route.planners.map((planner) => ({
-    name: planner.order,
-    order: planner.order,
-    day: planner.day,
-    latitude: planner.latitude,
-    longitude: planner.longitude
-  }));
-
-  // Group points by day
-  const pointsByDay = points.reduce((acc, point) => {
-    acc[point.day] = acc[point.day] || [];
-    acc[point.day].push(point);
-    return acc;
-  }, {});
-
-  const centralPoint = getCentralPoint(points);
 
   return (
     <Map
-      center={{ lat: centralPoint.latitude, lng: centralPoint.longitude }} // 지도의 중심 좌표
-      style={{ width: '100%', height: 'calc(100vh - 64px)' }} // 지도 크기
-      level={8} // 지도 확대 레벨
+      center={{ lat: centralPoint.latitude, lng: centralPoint.longitude }}
+      style={{ width: '100%', height: 'calc(100vh - 64px)' }}
+      level={8}
     >
-      {points.map((point, index) => (
-        <MapMarker
-          key={index}
-          position={{ lat: point.latitude, lng: point.longitude }}
-        >
-        </MapMarker>
-      ))}
-      {Object.values(pointsByDay).map((pointsInDay, dayIndex) => (
-        pointsInDay.map((point, index, array) => {
-          const nextIndex = (index + 1) % pointsInDay.length; // Circular next index
-          const nextPoint = pointsInDay[nextIndex];
+    {Object.entries(route.plannersByDay).map(([dayIndex, locations]) => (
+        locations.map((locationData, locationIndex, array) => {
+          const nextIndex = (locationIndex + 1) % array.length; // Circular next index
+          const nextPlanner = array[nextIndex];
+          const maxDay = Math.max(...Object.keys(route.plannersByDay));
 
           // Check if it's not the last point of the day
-          if (index !== array.length - 1) {
+          if (locationIndex !== array.length - 1) {
             return (
               <Polyline
-                key={`${dayIndex}-${index}`}
+                key={`${dayIndex}-${locationIndex}`}
                 path={[
-                  { lat: point.latitude, lng: point.longitude },
-                  { lat: nextPoint.latitude, lng: nextPoint.longitude }
+                  { lat: locationData.latitude, lng: locationData.longitude },
+                  { lat: nextPlanner.latitude, lng: nextPlanner.longitude }
                 ]}
                 strokeWeight={5}
-                strokeColor={interpolateColorHSV(dayIndex, Object.keys(pointsByDay).length, 0, 1, 1, 350, 1, 1)}
+                strokeColor={interpolateColorHSV(dayIndex-1, maxDay, 0, 1, 1, 350, 1, 1)}
                 strokeOpacity={0.7}
                 strokeStyle={"solid"}
                 endArrow={true}
@@ -113,10 +92,8 @@ const RouteDetailMapComponent = ({ route }) => {
           return null; // Exclude the last line segment
         })
       ))}
-
-
     </Map>
   );
 };
 
-export default RouteDetailMapComponent;
+export default RouteMap;

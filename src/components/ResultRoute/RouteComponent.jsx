@@ -1,7 +1,8 @@
 // RouteComponent.jsx
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useRouteData } from  'contexts/RouteDataContext';
+import { useResultRouteData } from  'contexts/ResultRouteDataContext';
+import { useCurrentRouteData } from 'contexts/CurrentRouteDataContext';
 import styled from 'styled-components';
 import DefaultButton from 'components/DefaultButton';
 
@@ -39,45 +40,28 @@ const DailyRouteWrapper = styled.div`
   margin-bottom: 20px;
 `;
 
-// Function to group planner items by day
-const groupPlannersByDay = (planners) => {
-  const groupedByDay = {};
-  planners.forEach((planner) => {
-    if (!groupedByDay[planner.day]) {
-      groupedByDay[planner.day] = [];
-    }
-    groupedByDay[planner.day].push(planner);
-  });
-  return groupedByDay;
-};
-
 const RouteComponent = ({ route }) => {
-  const { routeData, selectedRouteKey, selectRouteKey } = useRouteData();
+  const {updateCurrentRoute, selectRouteIndex} = useResultRouteData();
+  const {setCurrentRoute, setPropagateCallback} = useCurrentRouteData();
   const navigate = useNavigate();
 
   const onDetailsClick = () => {
-    selectRouteKey(route.number);
-    console.log("Route clicked:", routeData[route.number]);
+    selectRouteIndex(route.number);
+    setCurrentRoute(route);
+    setPropagateCallback(updateCurrentRoute);
+    navigate('/routeDetail');
   };
 
-  useEffect(() => {
-    if (selectedRouteKey !== -1) {
-      console.log("Route data changed:", selectedRouteKey);
-      navigate('/routeDetail');
-    }
-  }, [selectedRouteKey]);
-
-  let groupedPlanners = groupPlannersByDay(route.planners);
   return (
     <RouteContainer>
       <RouteHeader>
         <RouteNumber>경로 {route.number}</RouteNumber>
       </RouteHeader>
       <DailyRoutesContainer>
-        {Object.keys(groupedPlanners).map((day, index) => (
-          <DailyRouteWrapper key={index}>
+        {Object.entries(route.plannersByDay).map(([day, planners]) => (
+          <DailyRouteWrapper key={day}>
             <h3>{day}일차</h3>
-            {groupedPlanners[day].map((planner, index) => (
+            {planners.map((planner, index) => (
               <p key={index}>{planner.touristDestinationName}</p>
             ))}
           </DailyRouteWrapper>

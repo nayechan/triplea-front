@@ -5,7 +5,7 @@ import useFetchRouteData from 'hooks/api/FetchRouteData'; // Import the custom h
 import ContentTemplate from 'components/ContentsTemplate';
 import RouteComponent from 'components/ResultRoute/RouteComponent';
 
-import { useRouteData } from 'contexts/RouteDataContext'
+import { useResultRouteData } from 'contexts/ResultRouteDataContext'
 import { useSelectedRegionContext } from 'contexts/SelectedRegionContext';
 import { useSelectedPeriodContext } from 'contexts/SelectedPeriodContext';
 import { useSelectedStrengthContext } from 'contexts/SelectedStrengthContext';
@@ -145,19 +145,45 @@ const ResultRoute = () => {
   const { selectedRegion } = useSelectedRegionContext();
   const { selectedPeriod } = useSelectedPeriodContext();
   const { selectedStrength } = useSelectedStrengthContext();
-  const { routeData, setRouteData } = useRouteData();
 
+  const { resultRouteData, setResultRouteData } = useResultRouteData();
   const { fetchedRouteData, isLoading } = useFetchRouteData(selectedRegion, selectedPeriod, selectedStrength);
 
+  // Function to group planner items by day
+  const groupPlannersByDay = (planners) => {
+    const groupedByDay = {};
+    planners.forEach((planner) => {
+      if (!groupedByDay[planner.day]) {
+        groupedByDay[planner.day] = [];
+      }
+      groupedByDay[planner.day].push(planner);
+    });
+    return groupedByDay;
+  };
+
+
+
   useEffect(
-    ()=>{
-      if(fetchedRouteData)
-      {
-        setRouteData(fetchedRouteData);
+    () => {
+      // Convert the fetched data into the desired format
+      const convertFetchedData = (routes) => {
+        return routes.map((route) => {
+          const plannersByDay = groupPlannersByDay(route.planners);
+          return {
+            number: route.number,
+            name: "여행 경로 "+route.number,
+            plannersByDay: plannersByDay
+          };
+        });
+      };
+
+      if (fetchedRouteData) {
+        const convertedData = convertFetchedData(fetchedRouteData);
+        setResultRouteData(convertedData);
       }
     },
-    [fetchedRouteData, setRouteData]
-  )
+    [fetchedRouteData, setResultRouteData]
+  );
 
   return (
     <div className="result-route-container">
@@ -165,8 +191,8 @@ const ResultRoute = () => {
         {isLoading ? (
           <p>Loading...</p>
         ) : (
-          routeData.map((route) => (
-            <RouteComponent route={route} key={route.number} />
+          resultRouteData.map((route) => (
+            <RouteComponent route={route} />
           ))
         )}
       </ContentTemplate>
