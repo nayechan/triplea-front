@@ -53,7 +53,7 @@ const useFetchRouteData = (region, period, strength, residence) => {
 
     fetchRouteData();
 
-  }, [region, period, strength]);
+  }, [region, period, strength, residence]);
 
   return { fetchedRouteData, isLoading };
 };
