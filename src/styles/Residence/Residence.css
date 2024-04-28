@@ -1,0 +1,27 @@
+.residence-container{
+    height: 690px;
+    position: relative;
+}
+
+
+.residence-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 80%;
+    margin-top: 25px;
+    text-align: left;
+    z-index: 100;
+}
+
+.residence-top span {
+    font-size: 20px;
+    margin-left: 5px;
+}
+
+.residence-buttons{
+    display: flex;
+    flex-direction: row;
+    justify-content: end;
+    margin: 30px;
+}

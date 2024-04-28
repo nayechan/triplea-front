@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 
-const useFetchRouteData = (region, period, strength) => {
+const useFetchRouteData = (region, period, strength, residence) => {
   const [fetchedRouteData, setFetchedRouteData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -18,17 +18,19 @@ const useFetchRouteData = (region, period, strength) => {
         const requestBody = ({
           area: region,
           day: `${period}`,
-          strength: `${numStrength}`
+          strength: `${numStrength}`,
+          accommodationInfo: residence ? {
+            latitude: residence[0],
+            longitude: residence[1],
+            accommodationName: residence.length === 3 ? residence[2] : null
+          } : null
         });
+        
 
         console.log(requestBody);
 
         const response = await axios.get('http://localhost:8080/api/planner', {
-          params: {
-            area: region,
-            day: period,
-            strength: numStrength
-          }
+          params: requestBody
         });
 
         let responseDict = [];
