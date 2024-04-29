@@ -137,17 +137,17 @@ const Residence = () => {
                                 position={{ lat: searchedLocation.latitude, lng: searchedLocation.longitude }}
                             />
                         )}
-                        {/* {isAddressSearchVisible && (
+                        {isAddressSearchVisible && (
                             <div className="address-search">
                                 <DaumPostcode
-                                    onComplete={handleComplete}
+                                    // onComplete={handleComplete}
                                     autoClose
                                     animation
                                     style={{ position: 'absolute', zIndex: 10000, border: '1px solid #e5e5e5', width: '400px', height: '400px', top: '250px', left: '590px' }}
                                 />
                                 <button className="close-btn" onClick={handleCloseAddressSearch} style={{ position: 'absolute', zIndex: 10000, width: '15px', top: '250px', right: '545px', padding: '0'}}>X</button>
                             </div>
-                        )} */}
+                        )}
 
                     </Map>
                 </div>
