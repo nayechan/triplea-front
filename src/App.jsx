@@ -12,11 +12,13 @@ import Home from 'pages/Main/Home';
 import Region from 'pages/Region/Region';
 import Period from 'pages/Period/Period';
 import Strength from 'pages/Strength/Strength';
+import Residence from 'pages/Residence/Residence';
 import BoardList from 'pages/Board/BoardList';
 import BoardPost from 'pages/Board/BoardPost';
 import BoardDetail from 'pages/Board/BoardDetail'
 import ResultRoute from 'pages/ResultRoute/ResultRoute';
 import RouteDetail from 'pages/RouteDetail/RouteDetail';
+import { SelectedResidenceProvider } from 'contexts/SelectedResidenceContext';
 
 // HOC for wrapping components with providers
 const withProviders = (Component, providers) => {
@@ -33,6 +35,7 @@ const withRequiredProviders = (Component) => {
     SelectedRegionProvider,
     SelectedPeriodProvider,
     SelectedStrengthProvider,
+    SelectedResidenceProvider
   ]);
 };
 
@@ -45,6 +48,7 @@ function App() {
           <Route path="/region" element={withRequiredProviders(<Region/>)} />
           <Route path="/period" element={withRequiredProviders(<Period/>)} />
           <Route path="/strength" element={withRequiredProviders(<Strength/>)} />
+          <Route path="/residence" element={withRequiredProviders(<Residence/>)} />
           <Route path="/boardList" element={withRequiredProviders(<BoardList/>)} />
           <Route path="/boardPost" element={withRequiredProviders(<BoardPost/>)} />
           <Route path="/post/:id" element={withRequiredProviders(<BoardDetail/>)} />

@@ -58,7 +58,7 @@ const Strength = () => {
                 </div>
                 <div className="strength-buttons">
                     <BackButton />
-                    <LinkedButton to={lastSelectedStrength ? "/resultRoute" : "/strength"} onClick={handleNextButtonClick}>다음</LinkedButton>
+                    <LinkedButton to={lastSelectedStrength ? "/residence" : "/strength"} onClick={handleNextButtonClick}>다음</LinkedButton>
                 </div>
             </ContentTemplate>
         </div>
