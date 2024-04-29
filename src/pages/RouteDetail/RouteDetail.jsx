@@ -6,27 +6,51 @@ import { useCurrentRouteData } from 'contexts/CurrentRouteDataContext';
 
 import Header from 'components/Header';
 import RouteMap from 'components/RouteDetail/RouteMap';
-import RouteContent from 'components/RouteDetail/RouteContent';
+import RouteInfo from 'components/RouteDetail/RouteInfo';
 import ShrinkableSidebar from 'components/Sidebar/ShrinkableSidebar';
 import Modal from 'components/Modal/Modal';
 import EditLocation from 'components/Modal/RouteDetail/EditLocation';
 
 
-const RouteDetailModalWrapper = styled.div``;
+const RouteDetailModalWrapper = styled.div`
+  position: relative; /* Ensure that z-index works */
+  z-index: 9999; /* Set a high z-index value to bring the modal to the front */
+`;
 
 const RouteDetail = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { currentRoute, propagateCurrentRoute } = useCurrentRouteData();
-  const [isOpen, setIsOpen] = useState(true);
-  const [modalVisibility, setModelVisibility] = useState({
-    editLocation: true
-  });
 
-  const updateStatus = (modalName, isVisible) =>
-  {
-    setModelVisibility({ ...myObject, [modalName]: isVisible });
-  }
+  const [isSidebarOpen, setSidebarOpen] = useState(true);
+
+  const [isEditLocationModalOpen, setIsEditLocationModalOpen] = useState(false);
+  const [isDeleteLocationModalOpen, setIsDeleteLocationModalOpen] = useState(false);
+  const [isImportRouteModalOpen, setIsImportRouteModalOpen] = useState(false);
+  const [isExportRouteModalOpen, setIsExportRouteModalOpen] = useState(false);
+
+  const [dayIndex, setDayIndex] = useState(null); // Define dayIndex state
+  const [locationIndex, setLocationIndex] = useState(null); // Define locationIndex state
+
+  const openEditLocationModal = (dayIndex, locationIndex) => {
+    setIsEditLocationModalOpen(true);
+    setDayIndex(dayIndex);
+    setLocationIndex(locationIndex);
+  };
+
+  const openDeleteLocationModal = (dayIndex, locationIndex) => {
+    setIsDeleteLocationModalOpen(true);
+    setDayIndex(dayIndex);
+    setLocationIndex(locationIndex);
+  };
+
+  const openImportRouteModal = () => {
+
+  };
+
+  const openExportRouteModal = () => {
+
+  };
 
   useEffect(() => {
     const unlisten = () => {
@@ -49,7 +73,7 @@ const RouteDetail = () => {
   }, [currentRoute, navigate]);
 
   const toggleSidebar = () => {
-    setIsOpen(!isOpen);
+    setSidebarOpen(!isSidebarOpen);
   };
 
   return (
@@ -57,13 +81,22 @@ const RouteDetail = () => {
       {currentRoute && (
         <div className="routeDetailWrapper">
           <Header />
-          <ShrinkableSidebar isOpen={isOpen} toggleSidebar={toggleSidebar}>
-            <RouteContent route={currentRoute} />
+          <ShrinkableSidebar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar}>
+            <RouteInfo
+              route={currentRoute}
+              openEditLocationModal={openEditLocationModal}
+              openDeleteLocationModal={openDeleteLocationModal}
+              openImportRouteModal={openImportRouteModal}
+              openExportRouteModal={openExportRouteModal}
+            />
           </ShrinkableSidebar>
           <RouteDetailModalWrapper>
-            <Modal>
-              <EditLocation />
-            </Modal>
+            <EditLocation
+              isOpen={isEditLocationModalOpen}
+              setIsOpen={setIsEditLocationModalOpen}
+              dayIndex={dayIndex}
+              locationIndex={locationIndex}
+            />
           </RouteDetailModalWrapper>
           <RouteMap route={currentRoute} />
         </div>

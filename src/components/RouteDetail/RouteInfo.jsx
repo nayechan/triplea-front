@@ -6,14 +6,14 @@ import DefaultButton from 'components/DefaultButton';
 import Modal from 'components/Modal/Modal';
 import { Map, MapMarker, Polyline } from 'react-kakao-maps-sdk';
 
-const StyledRouteContent = styled.div`
+const StyledRouteInfo = styled.div`
     height: 100%;
     .routeName {
         font-size: 1.5em;
         font-weight: bold;
     }
 
-    .routeDetailContentWrapper {
+    .routeInfoWrapper {
         // Add styles for the component container here
         height: 100%;
         display: flex;
@@ -73,13 +73,17 @@ const StyledButton = styled(DefaultButton)`
     margin: 4px;
 `
 
-const RouteContent = ({ route }) => {
-  console.log(route);
-
+const RouteInfo = ({ 
+  route, 
+  openEditLocationModal, 
+  openDeleteLocationModal, 
+  openImportRouteModal, 
+  openExportRouteModal  
+}) => {
   return (
-    <StyledRouteContent>
-      <div className='routeDetailContentWrapper'>
-        <div className="routeDetailContent">
+    <StyledRouteInfo>
+      <div className='routeInfoWrapper'>
+        <div className="routeInfo">
           <input type="text" value={route.name} readOnly placeholder="여행 경로명" className='routeName' />
           {Object.entries(route.plannersByDay).map(([dayIndex, locations]) => (
             <div key={dayIndex}>
@@ -93,10 +97,10 @@ const RouteContent = ({ route }) => {
                     readOnly
                   />
                   <ButtonContainer>
-                    <button onClick={() => (handleEditLocation(dayIndex, locationIndex))}>
+                    <button onClick={() => (openEditLocationModal(dayIndex, locationIndex))}>
                       <FontAwesomeIcon icon={faEdit} />
                     </button>
-                    <button onClick={handleDeleteLocation}>
+                    <button onClick={() => (openDeleteLocationModal(dayIndex, locationIndex))}>
                       <FontAwesomeIcon icon={faTrashAlt} />
                     </button>
                   </ButtonContainer>
@@ -112,17 +116,17 @@ const RouteContent = ({ route }) => {
 
         <div className='featureButtons'>
           <TopButtonContainer>
-            <StyledButton>
+            <StyledButton onClick={openImportRouteModal()}>
               <FontAwesomeIcon icon={faFileExport}></FontAwesomeIcon>
             </StyledButton>
-            <StyledButton>
+            <StyledButton onClick={openExportRouteModal()}>
               <FontAwesomeIcon icon={faFileImport}></FontAwesomeIcon>
             </StyledButton>
           </TopButtonContainer>
         </div>
       </div>
-    </StyledRouteContent>
+    </StyledRouteInfo>
   );
 };
 
-export default RouteContent;
+export default RouteInfo;
