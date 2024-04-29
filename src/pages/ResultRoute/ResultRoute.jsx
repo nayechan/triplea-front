@@ -9,7 +9,7 @@ import { useRouteData } from 'contexts/RouteDataContext'
 import { useSelectedRegionContext } from 'contexts/SelectedRegionContext';
 import { useSelectedPeriodContext } from 'contexts/SelectedPeriodContext';
 import { useSelectedStrengthContext } from 'contexts/SelectedStrengthContext';
-
+import { useSelectedResidenceContext } from 'contexts/SelectedResidenceContext';
 
 
 const routes = []
@@ -145,9 +145,10 @@ const ResultRoute = () => {
   const { selectedRegion } = useSelectedRegionContext();
   const { selectedPeriod } = useSelectedPeriodContext();
   const { selectedStrength } = useSelectedStrengthContext();
+  const { selectedResidence } = useSelectedResidenceContext();
   const { routeData, setRouteData } = useRouteData();
 
-  const { fetchedRouteData, isLoading } = useFetchRouteData(selectedRegion, selectedPeriod, selectedStrength);
+  const { fetchedRouteData, isLoading } = useFetchRouteData(selectedRegion, selectedPeriod, selectedStrength, selectedResidence);
 
   useEffect(
     ()=>{

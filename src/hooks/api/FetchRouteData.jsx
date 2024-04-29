@@ -7,25 +7,25 @@ const useFetchRouteData = (region, period, strength, residence) => {
 
   useEffect(() => {
     setIsLoading(true);
-
-    const numStrength = strength === "weak" ? 2:
-                        strength === "normal" ? 3:
-                        strength === "hard" ? 4:
-                        0;
+    const numStrength = strength === "weak" ? 2 :
+      strength === "normal" ? 3 :
+        strength === "hard" ? 4 :
+          0;
 
     const fetchRouteData = async () => {
       try {
         const requestBody = ({
           area: region,
           day: `${period}`,
-          strength: `${numStrength}`,
-          accommodationInfo: residence ? {
-            latitude: residence[0],
-            longitude: residence[1],
-            accommodationName: residence.length === 3 ? residence[2] : null
-          } : null
+          strength: `${numStrength}`
+          // ,
+          // accommodationInfo: residence ? {
+          //   latitude: residence.latitude,
+          //   longitude: residence.longitude,
+          //   accommodationName: residence.length === 3 ? residence.accommodationName : null
+          // } : null
         });
-        
+
 
         console.log(requestBody);
 
@@ -38,7 +38,7 @@ const useFetchRouteData = (region, period, strength, residence) => {
         response.data.forEach(route => {
           responseDict[route.number] = route;
         });
-        
+
         const processedResponseData = responseDict;
 
         setFetchedRouteData(processedResponseData);
