@@ -154,10 +154,16 @@ const ResultRoute = () => {
   const groupPlannersByDay = (planners) => {
     const groupedByDay = {};
     planners.forEach((planner) => {
-      if (!groupedByDay[planner.day]) {
-        groupedByDay[planner.day] = [];
+      const convertedPlanner = {
+        day: planner.day,
+        latitude: planner.latitude,
+        longitude: planner.longitude,
+        touristDestinationName: planner.touristDestinationName
+      };
+      if (!groupedByDay[convertedPlanner.day]) {
+        groupedByDay[convertedPlanner.day] = [];
       }
-      groupedByDay[planner.day].push(planner);
+      groupedByDay[convertedPlanner.day].push(convertedPlanner);
     });
     return groupedByDay;
   };

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Map, MapMarker, Polyline } from 'react-kakao-maps-sdk';
 
 const getCentralPoint = (points) => {
@@ -57,8 +57,7 @@ const interpolateColorHSV = (lineIndex, lineCount, startHue, startSaturation, st
 };
 
 const RouteMap = ({ route }) => {
-  const centralPoint = getCentralPoint(Object.values(route.plannersByDay).flat());
-
+  const [centralPoint, setCentralPoint] = useState(getCentralPoint(Object.values(route.plannersByDay).flat()));
 
   return (
     <Map

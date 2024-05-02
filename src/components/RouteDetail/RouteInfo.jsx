@@ -9,76 +9,96 @@ import { Map, MapMarker, Polyline } from 'react-kakao-maps-sdk';
 const StyledRouteInfo = styled.div`
     height: 100%;
     .routeName {
-        font-size: 1.5em;
-        font-weight: bold;
+      font-size: 1.5em;
+      font-weight: bold;
+      width: 400px;
+      margin-bottom: 20px;
     }
 
     .routeInfoWrapper {
-        // Add styles for the component container here
-        height: 100%;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
+      // Add styles for the component container here
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
     }
 
     .dateTitle {
-        font-size: 1.2em;
-        font-weight: bold;
-        // Add any additional styles for the date title here
+      font-size: 1.2em;
+      font-weight: bold;
+      // Add any additional styles for the date title here
     }
 
     .locationContainer {
-        display: flex;
-        justify-content: space-between;
-        margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 4px;
+    }
+
+    .locationTitle{
+      font-size: 1em;
     }
 
     .locationInput {
-        // Add styles for the location input here
-    }
-
-    .buttonContainer {
-        margin-top: 5px;
+      // Add styles for the location input here
     }
 
     .actionButton {
-        border: none;
-        background: none;
-        cursor: pointer;
-        padding: 5px;
-        transition: color 0.3s;
+      border: none;
+      background: none;
+      cursor: pointer;
+      padding: 5px;
+      transition: color 0.3s;
     }
 
     .actionButton:hover {
-        color: #007bff;
+      color: #007bff;
     }
 `;
 
 const ButtonContainer = styled.div`
-    margin-top: 5px;
+  display: flex;
 
-    button {
-        margin-left: 5px; /* Add margin between buttons */
-    }
+  button {
+    margin-left: 5px; /* Add margin between buttons */
+  }
 `;
 
 const TopButtonContainer = styled(ButtonContainer)`
-    display: flex;
-    margin: 10px 0;
+  display: flex;
+  margin: 10px 0;
 `;
 
 const StyledButton = styled(DefaultButton)`
-    width: 40px;
-    height: 40px;
-    margin: 4px;
-`
+  width: 40px;
+  height: 40px;
+  margin: 4px;
+`;
 
-const RouteInfo = ({ 
-  route, 
-  openEditLocationModal, 
-  openDeleteLocationModal, 
-  openImportRouteModal, 
-  openExportRouteModal  
+const SmallStyledButton = styled(DefaultButton)`
+  width: 32px;
+  height: 32px;
+  margin: 2px;
+`;
+
+const AddLocationButton = styled(DefaultButton)`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 32px;
+  margin: 10px 0 50px 0;
+`;
+
+const RouteInfo = ({
+  route,
+  openAddLocationModal,
+  openEditLocationModal,
+  openDeleteLocationModal,
+  openImportRouteModal,
+  openExportRouteModal
 }) => {
   return (
     <StyledRouteInfo>
@@ -90,26 +110,20 @@ const RouteInfo = ({
               <h3>{dayIndex}일차</h3>
               {locations.map((locationData, locationIndex) => (
                 <div key={locationIndex} className='locationContainer'>
-                  <input
-                    type="text"
-                    value={locationData.touristDestinationName}
-                    placeholder="여행지명"
-                    readOnly
-                  />
+                  <div className='locationTitle'>{locationData.touristDestinationName}</div>
                   <ButtonContainer>
-                    <button onClick={() => (openEditLocationModal(dayIndex, locationIndex))}>
+                    <SmallStyledButton onClick={() => (openEditLocationModal(dayIndex, locationIndex))}>
                       <FontAwesomeIcon icon={faEdit} />
-                    </button>
-                    <button onClick={() => (openDeleteLocationModal(dayIndex, locationIndex))}>
+                    </SmallStyledButton>
+                    <SmallStyledButton onClick={() => (openDeleteLocationModal(dayIndex, locationIndex))}>
                       <FontAwesomeIcon icon={faTrashAlt} />
-                    </button>
+                    </SmallStyledButton>
                   </ButtonContainer>
                 </div>
               ))}
-              <button disabled>
+              <AddLocationButton onClick={() => (openAddLocationModal(dayIndex))}>
                 <FontAwesomeIcon icon={faPlus} />
-                Add location
-              </button>
+              </AddLocationButton>
             </div>
           ))}
         </div>
