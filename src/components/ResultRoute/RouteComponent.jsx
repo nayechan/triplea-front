@@ -42,13 +42,12 @@ const DailyRouteWrapper = styled.div`
 
 const RouteComponent = ({ route }) => {
   const {updateCurrentRoute, selectRouteIndex} = useResultRouteData();
-  const {setCurrentRoute, setPropagateCallback} = useCurrentRouteData();
+  const {setCurrentRoute} = useCurrentRouteData();
   const navigate = useNavigate();
 
   const onDetailsClick = () => {
     selectRouteIndex(route.number);
     setCurrentRoute(route);
-    setPropagateCallback(updateCurrentRoute);
     navigate('/routeDetail');
   };
 

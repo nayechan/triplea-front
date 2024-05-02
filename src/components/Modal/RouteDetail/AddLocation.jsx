@@ -10,7 +10,7 @@ import DefaultButton from 'components/DefaultButton';
 import Modal from 'components/Modal/Modal';
 import { useCurrentRouteData } from 'contexts/CurrentRouteDataContext';
 
-const {kakao} = window;
+const { kakao } = window;
 
 // Style for modal itself
 const ModalWrapper = styled.div`
@@ -18,7 +18,7 @@ const ModalWrapper = styled.div`
   flex-direction: column;
   height: 100%;
 
-`
+`;
 
 // Style for tab buttons
 const TabButton = styled.button`
@@ -93,13 +93,11 @@ const StyledTableRow = styled.tr`
   }
 `;
 
-
-const EditLocation = ({ isOpen, setIsOpen, dayIndex, locationIndex }) => {
-
-
+const AddLocation = ({ isOpen, setIsOpen, dayIndex, locationIndex }) => {
   const { currentRoute } = useCurrentRouteData();
   const [tripLocation, setTripLocation] = useState(null);
   const [tab, setTab] = useState("map");
+
 
   const [selectedRegion, setSelectedRegion] = useState("서울"); // State for selected region
   const [recommendedLocations, setRecommendedLocations] = useState([]);
@@ -110,14 +108,26 @@ const EditLocation = ({ isOpen, setIsOpen, dayIndex, locationIndex }) => {
   const [inputDescription, setInputDescription] = useState("");
   const [mapPosition, setMapPosition] = useState({ lat: 36.3, lng: 127.4 });
 
-
   useEffect(() => {
-    if (isOpen && currentRoute?.plannersByDay?.[dayIndex]?.[locationIndex]) {
-      setTripLocation(currentRoute.plannersByDay[dayIndex][locationIndex]);
+    if (isOpen && currentRoute?.plannersByDay?.[dayIndex]) {
+      let _tripLocation =
+      {
+        day: dayIndex,
+        latitude: 36.3,
+        longitude: 127.4,
+        touristDestinationName: "New Location"
+      };
+
+      if (currentRoute.plannersByDay[dayIndex].length > 0) {
+        _tripLocation = currentRoute.plannersByDay[dayIndex][locationIndex - 1];
+      }
+
       setMapPosition({
-        lat: currentRoute.plannersByDay[dayIndex][locationIndex].latitude,
-        lng: currentRoute.plannersByDay[dayIndex][locationIndex].longitude
+        lat: _tripLocation.latitude,
+        lng: _tripLocation.longitude
       });
+
+      setTripLocation(_tripLocation);
     }
   }, [isOpen, dayIndex, locationIndex, currentRoute]);
 
@@ -160,7 +170,7 @@ const EditLocation = ({ isOpen, setIsOpen, dayIndex, locationIndex }) => {
     });
   };
 
-  const handleDescriptionChange = (e)=>{
+  const handleDescriptionChange = (e) => {
     setInputDescription(e.target.value);
     setTripLocation({
       ...tripLocation,
@@ -198,7 +208,7 @@ const EditLocation = ({ isOpen, setIsOpen, dayIndex, locationIndex }) => {
 
   return <Modal isVisible={isOpen} onClose={() => setIsOpen(false)} width="1000px" height="700px">
     <ModalWrapper>
-      <h2>여행지 변경</h2>
+      <h2>여행지 추가</h2>
       <TabButtonContainer>
         {/* Tab buttons */}
         <TabButton onClick={() => setTab("map")}>지도</TabButton>
@@ -321,4 +331,4 @@ const EditLocation = ({ isOpen, setIsOpen, dayIndex, locationIndex }) => {
   </Modal>
 }
 
-export default EditLocation;
+export default AddLocation;
