@@ -62,7 +62,7 @@ const ButtonContainer = styled.div`
   justify-content: flex-end;
 `;
 
-const EditLocation = ({ isOpen, setIsOpen, dayIndex, locationIndex }) => {
+const AddLocation = ({ isOpen, setIsOpen, dayIndex, locationIndex }) => {
   const generateRecommendedLocations = () => {
     const locations = [];
     for (let i = 1; i <= 10; i++) {
@@ -89,15 +89,29 @@ const EditLocation = ({ isOpen, setIsOpen, dayIndex, locationIndex }) => {
   const [mapPosition, setMapPosition] = useState({ lat: 36.3, lng: 127.4 });
 
   useEffect(() => {
-    if (isOpen && currentRoute?.plannersByDay?.[dayIndex]?.[locationIndex]) {
-      setTripLocation(currentRoute.plannersByDay[dayIndex][locationIndex]);
+    if (isOpen && currentRoute?.plannersByDay?.[dayIndex]) {
+      let _tripLocation = 
+      {
+        day: dayIndex,
+        latitude: 36.3,
+        longitude: 127.4,
+        touristDestinationName: "New Location"
+      };
+
+      if(currentRoute.plannersByDay[dayIndex].length > 0)
+      {
+        _tripLocation = currentRoute.plannersByDay[dayIndex][locationIndex-1];
+      }
+
       setMapPosition({
-        lat: currentRoute.plannersByDay[dayIndex][locationIndex].latitude,
-        lng: currentRoute.plannersByDay[dayIndex][locationIndex].longitude
+        lat: _tripLocation.latitude,
+        lng: _tripLocation.longitude
       });
-      console.log(tripLocation);
+      console.log(_tripLocation);
+
+      setTripLocation(_tripLocation);
     }
-  }, [isOpen, dayIndex, locationIndex, currentRoute, tripLocation]);
+  }, [isOpen, dayIndex, locationIndex, currentRoute]);
 
   useEffect(() => {
     if (tripLocation !== null) {
@@ -138,7 +152,7 @@ const EditLocation = ({ isOpen, setIsOpen, dayIndex, locationIndex }) => {
 
   return <Modal isVisible={isOpen} onClose={() => setIsOpen(false)} width="1000px" height="600px">
     <ModalWrapper>
-      <h2>Edit Location</h2>
+      <h2>Add Location</h2>
       <TabButtonContainer>
         {/* Tab buttons */}
         <TabButton onClick={() => setTab("map")}>Select location from map</TabButton>
@@ -257,4 +271,4 @@ const EditLocation = ({ isOpen, setIsOpen, dayIndex, locationIndex }) => {
   </Modal>
 }
 
-export default EditLocation;
+export default AddLocation;

@@ -10,6 +10,8 @@ import RouteInfo from 'components/RouteDetail/RouteInfo';
 import ShrinkableSidebar from 'components/Sidebar/ShrinkableSidebar';
 import Modal from 'components/Modal/Modal';
 import EditLocation from 'components/Modal/RouteDetail/EditLocation';
+import AddLocation from 'components/Modal/RouteDetail/AddLocation';
+import DeleteLocation from 'components/Modal/RouteDetail/DeleteLocation';
 
 
 const RouteDetailModalWrapper = styled.div`
@@ -20,10 +22,11 @@ const RouteDetailModalWrapper = styled.div`
 const RouteDetail = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const { currentRoute, propagateCurrentRoute } = useCurrentRouteData();
+  const { currentRoute } = useCurrentRouteData();
 
   const [isSidebarOpen, setSidebarOpen] = useState(true);
 
+  const [isAddLocationModalOpen, setIsAddLocationModalOpen] = useState(false);
   const [isEditLocationModalOpen, setIsEditLocationModalOpen] = useState(false);
   const [isDeleteLocationModalOpen, setIsDeleteLocationModalOpen] = useState(false);
   const [isImportRouteModalOpen, setIsImportRouteModalOpen] = useState(false);
@@ -31,6 +34,12 @@ const RouteDetail = () => {
 
   const [dayIndex, setDayIndex] = useState(null); // Define dayIndex state
   const [locationIndex, setLocationIndex] = useState(null); // Define locationIndex state
+
+  const openAddLocationModal = (dayIndex) => {
+    setIsAddLocationModalOpen(true);
+    setDayIndex(dayIndex);
+    setLocationIndex(currentRoute.plannersByDay[dayIndex].length);
+  }
 
   const openEditLocationModal = (dayIndex, locationIndex) => {
     setIsEditLocationModalOpen(true);
@@ -55,7 +64,6 @@ const RouteDetail = () => {
   useEffect(() => {
     const unlisten = () => {
       if (location.action === 'POP') {
-        propagateCurrentRoute();
       }
     };
 
@@ -64,7 +72,7 @@ const RouteDetail = () => {
     return () => {
       unlisten();
     };
-  }, [location, propagateCurrentRoute]);
+  }, [location]);
 
   useEffect(() => {
     if (currentRoute === null) {
@@ -84,6 +92,7 @@ const RouteDetail = () => {
           <ShrinkableSidebar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar}>
             <RouteInfo
               route={currentRoute}
+              openAddLocationModal={openAddLocationModal}
               openEditLocationModal={openEditLocationModal}
               openDeleteLocationModal={openDeleteLocationModal}
               openImportRouteModal={openImportRouteModal}
@@ -91,9 +100,21 @@ const RouteDetail = () => {
             />
           </ShrinkableSidebar>
           <RouteDetailModalWrapper>
+            <AddLocation
+              isOpen={isAddLocationModalOpen}
+              setIsOpen={setIsAddLocationModalOpen}
+              dayIndex={dayIndex}
+              locationIndex={locationIndex}
+            />
             <EditLocation
               isOpen={isEditLocationModalOpen}
               setIsOpen={setIsEditLocationModalOpen}
+              dayIndex={dayIndex}
+              locationIndex={locationIndex}
+            />
+            <DeleteLocation
+              isOpen={isDeleteLocationModalOpen}
+              setIsOpen={setIsDeleteLocationModalOpen}
               dayIndex={dayIndex}
               locationIndex={locationIndex}
             />

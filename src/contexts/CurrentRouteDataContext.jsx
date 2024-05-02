@@ -7,7 +7,6 @@ export const useCurrentRouteData = () => useContext(CurrentRouteDataContext);
 
 export const CurrentRouteDataProvider = ({ children }) => {
   const [currentRoute, setCurrentRoute ] = useState(null);
-  const [propagateCurrentRoute, setPropagateCallback] = useState(null);
 
   // You can use currentRoute here and update it using updateCurrentRoute if needed
 
@@ -15,8 +14,6 @@ export const CurrentRouteDataProvider = ({ children }) => {
     <CurrentRouteDataContext.Provider value={{ 
       currentRoute,
       setCurrentRoute,
-      propagateCurrentRoute,
-      setPropagateCallback
     }}>
       {children}
     </CurrentRouteDataContext.Provider>
