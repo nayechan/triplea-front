@@ -7,6 +7,7 @@ import { CurrentRouteDataProvider } from 'contexts/CurrentRouteDataContext';
 import { SelectedRegionProvider } from 'contexts/SelectedRegionContext';
 import { SelectedPeriodProvider } from 'contexts/SelectedPeriodContext';
 import { SelectedStrengthProvider } from 'contexts/SelectedStrengthContext';
+import { SelectedResidenceProvider } from 'contexts/SelectedResidenceContext';
 
 import Home from 'pages/Main/Home';
 import Region from 'pages/Region/Region';
@@ -18,7 +19,6 @@ import BoardPost from 'pages/Board/BoardPost';
 import BoardDetail from 'pages/Board/BoardDetail'
 import ResultRoute from 'pages/ResultRoute/ResultRoute';
 import RouteDetail from 'pages/RouteDetail/RouteDetail';
-import { SelectedResidenceProvider } from 'contexts/SelectedResidenceContext';
 
 // HOC for wrapping components with providers
 const withProviders = (Component, providers) => {

@@ -107,7 +107,7 @@ const Residence = () => {
     const handleNextButtonClick = () => {
         if (selectedLocation || searchedLocation) {
             setSelectedResidence(selectedLocation || searchedLocation);
-            console.log(`${(selectedLocation || searchedLocation).latitude}, ${(selectedLocation || searchedLocation).longitude}, ${(selectedLocation || searchedLocation).name || ''} selected`);
+            console.log(`${(selectedLocation || searchedLocation).latitude}, ${(selectedLocation || searchedLocation).longitude}, ${(selectedLocation || searchedLocation).name || ''} last selected`);
         } else {
             console.log("No location selected");
         }
@@ -140,7 +140,7 @@ const Residence = () => {
                         {isAddressSearchVisible && (
                             <div className="address-search">
                                 <DaumPostcode
-                                    // onComplete={handleComplete}
+                                    onComplete={handleComplete}
                                     autoClose
                                     animation
                                     style={{ position: 'absolute', zIndex: 10000, border: '1px solid #e5e5e5', width: '400px', height: '400px', top: '250px', left: '590px' }}
