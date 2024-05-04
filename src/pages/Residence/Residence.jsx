@@ -5,17 +5,18 @@ import { useSelectedRegionContext } from 'contexts/SelectedRegionContext';
 import ContentTemplate from 'components/ContentsTemplate';
 import LinkedButton from 'components/LinkedButton';
 import BackButton from 'components/BackButton';
-import DaumPostcode from 'react-daum-postcode'; // react-daum-postcode 라이브러리 추가
+import { FiSearch } from "react-icons/fi";
 import 'styles/Residence/Residence.css';
+
+const { kakao } = window;
 
 const Residence = () => {
     const { setSelectedResidence } = useSelectedResidenceContext();
     const { selectedRegion } = useSelectedRegionContext();
     const [selectedLocation, setSelectedLocation] = useState(null);
+    const [searchedInput, setSearchedInput] = useState('');
     const [cityCenter, setCityCenter] = useState({ lat: 37.5665, lng: 126.9780 });
-    const [searchAddress, setSearchAddress] = useState('');
-    const [searchedLocation, setSearchedLocation] = useState(null);
-    const [isAddressSearchVisible, setAddressSearchVisible] = useState(false);
+    const [searchResults, setSearchResults] = useState([]);
 
     useEffect(() => {
         switch (selectedRegion) {
@@ -80,34 +81,79 @@ const Residence = () => {
         const latLng = mouseEvent.latLng;
         const latitude = latLng.getLat();
         const longitude = latLng.getLng();
-        const name = prompt("이 위치의 이름을 입력하세요(스킵가능):");
-        setSelectedLocation({ latitude, longitude, name });
-        console.log(`${latitude}, ${longitude}, ${name} selected`);
+
+        const geocoder = new kakao.maps.services.Geocoder();
+
+        geocoder.coord2Address(longitude, latitude, (result, status) => {
+            if (status === kakao.maps.services.Status.OK) {
+                const address = result[0].address.address_name;
+                const road_address = result[0].road_address?.address_name;
+
+                let name = road_address || address;
+
+                const ps = new kakao.maps.services.Places();
+                ps.keywordSearch(name, (data, status) => {
+                    if (status === kakao.maps.services.Status.OK) {
+                        name = data[0].place_name;
+                        setSelectedLocation({ latitude, longitude, name: name });
+                        console.log(`${latitude}, ${longitude}, ${name} selected`);
+                    } else {
+                        setSelectedLocation({ latitude, longitude, name: null });
+                        console.log(`${latitude}, ${longitude}, null selected`);
+                        //console.error('Failed to search for location name');
+                    }
+                });
+            } else {
+                console.log(`${latitude}, ${longitude}, null selected`);
+                //console.error('Failed to convert coordinates to address');
+            }
+        });
     };
 
-    const handleAddressSearch = () => {
-        setAddressSearchVisible(true);
+    const onInputChange = (e) => {
+        setSearchedInput(e.target.value);
     };
 
-    const handleComplete = (data) => {
-        const { address, addressType, lat, lng } = data;
-        setSearchedLocation({ address, addressType, latitude: lat, longitude: lng });
-        setCityCenter({ lat: lat, lng: lng });
-        setSelectedLocation({ latitude: lat, longitude: lng, name: address });
-        console.log(`${lng}, ${lat}, ${address} selected`);
-        setAddressSearchVisible(false);
-    };
-    
-    
+    const handleSearchIconClick = (e) => {
+        e.preventDefault();
+        setSearchResults([]);
+        const ps = new kakao.maps.services.Places();
 
-    const handleCloseAddressSearch = () => {
-        setAddressSearchVisible(false);
+        ps.keywordSearch(searchedInput, (data, status) => {
+            if (status === kakao.maps.services.Status.OK) {
+                const results = data.map(item => {
+                    return {
+                        latitude: item.y,
+                        longitude: item.x,
+                        name: item.place_name,
+                        address: item.road_address_name || item.address_name || null
+                    };
+                });
+                setSearchResults(results.slice(0, 3));
+                if (results.length > 0) {
+                    const { latitude, longitude } = results[0];
+                    setCityCenter({ lat: latitude, lng: longitude });
+                }
+                console.log("Search Results:", results);
+            } else {
+                console.error('Failed to search for location name');
+            }
+        });
+
+    };
+
+    const handleResultClick = (result) => {
+        setSelectedLocation(result.latitude, result.longitude, result.name);
+        setCityCenter({ lat: result.latitude, lng: result.longitude });
+        console.log(`${result.latitude}, ${result.longitude}, ${result.name} selected`);
+        setSearchedInput('');
+        setSearchResults([]);
     };
 
     const handleNextButtonClick = () => {
-        if (selectedLocation || searchedLocation) {
-            setSelectedResidence(selectedLocation || searchedLocation);
-            console.log(`${(selectedLocation || searchedLocation).latitude}, ${(selectedLocation || searchedLocation).longitude}, ${(selectedLocation || searchedLocation).name || ''} last selected`);
+        if (selectedLocation) {
+            setSelectedResidence(selectedLocation);
+            console.log(`${selectedLocation.latitude}, ${selectedLocation.longitude}, ${selectedLocation.name || ''} selected`);
         } else {
             console.log("No location selected");
         }
@@ -119,11 +165,15 @@ const Residence = () => {
                 <div className="residence-contents">
                     <div className="residence-top">
                         <h1>숙소정보를 입력하세요. <span>(스킵가능)</span></h1>
-                        <button onClick={handleAddressSearch}>주소로 찾기</button>
+                        {selectedLocation && (
+                            <div className="marker-info">
+                                {selectedLocation.name}
+                            </div>
+                        )}
                     </div>
                     <Map
                         center={cityCenter}
-                        style={{ position: 'relative', width: '100%', height: '420px' }}
+                        style={{ position: 'relative', width: '100%', height: '410px' }}
                         level={5}
                         onClick={handleMarkerClick}
                     >
@@ -132,24 +182,29 @@ const Residence = () => {
                                 position={{ lat: selectedLocation.latitude, lng: selectedLocation.longitude }}
                             />
                         )}
-                        {searchedLocation && (
+                        {searchResults.map((result, index) => (
                             <MapMarker
-                                position={{ lat: searchedLocation.latitude, lng: searchedLocation.longitude }}
+                                key={index}
+                                position={{ lat: result.latitude, lng: result.longitude }}
                             />
-                        )}
-                        {isAddressSearchVisible && (
-                            <div className="address-search">
-                                <DaumPostcode
-                                    onComplete={handleComplete}
-                                    autoClose
-                                    animation
-                                    style={{ position: 'absolute', zIndex: 10000, border: '1px solid #e5e5e5', width: '400px', height: '400px', top: '250px', left: '590px' }}
-                                />
-                                <button className="close-btn" onClick={handleCloseAddressSearch} style={{ position: 'absolute', zIndex: 10000, width: '15px', top: '250px', right: '545px', padding: '0'}}>X</button>
-                            </div>
-                        )}
-
+                        ))}
                     </Map>
+                    <form className="residence-search" onSubmit={handleSearchIconClick}>
+                        <div className="search-container">
+                            <input className="search-input" onChange={onInputChange} value={searchedInput} placeholder="장소를 검색하세요" />
+                            <button type="submit" className="search-button">
+                                <FiSearch size={20} />
+                            </button>
+                            <div className="search-results">
+                                {searchResults.map((result, index) => (
+                                    <div key={index} className="search-result" onClick={() => handleResultClick(result)}>
+                                        {result.name}
+                                        <span style={{fontSize: '0.8rem'}}>{result.address}</span>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    </form>
                 </div>
                 <div className="residence-buttons">
                     <BackButton />
@@ -157,7 +212,7 @@ const Residence = () => {
                 </div>
             </ContentTemplate>
         </div>
-    )
+    );
 };
 
 export default Residence;
