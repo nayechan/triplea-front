@@ -18,8 +18,8 @@ const useFetchRouteData = (region, period, strength, residence) => {
           area: region,
           day: `${period}`,
           strength: `${numStrength}`,
-          accommodation_latitude: residence ? residence.latitude || null : null,
-          accommodation_longitude: residence ? residence.longitude || null : null,
+          accommodate_latitude: residence ? residence.latitude || null : null,
+          accommodate_longitude: residence ? residence.longitude || null : null,
           accommodationName: residence ? residence.name|| null : null
         });
         console.log(requestBody);
