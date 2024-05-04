@@ -14,20 +14,18 @@ const useFetchRouteData = (region, period, strength, residence) => {
 
     const fetchRouteData = async () => {
       try {
-        const requestBody = {
+        const requestBody = ({
           area: region,
           day: `${period}`,
           strength: `${numStrength}`,
           accommodation_latitude: residence ? residence.latitude || null : null,
           accommodation_longitude: residence ? residence.longitude || null : null,
-          accommodationName: residence && residence.length === 3 ? residence.accommodationName || null : null
-        };
+          accommodationName: residence ? residence.name|| null : null
+        });
         console.log(requestBody);
-
         const response = await axios.get('http://localhost:8080/api/planners', {
           params: requestBody
         });
-
         let responseDict = [];
 
         response.data.forEach(route => {

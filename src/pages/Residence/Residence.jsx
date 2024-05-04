@@ -153,7 +153,7 @@ const Residence = () => {
     const handleNextButtonClick = () => {
         if (selectedLocation) {
             setSelectedResidence(selectedLocation);
-            console.log(`${selectedLocation.latitude}, ${selectedLocation.longitude}, ${selectedLocation.name || ''} selected`);
+            console.log(`${selectedLocation.latitude}, ${selectedLocation.longitude}, ${selectedLocation.name || ''}last selected`);
         } else {
             console.log("No location selected");
         }
