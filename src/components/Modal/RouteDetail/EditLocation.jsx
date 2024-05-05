@@ -10,8 +10,6 @@ import DefaultButton from 'components/DefaultButton';
 import Modal from 'components/Modal/Modal';
 import { useCurrentRouteData } from 'contexts/CurrentRouteDataContext';
 
-const {kakao} = window;
-
 // Style for modal itself
 const ModalWrapper = styled.div`
   display: flex;
