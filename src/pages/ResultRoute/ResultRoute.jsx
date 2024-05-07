@@ -174,15 +174,12 @@ const ResultRoute = () => {
   useEffect(
     () => {
       // Convert the fetched data into the desired format
-      const convertFetchedData = (routes) => {
-        return routes.map((route) => {
-          const plannersByDay = groupPlannersByDay(route);
-          return {
-            number: route.number,
-            name: "여행 경로 "+route.number,
-            plannersByDay: plannersByDay
-          };
-        });
+      const convertFetchedData = (route) => {
+        const plannersByDay = groupPlannersByDay(route.planners);
+        return {
+          name: "새 여행 경로",
+          plannersByDay: plannersByDay
+        };
       };
 
       if (fetchedRouteData) {

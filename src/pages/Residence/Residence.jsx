@@ -64,7 +64,7 @@ const Residence = () => {
         ps.keywordSearch(name, (data, status) => {
           if (status === kakao.maps.services.Status.OK) {
             name = data[0].place_name;
-            setSelectedLocation({ latitude, longitude, name: name });
+            setSelectedLocation({ latitude, longitude, name: name, address: address });
             console.log(`${latitude}, ${longitude}, ${name} selected`);
             searchInputRef.current.blur(); // 마커를 클릭하면 검색창 포커스 제거
           } else {
@@ -142,7 +142,8 @@ const Residence = () => {
             <h1>숙소정보를 입력하세요. <span>(스킵가능)</span></h1>
             {selectedLocation && (
               <div className="marker-info">
-                {selectedLocation.name}
+                {selectedLocation.name} <br/>
+                {selectedLocation.address}
               </div>
             )}
           </div>
