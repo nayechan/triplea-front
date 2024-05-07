@@ -18,7 +18,7 @@ const ModalWrapper = styled.div`
   flex-direction: column;
   height: 100%;
 
-`;
+`
 
 // Style for tab buttons
 const TabButton = styled.button`

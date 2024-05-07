@@ -26,7 +26,7 @@ const Strength = () => {
     const handleNextButtonClick = () => {
         if(lastSelectedStrength != null){
             setSelectedStrength(lastSelectedStrength);
-            console.log(`${lastSelectedStrength} last`);
+            console.log(`${lastSelectedStrength} last selected`);
         }else{
             alert("강도를 선택해주세요.")
         }
