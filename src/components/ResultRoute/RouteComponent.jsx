@@ -51,20 +51,24 @@ const RouteComponent = ({ route }) => {
     navigate('/routeDetail');
   };
 
+  console.log(route);
+
   return (
     <RouteContainer>
       <RouteHeader>
         <RouteNumber>경로 {route.number}</RouteNumber>
       </RouteHeader>
       <DailyRoutesContainer>
-        {Object.entries(route.plannersByDay).map(([day, planners]) => (
+        {!route.plannersByDay ? (
+          <p>여행지가 없습니다.</p>
+        ) : (Object.entries(route.plannersByDay).map(([day, planners]) => (
           <DailyRouteWrapper key={day}>
             <h3>{day}일차</h3>
             {planners.map((planner, index) => (
               <p key={index}>{planner.touristDestinationName}</p>
             ))}
           </DailyRouteWrapper>
-        ))}
+        )))}
       </DailyRoutesContainer>
       <DefaultButton onClick={onDetailsClick}>자세히 보기</DefaultButton>
     </RouteContainer>
