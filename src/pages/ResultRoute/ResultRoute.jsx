@@ -10,7 +10,6 @@ import { useSelectedRegionContext } from 'contexts/SelectedRegionContext';
 import { useSelectedPeriodContext } from 'contexts/SelectedPeriodContext';
 import { useSelectedStrengthContext } from 'contexts/SelectedStrengthContext';
 import { useSelectedResidenceContext } from 'contexts/SelectedResidenceContext';
-import { result } from 'lodash';
 
 
 const routes = []
@@ -178,6 +177,7 @@ const ResultRoute = () => {
         const plannersByDay = groupPlannersByDay(route.planners);
         return {
           name: "새 여행 경로",
+          residence: selectedResidence,
           plannersByDay: plannersByDay
         };
       };

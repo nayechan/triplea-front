@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { Map, MapMarker, Polyline } from 'react-kakao-maps-sdk';
 
+import LocationMarker from 'components/MapMarker/LocationMarker';
+
 const getCentralPoint = (points) => {
   if (points.length === 0) {
     return null;
@@ -65,30 +67,60 @@ const RouteMap = ({ route }) => {
       style={{ width: '100%', height: 'calc(100vh - 64px)' }}
       level={8}
     >
-    {Object.entries(route.plannersByDay).map(([dayIndex, locations]) => (
+      <LocationMarker
+        position={{
+          lat: route.residence.latitude,
+          lng: route.residence.longitude
+        }}
+        number={"H"}
+        color={"black"}
+      />
+      {Object.entries(route.plannersByDay).map(([dayIndex, locations]) => (
         locations.map((locationData, locationIndex, array) => {
           const nextIndex = (locationIndex + 1) % array.length; // Circular next index
           const nextPlanner = array[nextIndex];
           const maxDay = Math.max(...Object.keys(route.plannersByDay));
+          const color = interpolateColorHSV((dayIndex - 1) % 6.5, 6.5, 0, 1, 1, 360, 1, 1);
+
+          const polyLineComponent = (
+            <Polyline
+              key={`${dayIndex}-${locationIndex}`}
+              path={[
+                { lat: locationData.latitude, lng: locationData.longitude },
+                { lat: nextPlanner.latitude, lng: nextPlanner.longitude }
+              ]}
+              strokeWeight={2}
+              strokeColor={color}
+              strokeOpacity={0.7}
+              strokeStyle={"solid"}
+              endArrow={false}
+            />
+          );
+
+          const locationMarkerComponent = (
+            <LocationMarker
+              position={{
+                lat: locationData.latitude,
+                lng: locationData.longitude
+              }}
+              number={locationIndex + 1}
+              color={color}
+            />
+          );
 
           // Check if it's not the last point of the day
           if (locationIndex !== array.length - 1) {
+            // Render both Polyline and MapMarker
             return (
-              <Polyline
-                key={`${dayIndex}-${locationIndex}`}
-                path={[
-                  { lat: locationData.latitude, lng: locationData.longitude },
-                  { lat: nextPlanner.latitude, lng: nextPlanner.longitude }
-                ]}
-                strokeWeight={5}
-                strokeColor={interpolateColorHSV(dayIndex-1, maxDay, 0, 1, 1, 350, 1, 1)}
-                strokeOpacity={0.7}
-                strokeStyle={"solid"}
-                endArrow={true}
-              />
+              <React.Fragment key={`${dayIndex}-${locationIndex}`}>
+                {polyLineComponent}
+                {locationMarkerComponent}
+              </React.Fragment>
             );
+          } else {
+            // Render only MapMarker for the last point
+            return locationMarkerComponent;
           }
-          return null; // Exclude the last line segment
         })
       ))}
     </Map>

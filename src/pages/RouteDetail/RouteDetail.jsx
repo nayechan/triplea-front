@@ -12,6 +12,7 @@ import Modal from 'components/Modal/Modal';
 import EditLocation from 'components/Modal/RouteDetail/EditLocation';
 import AddLocation from 'components/Modal/RouteDetail/AddLocation';
 import DeleteLocation from 'components/Modal/RouteDetail/DeleteLocation';
+import EditResidenceLocation from 'components/Modal/RouteDetail/EditResidenceLocation';
 
 
 const RouteDetailModalWrapper = styled.div`
@@ -26,6 +27,7 @@ const RouteDetail = () => {
 
   const [isSidebarOpen, setSidebarOpen] = useState(true);
 
+  const [isEditResidenceLocationModalOpen, setIsEditResidenceLocationModalOpen] = useState(false);
   const [isAddLocationModalOpen, setIsAddLocationModalOpen] = useState(false);
   const [isEditLocationModalOpen, setIsEditLocationModalOpen] = useState(false);
   const [isDeleteLocationModalOpen, setIsDeleteLocationModalOpen] = useState(false);
@@ -34,6 +36,10 @@ const RouteDetail = () => {
 
   const [dayIndex, setDayIndex] = useState(null); // Define dayIndex state
   const [locationIndex, setLocationIndex] = useState(null); // Define locationIndex state
+
+  const openEditResidenceLocationModal = ()=>{
+    setIsEditResidenceLocationModalOpen(true);
+  }
 
   const openAddLocationModal = (dayIndex) => {
     setIsAddLocationModalOpen(true);
@@ -92,6 +98,7 @@ const RouteDetail = () => {
           <ShrinkableSidebar isopen={isSidebarOpen} toggleSidebar={toggleSidebar}>
             <RouteInfo
               route={currentRoute}
+              openEditResidenceLocationModal={openEditResidenceLocationModal}
               openAddLocationModal={openAddLocationModal}
               openEditLocationModal={openEditLocationModal}
               openDeleteLocationModal={openDeleteLocationModal}
@@ -100,6 +107,10 @@ const RouteDetail = () => {
             />
           </ShrinkableSidebar>
           <RouteDetailModalWrapper>
+            <EditResidenceLocation
+              isopen={isEditResidenceLocationModalOpen}
+              setIsopen={setIsEditResidenceLocationModalOpen}
+            />
             <AddLocation
               isopen={isAddLocationModalOpen}
               setIsopen={setIsAddLocationModalOpen}

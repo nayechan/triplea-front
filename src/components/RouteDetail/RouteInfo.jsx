@@ -94,6 +94,7 @@ const AddLocationButton = styled(DefaultButton)`
 
 const RouteInfo = ({
   route,
+  openEditResidenceLocationModal,
   openAddLocationModal,
   openEditLocationModal,
   openDeleteLocationModal,
@@ -105,6 +106,15 @@ const RouteInfo = ({
       <div className='routeInfoWrapper'>
         <div className="routeInfo">
           <input type="text" value={route.name} readOnly placeholder="여행 경로명" className='routeName' />
+          <h3>숙소</h3>
+          <div key={-1} className='locationContainer'>
+            <div className='locationTitle'>{route.residence.name}</div>
+            <ButtonContainer>
+              <SmallStyledButton onClick={()=>{openEditResidenceLocationModal()}}>
+                <FontAwesomeIcon icon={faEdit}/>
+              </SmallStyledButton>
+            </ButtonContainer>
+          </div>
           {Object.entries(route.plannersByDay).map(([dayIndex, locations]) => (
             <div key={dayIndex}>
               <h3>{dayIndex}일차</h3>
@@ -139,7 +149,7 @@ const RouteInfo = ({
           </TopButtonContainer>
         </div>
       </div>
-    </StyledRouteInfo>
+    </StyledRouteInfo >
   );
 };
 

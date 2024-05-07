@@ -1,7 +1,7 @@
 // RouteComponent.jsx
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useResultRouteData } from  'contexts/ResultRouteDataContext';
+import { useResultRouteData } from 'contexts/ResultRouteDataContext';
 import { useCurrentRouteData } from 'contexts/CurrentRouteDataContext';
 import styled from 'styled-components';
 import DefaultButton from 'components/DefaultButton';
@@ -31,18 +31,23 @@ const RouteImage = styled.img`
 
 const DailyRoutesContainer = styled.div`
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: nowrap; /* Prevent wrapping of items */
+  max-height: 300px; /* Set a maximum height */
+  max-width: 100%; /* Set a maximum width */
+  overflow-x: auto; /* Add horizontal scrollbar if content exceeds maximum width */
+  overflow-y: auto; /* Add vertical scrollbar if content exceeds maximum height */
 `;
 
 const DailyRouteWrapper = styled.div`
   flex-basis: calc(33.33% - 20px); /* Adjust width as needed */
   margin-right: 20px;
   margin-bottom: 20px;
+  min-width: 300px;
 `;
 
 const RouteComponent = ({ route }) => {
-  const {updateCurrentRoute, selectRouteIndex} = useResultRouteData();
-  const {setCurrentRoute} = useCurrentRouteData();
+  const { updateCurrentRoute, selectRouteIndex } = useResultRouteData();
+  const { setCurrentRoute } = useCurrentRouteData();
   const navigate = useNavigate();
 
   const onDetailsClick = () => {
