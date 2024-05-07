@@ -153,7 +153,6 @@ const ResultRoute = () => {
   // Function to group planner items by day
   const groupPlannersByDay = (planners) => {
     const groupedByDay = {};
-    //Object.values(planners).forEach((planner) => {
     planners.forEach((planner) => {
       const convertedPlanner = {
         day: planner.day,
@@ -176,7 +175,7 @@ const ResultRoute = () => {
       // Convert the fetched data into the desired format
       const convertFetchedData = (routes) => {
         return routes.map((route) => {
-          const plannersByDay = groupPlannersByDay(route.planners);
+          const plannersByDay = groupPlannersByDay(route);
           return {
             number: route.number,
             name: "여행 경로 "+route.number,
