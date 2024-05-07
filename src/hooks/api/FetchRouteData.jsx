@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 
 const useFetchRouteData = (region, period, strength, residence) => {
-  const [fetchedRouteData, setFetchedRouteData] = useState([]);
+  const [fetchedRouteData, setFetchedRouteData] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -18,31 +18,21 @@ const useFetchRouteData = (region, period, strength, residence) => {
           area: region,
           day: `${period}`,
           strength: `${numStrength}`,
-          accommodate_latitude: residence ? residence.latitude || null : null,
-          accommodate_longitude: residence ? residence.longitude || null : null,
-          accommodationName: residence ? residence.name|| null : null
+          accommodationName: residence?.name,
+          accommodate_latitude: residence?.latitude,
+          accommodate_longitude: residence?.longitude
         });
+
+
         console.log(requestBody);
+
         const response = await axios.get('http://localhost:8080/api/planners', {
           params: requestBody
         });
-        // let responseDict = [];
 
-        // response.data.forEach(route => {
-        //   responseDict[route.number] = route;
-        // });
-        // const processedResponseData = responseDict;
+        console.log(response);
 
-        // setFetchedRouteData(processedResponseData);
-
-        const plannersData = response.data.planners.map((planner, index) => ({
-          number: index,
-          planners: planner
-        }));
-
-        setFetchedRouteData(plannersData);
-
-        console.log(`Response : ${plannersData}`);
+        setFetchedRouteData(response.data);
 
         setIsLoading(false);
       } catch (error) {

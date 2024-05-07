@@ -10,6 +10,7 @@ import { useSelectedRegionContext } from 'contexts/SelectedRegionContext';
 import { useSelectedPeriodContext } from 'contexts/SelectedPeriodContext';
 import { useSelectedStrengthContext } from 'contexts/SelectedStrengthContext';
 import { useSelectedResidenceContext } from 'contexts/SelectedResidenceContext';
+import { result } from 'lodash';
 
 
 const routes = []
@@ -185,22 +186,30 @@ const ResultRoute = () => {
       };
 
       if (fetchedRouteData) {
+        console.log(fetchedRouteData);
         const convertedData = convertFetchedData(fetchedRouteData);
         setResultRouteData(convertedData);
+        console.log(convertedData);
       }
     },
-    [fetchedRouteData, setResultRouteData]
+    [fetchedRouteData]
   );
+
+  useEffect(
+    ()=>{
+      if(resultRouteData)
+        console.log(resultRouteData);
+    },
+    [resultRouteData]
+  )
 
   return (
     <div className="result-route-container">
       <ContentTemplate>
-        {isLoading ? (
+      {!resultRouteData ? (
           <p>Loading...</p>
         ) : (
-          resultRouteData.map((route) => (
-            <RouteComponent route={route} />
-          ))
+          <RouteComponent route={resultRouteData} />
         )}
       </ContentTemplate>
     </div>

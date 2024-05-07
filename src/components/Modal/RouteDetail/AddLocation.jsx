@@ -93,7 +93,7 @@ const StyledTableRow = styled.tr`
   }
 `;
 
-const AddLocation = ({ isOpen, setIsOpen, dayIndex, locationIndex }) => {
+const AddLocation = ({ isopen, setIsopen, dayIndex, locationIndex }) => {
   const { currentRoute } = useCurrentRouteData();
   const [tripLocation, setTripLocation] = useState(null);
   const [tab, setTab] = useState("map");
@@ -109,7 +109,7 @@ const AddLocation = ({ isOpen, setIsOpen, dayIndex, locationIndex }) => {
   const [mapPosition, setMapPosition] = useState({ lat: 36.3, lng: 127.4 });
 
   useEffect(() => {
-    if (isOpen && currentRoute?.plannersByDay?.[dayIndex]) {
+    if (isopen && currentRoute?.plannersByDay?.[dayIndex]) {
       let _tripLocation =
       {
         day: dayIndex,
@@ -129,7 +129,7 @@ const AddLocation = ({ isOpen, setIsOpen, dayIndex, locationIndex }) => {
 
       setTripLocation(_tripLocation);
     }
-  }, [isOpen, dayIndex, locationIndex, currentRoute]);
+  }, [isopen, dayIndex, locationIndex, currentRoute]);
 
   useEffect(() => {
     if (tripLocation !== null) {
@@ -180,7 +180,7 @@ const AddLocation = ({ isOpen, setIsOpen, dayIndex, locationIndex }) => {
 
   const saveLocation = () => {
     currentRoute.plannersByDay[dayIndex][locationIndex] = tripLocation;
-    setIsOpen(false);
+    setIsopen(false);
   }
 
   const fetchRegionData = async (region) => {
@@ -206,7 +206,7 @@ const AddLocation = ({ isOpen, setIsOpen, dayIndex, locationIndex }) => {
     }
   };
 
-  return <Modal isVisible={isOpen} onClose={() => setIsOpen(false)} width="1000px" height="700px">
+  return <Modal isVisible={isopen} onClose={() => setIsopen(false)} width="1000px" height="700px">
     <ModalWrapper>
       <h2>여행지 추가</h2>
       <TabButtonContainer>
@@ -325,7 +325,7 @@ const AddLocation = ({ isOpen, setIsOpen, dayIndex, locationIndex }) => {
 
       <ButtonContainer>
         <DefaultButton onClick={() => saveLocation()}>Confirm</DefaultButton>
-        <DefaultButton onClick={() => setIsOpen(false)}>Cancel</DefaultButton>
+        <DefaultButton onClick={() => setIsopen(false)}>Cancel</DefaultButton>
       </ButtonContainer>
     </ModalWrapper>
   </Modal>

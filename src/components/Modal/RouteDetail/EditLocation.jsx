@@ -94,7 +94,7 @@ const StyledTableRow = styled.tr`
 `;
 
 
-const EditLocation = ({ isOpen, setIsOpen, dayIndex, locationIndex }) => {
+const EditLocation = ({ isopen, setIsopen, dayIndex, locationIndex }) => {
 
 
   const { currentRoute } = useCurrentRouteData();
@@ -112,14 +112,14 @@ const EditLocation = ({ isOpen, setIsOpen, dayIndex, locationIndex }) => {
 
 
   useEffect(() => {
-    if (isOpen && currentRoute?.plannersByDay?.[dayIndex]?.[locationIndex]) {
+    if (isopen && currentRoute?.plannersByDay?.[dayIndex]?.[locationIndex]) {
       setTripLocation(currentRoute.plannersByDay[dayIndex][locationIndex]);
       setMapPosition({
         lat: currentRoute.plannersByDay[dayIndex][locationIndex].latitude,
         lng: currentRoute.plannersByDay[dayIndex][locationIndex].longitude
       });
     }
-  }, [isOpen, dayIndex, locationIndex, currentRoute]);
+  }, [isopen, dayIndex, locationIndex, currentRoute]);
 
   useEffect(() => {
     if (tripLocation !== null) {
@@ -170,7 +170,7 @@ const EditLocation = ({ isOpen, setIsOpen, dayIndex, locationIndex }) => {
 
   const saveLocation = () => {
     currentRoute.plannersByDay[dayIndex][locationIndex] = tripLocation;
-    setIsOpen(false);
+    setIsopen(false);
   }
 
   const fetchRegionData = async (region) => {
@@ -196,7 +196,7 @@ const EditLocation = ({ isOpen, setIsOpen, dayIndex, locationIndex }) => {
     }
   };
 
-  return <Modal isVisible={isOpen} onClose={() => setIsOpen(false)} width="1000px" height="700px">
+  return <Modal isVisible={isopen} onClose={() => setIsopen(false)} width="1000px" height="700px">
     <ModalWrapper>
       <h2>여행지 변경</h2>
       <TabButtonContainer>
@@ -315,7 +315,7 @@ const EditLocation = ({ isOpen, setIsOpen, dayIndex, locationIndex }) => {
 
       <ButtonContainer>
         <DefaultButton onClick={() => saveLocation()}>Confirm</DefaultButton>
-        <DefaultButton onClick={() => setIsOpen(false)}>Cancel</DefaultButton>
+        <DefaultButton onClick={() => setIsopen(false)}>Cancel</DefaultButton>
       </ButtonContainer>
     </ModalWrapper>
   </Modal>

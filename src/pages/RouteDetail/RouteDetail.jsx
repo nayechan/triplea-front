@@ -89,7 +89,7 @@ const RouteDetail = () => {
       {currentRoute && (
         <div className="routeDetailWrapper">
           <Header />
-          <ShrinkableSidebar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar}>
+          <ShrinkableSidebar isopen={isSidebarOpen} toggleSidebar={toggleSidebar}>
             <RouteInfo
               route={currentRoute}
               openAddLocationModal={openAddLocationModal}
@@ -101,20 +101,20 @@ const RouteDetail = () => {
           </ShrinkableSidebar>
           <RouteDetailModalWrapper>
             <AddLocation
-              isOpen={isAddLocationModalOpen}
-              setIsOpen={setIsAddLocationModalOpen}
+              isopen={isAddLocationModalOpen}
+              setIsopen={setIsAddLocationModalOpen}
               dayIndex={dayIndex}
               locationIndex={locationIndex}
             />
             <EditLocation
-              isOpen={isEditLocationModalOpen}
-              setIsOpen={setIsEditLocationModalOpen}
+              isopen={isEditLocationModalOpen}
+              setIsopen={setIsEditLocationModalOpen}
               dayIndex={dayIndex}
               locationIndex={locationIndex}
             />
             <DeleteLocation
-              isOpen={isDeleteLocationModalOpen}
-              setIsOpen={setIsDeleteLocationModalOpen}
+              isopen={isDeleteLocationModalOpen}
+              setIsopen={setIsDeleteLocationModalOpen}
               dayIndex={dayIndex}
               locationIndex={locationIndex}
             />
