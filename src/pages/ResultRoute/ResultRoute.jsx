@@ -153,6 +153,7 @@ const ResultRoute = () => {
   // Function to group planner items by day
   const groupPlannersByDay = (planners) => {
     const groupedByDay = {};
+    //Object.values(planners).forEach((planner) => {
     planners.forEach((planner) => {
       const convertedPlanner = {
         day: planner.day,

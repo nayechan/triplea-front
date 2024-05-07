@@ -26,16 +26,23 @@ const useFetchRouteData = (region, period, strength, residence) => {
         const response = await axios.get('http://localhost:8080/api/planners', {
           params: requestBody
         });
-        let responseDict = [];
+        // let responseDict = [];
 
-        response.data.forEach(route => {
-          responseDict[route.number] = route;
-        });
+        // response.data.forEach(route => {
+        //   responseDict[route.number] = route;
+        // });
+        // const processedResponseData = responseDict;
 
-        const processedResponseData = responseDict;
+        // setFetchedRouteData(processedResponseData);
 
-        setFetchedRouteData(processedResponseData);
-        console.log(`Response : ${processedResponseData}`);
+        const plannersData = response.data.planners.map((planner, index) => ({
+          number: index,
+          planners: planner
+        }));
+
+        setFetchedRouteData(plannersData);
+
+        console.log(`Response : ${plannersData}`);
 
         setIsLoading(false);
       } catch (error) {
