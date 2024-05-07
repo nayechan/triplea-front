@@ -10,6 +10,7 @@ import { useSelectedRegionContext } from 'contexts/SelectedRegionContext';
 import { useSelectedPeriodContext } from 'contexts/SelectedPeriodContext';
 import { useSelectedStrengthContext } from 'contexts/SelectedStrengthContext';
 import { useSelectedResidenceContext } from 'contexts/SelectedResidenceContext';
+import { result } from 'lodash';
 
 
 const routes = []
@@ -173,34 +174,39 @@ const ResultRoute = () => {
   useEffect(
     () => {
       // Convert the fetched data into the desired format
-      const convertFetchedData = (routes) => {
-        return routes.map((route) => {
-          const plannersByDay = groupPlannersByDay(route.planners);
-          return {
-            number: route.number,
-            name: "여행 경로 "+route.number,
-            plannersByDay: plannersByDay
-          };
-        });
+      const convertFetchedData = (route) => {
+        const plannersByDay = groupPlannersByDay(route.planners);
+        return {
+          name: "새 여행 경로",
+          plannersByDay: plannersByDay
+        };
       };
 
       if (fetchedRouteData) {
+        console.log(fetchedRouteData);
         const convertedData = convertFetchedData(fetchedRouteData);
         setResultRouteData(convertedData);
+        console.log(convertedData);
       }
     },
-    [fetchedRouteData, setResultRouteData]
+    [fetchedRouteData]
   );
+
+  useEffect(
+    ()=>{
+      if(resultRouteData)
+        console.log(resultRouteData);
+    },
+    [resultRouteData]
+  )
 
   return (
     <div className="result-route-container">
       <ContentTemplate>
-        {isLoading ? (
+      {!resultRouteData ? (
           <p>Loading...</p>
         ) : (
-          resultRouteData.map((route) => (
-            <RouteComponent route={route} />
-          ))
+          <RouteComponent route={resultRouteData} />
         )}
       </ContentTemplate>
     </div>

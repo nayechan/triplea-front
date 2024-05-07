@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 
 const useFetchRouteData = (region, period, strength, residence) => {
-  const [fetchedRouteData, setFetchedRouteData] = useState([]);
+  const [fetchedRouteData, setFetchedRouteData] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -19,8 +19,8 @@ const useFetchRouteData = (region, period, strength, residence) => {
           day: `${period}`,
           strength: `${numStrength}`,
           accommodationName: residence?.name,
-          accomodate_latitude: residence?.latitude,
-          accomodate_longitude: residence?.longitude
+          accommodate_latitude: residence?.latitude,
+          accommodate_longitude: residence?.longitude
         });
 
 
@@ -30,16 +30,9 @@ const useFetchRouteData = (region, period, strength, residence) => {
           params: requestBody
         });
 
-        let responseDict = [];
+        console.log(response);
 
-        response.data.forEach(route => {
-          responseDict[route.number] = route;
-        });
-
-        const processedResponseData = responseDict;
-
-        setFetchedRouteData(processedResponseData);
-        console.log(`Response : ${processedResponseData}`);
+        setFetchedRouteData(response.data);
 
         setIsLoading(false);
       } catch (error) {
