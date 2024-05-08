@@ -58,7 +58,7 @@ const interpolateColorHSV = (lineIndex, lineCount, startHue, startSaturation, st
   return rgbToHex(r, g, b);
 };
 
-const RouteMap = ({ route }) => {
+const RouteMap = ({ route, openInfoLocationModal }) => {
   const [centralPoint, setCentralPoint] = useState(getCentralPoint(Object.values(route.plannersByDay).flat()));
 
   return (
@@ -84,7 +84,7 @@ const RouteMap = ({ route }) => {
 
           const polyLineComponent = (
             <Polyline
-              key={`${dayIndex}-${locationIndex}`}
+              key={`pl-${dayIndex}-${locationIndex}`}
               path={[
                 { lat: locationData.latitude, lng: locationData.longitude },
                 { lat: nextPlanner.latitude, lng: nextPlanner.longitude }
@@ -99,12 +99,18 @@ const RouteMap = ({ route }) => {
 
           const locationMarkerComponent = (
             <LocationMarker
+              key={`lm-${dayIndex}-${locationIndex}`}
               position={{
                 lat: locationData.latitude,
                 lng: locationData.longitude
               }}
               number={locationIndex + 1}
               color={color}
+              onClick={()=>{openInfoLocationModal({
+                name: locationData.touristDestinationName,
+                latitude: locationData.latitude,
+                longitude: locationData.longitude
+              })}}
             />
           );
 
