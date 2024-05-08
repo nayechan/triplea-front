@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEdit, faTrashAlt, faPlus, faFileExport, faFileImport } from '@fortawesome/free-solid-svg-icons';
+import { faEdit, faTrashAlt, faPlus, faFileExport, faFileImport, faInfo } from '@fortawesome/free-solid-svg-icons';
 import DefaultButton from 'components/DefaultButton';
 import Modal from 'components/Modal/Modal';
 import { Map, MapMarker, Polyline } from 'react-kakao-maps-sdk';
@@ -98,6 +98,7 @@ const RouteInfo = ({
   openAddLocationModal,
   openEditLocationModal,
   openDeleteLocationModal,
+  openInfoLocationModal,
   openImportRouteModal,
   openExportRouteModal
 }) => {
@@ -122,6 +123,15 @@ const RouteInfo = ({
                 <div key={locationIndex} className='locationContainer'>
                   <div className='locationTitle'>{locationData.touristDestinationName}</div>
                   <ButtonContainer>
+                    <SmallStyledButton onClick={() => (openInfoLocationModal(
+                      {
+                        name: locationData.touristDestinationName,
+                        latitude: locationData.latitude,
+                        longitude: locationData.longitude
+                      }
+                    ))}>
+                      <FontAwesomeIcon icon={faInfo} />
+                    </SmallStyledButton>
                     <SmallStyledButton onClick={() => (openEditLocationModal(dayIndex, locationIndex))}>
                       <FontAwesomeIcon icon={faEdit} />
                     </SmallStyledButton>

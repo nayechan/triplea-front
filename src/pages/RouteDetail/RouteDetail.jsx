@@ -12,6 +12,7 @@ import Modal from 'components/Modal/Modal';
 import EditLocation from 'components/Modal/RouteDetail/EditLocation';
 import AddLocation from 'components/Modal/RouteDetail/AddLocation';
 import DeleteLocation from 'components/Modal/RouteDetail/DeleteLocation';
+import InfoLocation from 'components/Modal/RouteDetail/InfoLocation';
 import EditResidenceLocation from 'components/Modal/RouteDetail/EditResidenceLocation';
 
 
@@ -31,11 +32,13 @@ const RouteDetail = () => {
   const [isAddLocationModalOpen, setIsAddLocationModalOpen] = useState(false);
   const [isEditLocationModalOpen, setIsEditLocationModalOpen] = useState(false);
   const [isDeleteLocationModalOpen, setIsDeleteLocationModalOpen] = useState(false);
+  const [isInfoLocationModalOpen, setIsInfoLocationModalOpen] = useState(false);
   const [isImportRouteModalOpen, setIsImportRouteModalOpen] = useState(false);
   const [isExportRouteModalOpen, setIsExportRouteModalOpen] = useState(false);
 
   const [dayIndex, setDayIndex] = useState(null); // Define dayIndex state
   const [locationIndex, setLocationIndex] = useState(null); // Define locationIndex state
+  const [tripLocation, setTripLocation] = useState(null);
 
   const openEditResidenceLocationModal = ()=>{
     setIsEditResidenceLocationModalOpen(true);
@@ -58,6 +61,11 @@ const RouteDetail = () => {
     setDayIndex(dayIndex);
     setLocationIndex(locationIndex);
   };
+
+  const openInfoLocationModal = (location)=>{
+    setIsInfoLocationModalOpen(true);
+    setTripLocation(location);
+  }
 
   const openImportRouteModal = () => {
 
@@ -102,6 +110,7 @@ const RouteDetail = () => {
               openAddLocationModal={openAddLocationModal}
               openEditLocationModal={openEditLocationModal}
               openDeleteLocationModal={openDeleteLocationModal}
+              openInfoLocationModal={openInfoLocationModal}
               openImportRouteModal={openImportRouteModal}
               openExportRouteModal={openExportRouteModal}
             />
@@ -129,8 +138,13 @@ const RouteDetail = () => {
               dayIndex={dayIndex}
               locationIndex={locationIndex}
             />
+            <InfoLocation
+              isopen={isInfoLocationModalOpen}
+              setIsopen={setIsInfoLocationModalOpen}
+              tripLocation={tripLocation}
+            />
           </RouteDetailModalWrapper>
-          <RouteMap route={currentRoute} />
+          <RouteMap route={currentRoute} openInfoLocationModal={openInfoLocationModal}/>
         </div>
       )}
     </>
