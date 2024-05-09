@@ -25,7 +25,7 @@ const RouteDetailModalWrapper = styled.div`
 const RouteDetail = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const { currentRoute } = useCurrentRouteData();
+  const {currentRoute, setCurrentRoute} = useCurrentRouteData();
 
   const [isSidebarOpen, setSidebarOpen] = useState(true);
 
@@ -112,6 +112,7 @@ const RouteDetail = () => {
           <ShrinkableSidebar isopen={isSidebarOpen} toggleSidebar={toggleSidebar}>
             <RouteInfo
               route={currentRoute}
+              setRoute={setCurrentRoute}
               openEditResidenceLocationModal={openEditResidenceLocationModal}
               openAddLocationModal={openAddLocationModal}
               openEditLocationModal={openEditLocationModal}
