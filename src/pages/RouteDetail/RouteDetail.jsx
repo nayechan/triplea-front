@@ -14,6 +14,7 @@ import AddLocation from 'components/Modal/RouteDetail/AddLocation';
 import DeleteLocation from 'components/Modal/RouteDetail/DeleteLocation';
 import InfoLocation from 'components/Modal/RouteDetail/InfoLocation';
 import EditResidenceLocation from 'components/Modal/RouteDetail/EditResidenceLocation';
+import PrintRoute from 'components/Modal/RouteDetail/PrintRoute';
 
 
 const RouteDetailModalWrapper = styled.div`
@@ -35,6 +36,7 @@ const RouteDetail = () => {
   const [isInfoLocationModalOpen, setIsInfoLocationModalOpen] = useState(false);
   const [isImportRouteModalOpen, setIsImportRouteModalOpen] = useState(false);
   const [isExportRouteModalOpen, setIsExportRouteModalOpen] = useState(false);
+  const [isPrintRouteModalOpen, setIsPrintRouteModalOpen] = useState(false);
 
   const [dayIndex, setDayIndex] = useState(null); // Define dayIndex state
   const [locationIndex, setLocationIndex] = useState(null); // Define locationIndex state
@@ -75,6 +77,10 @@ const RouteDetail = () => {
 
   };
 
+  const openPrintRouteModal = ()=>{
+    setIsPrintRouteModalOpen(true);
+  }
+
   useEffect(() => {
     const unlisten = () => {
       if (location.action === 'POP') {
@@ -113,6 +119,7 @@ const RouteDetail = () => {
               openInfoLocationModal={openInfoLocationModal}
               openImportRouteModal={openImportRouteModal}
               openExportRouteModal={openExportRouteModal}
+              openPrintRouteModal={openPrintRouteModal}
             />
           </ShrinkableSidebar>
           <RouteDetailModalWrapper>
@@ -142,6 +149,10 @@ const RouteDetail = () => {
               isopen={isInfoLocationModalOpen}
               setIsopen={setIsInfoLocationModalOpen}
               tripLocation={tripLocation}
+            />
+            <PrintRoute
+              isopen={isPrintRouteModalOpen}
+              setIsopen={setIsPrintRouteModalOpen}
             />
           </RouteDetailModalWrapper>
           <RouteMap route={currentRoute} openInfoLocationModal={openInfoLocationModal}/>

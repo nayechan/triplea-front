@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEdit, faTrashAlt, faPlus, faFileExport, faFileImport, faInfo } from '@fortawesome/free-solid-svg-icons';
+import { faEdit, faTrashAlt, faPlus, faFileExport, faFileImport, faInfo, faPrint } from '@fortawesome/free-solid-svg-icons';
 import DefaultButton from 'components/DefaultButton';
 import Modal from 'components/Modal/Modal';
 import { Map, MapMarker, Polyline } from 'react-kakao-maps-sdk';
+import LinkedButton from 'components/LinkedButton';
 
 const StyledRouteInfo = styled.div`
     height: 100%;
@@ -67,7 +68,7 @@ const ButtonContainer = styled.div`
 
 const TopButtonContainer = styled(ButtonContainer)`
   display: flex;
-  margin: 10px 0;
+  margin: 20px 0;
 `;
 
 const StyledButton = styled(DefaultButton)`
@@ -100,7 +101,8 @@ const RouteInfo = ({
   openDeleteLocationModal,
   openInfoLocationModal,
   openImportRouteModal,
-  openExportRouteModal
+  openExportRouteModal,
+  openPrintRouteModal
 }) => {
   return (
     <StyledRouteInfo>
@@ -150,11 +152,14 @@ const RouteInfo = ({
 
         <div className='featureButtons'>
           <TopButtonContainer>
-            <StyledButton onClick={openImportRouteModal()}>
+            {/* <StyledButton onClick={openImportRouteModal()}>
               <FontAwesomeIcon icon={faFileExport}></FontAwesomeIcon>
             </StyledButton>
             <StyledButton onClick={openExportRouteModal()}>
               <FontAwesomeIcon icon={faFileImport}></FontAwesomeIcon>
+            </StyledButton> */}
+            <StyledButton onClick={openPrintRouteModal}>
+              <FontAwesomeIcon icon={faPrint}></FontAwesomeIcon>
             </StyledButton>
           </TopButtonContainer>
         </div>
