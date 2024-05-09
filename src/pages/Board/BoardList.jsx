@@ -1,7 +1,9 @@
+// src/pages/BoardList.js
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import Header from '../../components/Header';
 import styled from 'styled-components';
+import useFetchBoardData from '../../hooks/api/FetchBoardData';
 
 const StyledBoard = styled.div`
     width: 1200px;
@@ -113,12 +115,7 @@ const PageButton = styled.button`
 `;
 
 const BoardList = () => {
-    // 임의의 게시물 데이터
-    const [posts, setPosts] = useState([
-        { id: 1, title: '첫 번째 글', name: '익명', date: '2024-04-18', content: '첫 번째 글 내용입니다.', password: '1234' },
-        { id: 2, title: '두 번째 글', name: '익명', date: '2024-04-17', content: '두 번째 글 내용입니다.', password: '5678' },
-        { id: 3, title: '세 번째 글', name: '익명', date: '2024-04-16', content: '세 번째 글 내용입니다.', password: '9012' },
-    ]);
+    const posts = useFetchBoardData();
 
     // 페이지네이션 상태
     const [currentPage, setCurrentPage] = useState(1);
@@ -127,7 +124,9 @@ const BoardList = () => {
     // 현재 페이지의 게시글 목록
     const indexOfLastPost = currentPage * postsPerPage;
     const indexOfFirstPost = indexOfLastPost - postsPerPage;
-    const currentPosts = posts.slice(indexOfFirstPost, indexOfLastPost);
+   // const currentPosts = posts.slice(indexOfFirstPost, indexOfLastPost);
+   const currentPosts = Array.isArray(posts) ? posts.slice(indexOfFirstPost, indexOfLastPost) : [];
+
 
     // 페이지 변경 함수
     const paginate = (pageNumber) => setCurrentPage(pageNumber);
@@ -142,7 +141,7 @@ const BoardList = () => {
                 </StyledLinkWrapper>
                 <StyledList>
                     <StyledListItemHeader>
-                        <li>아이디</li>
+                        <li>번호</li>
                         <li>내용</li>
                         <li>작성자</li>
                         <li>작성일</li>

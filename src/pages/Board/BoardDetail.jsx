@@ -1,5 +1,5 @@
-import React from 'react';
-import { useParams } from 'react-router-dom';
+import React, { useState } from 'react';
+import { Link, useParams } from 'react-router-dom';
 import Header from '../../components/Header';
 import styled from 'styled-components';
 
@@ -37,7 +37,24 @@ const PostInfo = styled.div`
 
 const PostContent = styled.p`
     margin: 0;
-    padding-left: 20px;
+    padding: 0 20px 40px 20px;
+    border-bottom: 1px solid #070719;
+`;
+
+const ButtonContainer = styled.div`
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+`;
+
+const ButtonContent = styled.button`
+    padding: 10px 20px;
+    background-color: #088A68;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
 `;
 
 const BoardDetail = () => {
@@ -56,6 +73,39 @@ const BoardDetail = () => {
         return <div>게시물을 찾을 수 없습니다.</div>;
     }
 
+    const handleEdit = () => {
+        let enteredPassword = '';
+        let confirmed = false;
+
+        while (!confirmed) {
+            enteredPassword = prompt('비밀번호를 입력하세요:');
+            if (enteredPassword === null) return; // 사용자가 취소를 누른 경우
+            if (enteredPassword === post.password) {
+                
+            } else {
+                alert('비밀번호가 틀렸습니다. 다시 입력하세요.');
+            }
+        }
+    };
+
+    const handleDelete = () => {
+        let enteredPassword = '';
+        let confirmed = false;
+
+        while (!confirmed) {
+            enteredPassword = prompt('비밀번호를 입력하세요:');
+            if (enteredPassword === null) return; // 사용자가 취소를 누른 경우
+            if (enteredPassword === post.password) {
+                confirmed = window.confirm('정말로 글을 삭제하시겠습니까?');
+                if (confirmed) {
+                    console.log('글 삭제');
+                }
+            } else {
+                alert('비밀번호가 틀렸습니다. 다시 입력하세요.');
+            }
+        }
+    };
+
     return (
         <div className="boardDetail-container">
             <StyledHeader />
@@ -68,6 +118,13 @@ const BoardDetail = () => {
                     <div><b>작성일</b>&nbsp;&nbsp;{post.date}</div>
                 </PostInfo>
                 <PostContent>{post.content}</PostContent>
+                <ButtonContainer>
+                    <Link to="/boardList">
+                        <ButtonContent>목록 보기</ButtonContent>
+                    </Link>
+                    <ButtonContent onClick={handleEdit} style={{marginLeft: '500px'}}>글 수정</ButtonContent>
+                    <ButtonContent onClick={handleDelete}>글 삭제</ButtonContent>
+                </ButtonContainer>
             </StyledDetail>
         </div>
     );

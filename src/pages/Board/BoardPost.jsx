@@ -1,10 +1,19 @@
 import React, { useState } from 'react';
 import Header from '../../components/Header';
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
+import { CKEditor } from '@ckeditor/ckeditor5-react';
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 
 const StyledContainer = styled.div`
     max-width: 800px;
     margin: 0 auto;
+    
+`;
+
+const PostTop = styled.h2`
+    margin-top: 50px;
+    text-align: center;
 `;
 
 const StyledHeader = styled(Header)`
@@ -12,28 +21,59 @@ const StyledHeader = styled(Header)`
     box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
 `;
 
-const StyledInput = styled.input`
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 10px;
-    border-radius: 5px;
-    border: 1px solid #ddd;
-    box-sizing: border-box;
-`;
+const PostContainer = styled.div`
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin: 20px 0 20px 0;
+`
 
-const StyledTextarea = styled.textarea`
-    width: 100%;
-    height: 200px;
+const AuthorContainer = styled.div`
+    display: flex;
+    align-items: center;
+
+    input:focus {
+        outline: none;
+    }
+`
+
+const PostTitle = styled.div`
+    font-weight: bold;
+`
+
+const PostAuthor = styled.div`
+    font-weight: bold;
+    padding: 5px;
+    margin-right: 15px;
+`
+
+const PostInput = styled.input`
+    width: 90%;
     padding: 10px;
-    margin-bottom: 10px;
     border-radius: 5px;
     border: 1px solid #ddd;
     box-sizing: border-box;
-`;
+`
+
+const ContentContainer = styled.div`
+    height: 400px;
+    max-height: 400px;
+    border: 1px solid #ddd;
+    margin: 20px 0;
+    overflow-y: auto;
+    padding: 10px;
+`
+
+const ButtonContainer = styled.div`
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 80px;
+`
 
 const StyledButton = styled.button`
     padding: 10px;
-    background-color: #007bff;
+    margin-bottom: 0px;
+    background-color: #088A68;
     color: #fff;
     border: none;
     border-radius: 5px;
@@ -49,8 +89,9 @@ const BoardPost = ({ onAddPost }) => {
         setTitle(event.target.value);
     };
 
-    const handleContentChange = (event) => {
-        setContent(event.target.value);
+    const handleContentChange = (event, editor) => {
+        const data = editor.getData();
+        setContent(data);
     };
 
     const handlePasswordChange = (event) => {
@@ -61,10 +102,12 @@ const BoardPost = ({ onAddPost }) => {
         if (password === '') {
             alert('비밀번호를 입력해주세요.');
         } else {
+            const currentDate = new Date().toISOString().slice(0, 10);
             const newPost = {
                 title: title,
                 content: content,
                 password: password,
+                date: currentDate,
             };
             onAddPost(newPost);
             // 게시글 저장 후 폼 초기화
@@ -79,25 +122,56 @@ const BoardPost = ({ onAddPost }) => {
             <StyledHeader />
             <StyledContainer>
                 <div>
-                    <h2>게시글 작성</h2>
-                    <StyledInput
-                        type="text"
-                        placeholder="제목"
-                        value={title}
-                        onChange={handleTitleChange}
-                    />
-                    <StyledTextarea
-                        placeholder="내용"
-                        value={content}
-                        onChange={handleContentChange}
-                    />
-                    <StyledInput
-                        type="password"
-                        placeholder="비밀번호 설정"
-                        value={password}
-                        onChange={handlePasswordChange}
-                    />
-                    <StyledButton onClick={handleSavePost}>저장</StyledButton>
+                    <PostTop>게시글 작성</PostTop>
+                    <PostContainer>
+                        <PostTitle>제목</PostTitle>
+                        <PostInput
+                            type="text"
+                            value={title}
+                            onChange={handleTitleChange}
+                        />
+                    </PostContainer>
+                    <AuthorContainer>
+                        <PostAuthor>작성자</PostAuthor>
+                        <input
+                            type="checkbox"
+                            checked
+                            readOnly
+                            style={{width: '20px' }}
+                        />
+                        <div>익명</div>
+                    </AuthorContainer>
+                    <hr />
+                    <ContentContainer>
+                        <CKEditor
+                            editor={ClassicEditor}
+                            data={content}
+                            config={{
+                                height: '100%',
+                            }}
+                            onReady={editor => {
+                                console.log('Editor is ready to use!', editor);
+                            }}
+                            onChange={handleContentChange}
+                            className="editor"
+                        />
+                    </ContentContainer>
+                    <hr />
+                    <PostContainer>
+                        <PostTitle style={{ fontSize: '0.9rem' }}>비밀번호<span style={{ fontSize: '0.6rem' }}>(필수)</span></PostTitle>
+                        <PostInput
+                            type="password"
+                            value={password}
+                            onChange={handlePasswordChange}
+                        />
+                    </PostContainer>
+                    <ButtonContainer>
+                        <Link to="/boardList">
+                            <StyledButton>목록 보기</StyledButton>
+                        </Link>
+                        <StyledButton onClick={handleSavePost}>저장</StyledButton>
+                    </ButtonContainer>
+
                 </div>
             </StyledContainer>
         </div>
