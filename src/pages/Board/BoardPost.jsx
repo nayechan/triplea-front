@@ -58,8 +58,7 @@ const PostInput = styled.input`
 const ContentContainer = styled.div`
     height: 400px;
     max-height: 400px;
-    border: 1px solid #ddd;
-    margin: 20px 0;
+    margin: 10px 0;
     overflow-y: auto;
     padding: 10px;
 `
