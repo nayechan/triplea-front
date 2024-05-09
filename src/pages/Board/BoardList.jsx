@@ -151,7 +151,7 @@ const BoardList = () => {
                             <Link to={`/post/${post.id}`}>
                                 <li>{post.id}</li>
                                 <li>{post.title}</li>
-                                <li>{post.name}</li>
+                                <li>익명</li>
                                 <li>{post.date}</li>
                             </Link>
                         </StyledListItem>

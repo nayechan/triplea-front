@@ -111,7 +111,7 @@ const Residence = () => {
   };
 
   const handleResultClick = (result) => {
-    setSelectedLocation({ latitude: result.latitude, longitude: result.longitude, name: result.name });
+    setSelectedLocation({ latitude: result.latitude, longitude: result.longitude, name: result.name, address: result.address });
     setCityCenter({ lat: result.latitude, lng: result.longitude });
     setSearchResults([]);
     setSearchedInput('');
