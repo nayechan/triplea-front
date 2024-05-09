@@ -61,6 +61,10 @@ const ContentContainer = styled.div`
     margin: 10px 0;
     overflow-y: auto;
     padding: 10px;
+
+    .ck.ck-content{
+        height: 350px;
+    }
 `
 
 const ButtonContainer = styled.div`
