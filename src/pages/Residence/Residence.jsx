@@ -68,8 +68,9 @@ const Residence = () => {
             console.log(`${latitude}, ${longitude}, ${name} selected`);
             searchInputRef.current.blur(); // 마커를 클릭하면 검색창 포커스 제거
           } else {
-            setSelectedLocation({ latitude, longitude, name: null });
+            //setSelectedLocation({ latitude, longitude, name: null });
             console.log(`${latitude}, ${longitude}, null selected`);
+            alert("해당사항 없음");
           }
         });
       } else {
