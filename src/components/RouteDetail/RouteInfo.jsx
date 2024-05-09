@@ -95,6 +95,7 @@ const AddLocationButton = styled(DefaultButton)`
 
 const RouteInfo = ({
   route,
+  setRoute,
   openEditResidenceLocationModal,
   openAddLocationModal,
   openEditLocationModal,
@@ -104,11 +105,38 @@ const RouteInfo = ({
   openExportRouteModal,
   openPrintRouteModal
 }) => {
+  const [routeName, setRouteName] = useState("");
+
+  useEffect(()=>{
+    if(route !== null)
+    {
+      setRouteName(route.name);
+    }
+  }, [route]);
+
+  const handleRouteNameChange = (event)=>{
+    setRouteName(event.target.value);
+  }
+
+  const handleRouteNameBlur = ()=>{
+    setRoute(prevRoute => ({
+      ...prevRoute,
+      name: routeName
+    }));
+  }
+
   return (
     <StyledRouteInfo>
       <div className='routeInfoWrapper'>
         <div className="routeInfo">
-          <input type="text" value={route.name} readOnly placeholder="여행 경로명" className='routeName' />
+          <input 
+            type="text" 
+            value={routeName} 
+            placeholder="여행 경로명" 
+            className='routeName' 
+            onChange={handleRouteNameChange}
+            onBlur={handleRouteNameBlur}
+          />
           <h3>숙소</h3>
           <div key={-1} className='locationContainer'>
             <div className='locationTitle'>{route.residence.name}</div>
