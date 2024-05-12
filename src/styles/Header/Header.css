@@ -41,7 +41,7 @@
 }
 
 .menu-button{
-    justify-content: center;
+    justify-content: flex-end;
     position: relative;
     display: flex;
     gap: 30px;

@@ -1,13 +1,8 @@
-import 'styles/index.css';
 import React from 'react';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import { ResultRouteDataProvider } from 'contexts/ResultRouteDataContext';
 import { CurrentRouteDataProvider } from 'contexts/CurrentRouteDataContext';
-import { SelectedRegionProvider } from 'contexts/SelectedRegionContext';
-import { SelectedPeriodProvider } from 'contexts/SelectedPeriodContext';
-import { SelectedStrengthProvider } from 'contexts/SelectedStrengthContext';
-import { SelectedResidenceProvider } from 'contexts/SelectedResidenceContext';
 
 import Home from 'pages/Main/Home';
 import Region from 'pages/Region/Region';
@@ -27,34 +22,26 @@ const withProviders = (Component, providers) => {
   }, Component);
 };
 
-// HOC for wrapping page components with required providers
-const withRequiredProviders = (Component) => {
-  return withProviders(Component, [
-    ResultRouteDataProvider,
-    CurrentRouteDataProvider,
-    SelectedRegionProvider,
-    SelectedPeriodProvider,
-    SelectedStrengthProvider,
-    SelectedResidenceProvider
-  ]);
-};
-
 function App() {
   return (
     <div className="App">
       <BrowserRouter>
         <Routes>
-          <Route path="/home" element={withRequiredProviders(<Home/>)} />
-          <Route path="/region" element={withRequiredProviders(<Region/>)} />
-          <Route path="/period" element={withRequiredProviders(<Period/>)} />
-          <Route path="/strength" element={withRequiredProviders(<Strength/>)} />
-          <Route path="/residence" element={withRequiredProviders(<Residence/>)} />
-          <Route path="/boardList" element={withRequiredProviders(<BoardList/>)} />
-          <Route path="/boardPost" element={withRequiredProviders(<BoardPost/>)} />
-          <Route path="/post/:id" element={withRequiredProviders(<BoardDetail/>)} />
-          <Route path="/resultRoute" element={withRequiredProviders(<ResultRoute/>)} />
-          <Route path="/routeDetail" element={withRequiredProviders(<RouteDetail/>)} />
-          <Route path="/" element={withRequiredProviders(<Home/>)} />
+          <Route path="/home" element={<Home/>}/>
+          <Route path="/region" element={<Region/>} />
+          <Route path="/period" element={<Period/>} />
+          <Route path="/strength" element={<Strength/>} />
+          <Route path="/residence" element={<Residence/>} />
+          <Route path="/boardList" element={<BoardList/>} />
+          <Route path="/boardPost" element={<BoardPost/>} />
+          <Route path="/post/:id" element={<BoardDetail/>} />
+          <Route path="/resultRoute" element={
+            withProviders(<ResultRoute/>, [ResultRouteDataProvider, CurrentRouteDataProvider])
+          }/>
+          <Route path="/routeDetail" element={
+            withProviders(<RouteDetail/>, [ResultRouteDataProvider, CurrentRouteDataProvider])
+          }/>
+          <Route path="/" element={<Home/>} />
         </Routes>
       </BrowserRouter>
     </div>

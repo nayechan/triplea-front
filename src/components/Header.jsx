@@ -35,20 +35,6 @@ const Header = ({className}) => {
                         </div>
                     </div>
                 </div>
-                <div className="header-search">
-                    <span className="search-bar">
-                        <input
-                            ref={inputRef}
-                            type="text"
-                            placeholder="가고 싶은 지역을 입력하세요."
-                        />
-                        <FaSearch
-                            size={24}
-                            onClick={handleSearchIconClick}
-                            className="search-icon"
-                        />
-                    </span>
-                </div>
             </div>
         </header>
     );
