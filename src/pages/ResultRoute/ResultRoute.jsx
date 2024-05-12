@@ -24,10 +24,15 @@ const ResultRoute = () => {
 
   console.log(selectedResidence);
 
-  const { fetchedRouteData, isLoading, error } = useFetchRouteData(selectedRegion, selectedPeriod, selectedStrength, selectedResidence);
+  const { fetchedRouteData, isLoading, error } = useFetchRouteData(
+    selectedRegion,
+    selectedPeriod,
+    selectedStrength,
+    selectedResidence
+  );
 
   // Function to group planner items by day
-  
+
   const groupPlannersByDay = (planners) => {
     const groupedByDay = {};
     planners.forEach((planner) => {
@@ -59,28 +64,24 @@ const ResultRoute = () => {
         };
       };
 
-      if (fetchedRouteData) {
-        if (error)
-        {
-          console.error(error);
-          alert("올바르지 않은 접근입니다.");
-          navigate("/");
-        }
-        else
-        {
+      if (fetchedRouteData && !error) {
           console.log(fetchedRouteData);
           const convertedData = convertFetchedData(fetchedRouteData);
           setResultRouteData(convertedData);
           console.log(convertedData);
-        }
       }
-    },
-    [fetchedRouteData, selectedResidence, setResultRouteData]
+
+      else if (error) {
+        console.error(error);
+        alert("올바르지 않은 접근입니다.");
+        navigate("/");
+      }
+    }, [fetchedRouteData, error, selectedResidence, setResultRouteData, navigate]
   );
 
   useEffect(
-    ()=>{
-      if(resultRouteData)
+    () => {
+      if (resultRouteData)
         console.log(resultRouteData);
     },
     [resultRouteData]
@@ -89,7 +90,7 @@ const ResultRoute = () => {
   return (
     <div className="result-route-container">
       <ContentTemplate>
-      {!resultRouteData ? (
+        {!resultRouteData ? (
           <p>Loading...</p>
         ) : (
           <RouteComponent route={resultRouteData} />

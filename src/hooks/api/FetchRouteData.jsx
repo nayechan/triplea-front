@@ -9,12 +9,12 @@ const useFetchRouteData = (region, period, strength, residence) => {
   useEffect(() => {
     const fetchData = async () => {
       setIsLoading(true);
-      
+
       try {
         if (region === "" || period === "" || strength === "" || !residence) {
           throw new Error('Blank parameter');
         }
-    
+
         const numStrength = strength === "weak" ? 2 :
           strength === "normal" ? 3 :
             strength === "hard" ? 4 :
@@ -28,11 +28,11 @@ const useFetchRouteData = (region, period, strength, residence) => {
           accommodate_latitude: residence?.latitude,
           accommodate_longitude: residence?.longitude
         });
-  
+
         const response = await axios.get('http://localhost:8080/api/planners', {
           params: requestBody
         });
-  
+
         setFetchedRouteData(response.data);
         setIsLoading(false);
       } catch (error) {
@@ -41,11 +41,11 @@ const useFetchRouteData = (region, period, strength, residence) => {
         setIsLoading(false);
       }
     };
-  
+
     fetchData();
   }, [region, period, strength, residence]);
 
-  return { fetchedRouteData, isLoading, error };
+  return { fetchedRouteData, isLoading, error }; // Return error state
 };
 
 export default useFetchRouteData;
