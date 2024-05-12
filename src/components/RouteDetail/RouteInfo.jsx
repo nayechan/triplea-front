@@ -158,7 +158,8 @@ const RouteInfo = ({
                       {
                         name: locationData.touristDestinationName,
                         latitude: locationData.latitude,
-                        longitude: locationData.longitude
+                        longitude: locationData.longitude,
+                        information: locationData.information
                       }
                     ))}>
                       <FontAwesomeIcon icon={faInfo} />

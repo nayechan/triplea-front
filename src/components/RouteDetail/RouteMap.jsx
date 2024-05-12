@@ -165,6 +165,7 @@ const RouteMap = ({
                     name: locationData.touristDestinationName,
                     latitude: locationData.latitude,
                     longitude: locationData.longitude,
+                    information: locationData.information
                   });
                 }
               }}

@@ -136,6 +136,7 @@ const AddLocation = ({ isopen, setIsopen, dayIndex, locationIndex }) => {
       setInputName(tripLocation.touristDestinationName);
       setInputLatitude(tripLocation.latitude);
       setInputLongitude(tripLocation.longitude);
+      setInputDescription(tripLocation.information);
     }
   }, [tripLocation]);
 
@@ -191,7 +192,7 @@ const AddLocation = ({ isopen, setIsopen, dayIndex, locationIndex }) => {
           return {
             id: index,
             name: location.touristDestinationName,
-            address: "주소 임시 홀더",
+            address: location.address,
             latitude: location.latitude,
             longitude: location.longitude,
             description: location.introduction

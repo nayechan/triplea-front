@@ -126,6 +126,7 @@ const EditLocation = ({ isopen, setIsopen, dayIndex, locationIndex }) => {
       setInputName(tripLocation.touristDestinationName);
       setInputLatitude(tripLocation.latitude);
       setInputLongitude(tripLocation.longitude);
+      setInputDescription(tripLocation.information);
     }
   }, [tripLocation]);
 
@@ -178,13 +179,14 @@ const EditLocation = ({ isopen, setIsopen, dayIndex, locationIndex }) => {
       const response = await axios.get(`http://localhost:8080/api/tourlist?area=${region}`);
       if (response.status === 200) {
         const regionsData = response.data.map((location, index) => {
+          console.log(location);
           return {
             id: index,
             name: location.touristDestinationName,
-            address: "주소 임시 홀더",
+            address: location.address,
             latitude: location.latitude,
             longitude: location.longitude,
-            description: location.introduction
+            information: location.introduction
           };
         });
         setRecommendedLocations(regionsData);
@@ -283,9 +285,10 @@ const EditLocation = ({ isopen, setIsopen, dayIndex, locationIndex }) => {
                           day: tripLocation.day,
                           latitude: location.latitude,
                           longitude: location.longitude,
-                          touristDestinationName: location.name ? location.name : location.address
+                          touristDestinationName: location.name ? location.name : location.address,
+                          information: location.information
                         });
-                        setInputDescription(location.description);
+                        setInputDescription(location.information);
                         setMapPosition({
                           lat: location.latitude,
                           lng: location.longitude

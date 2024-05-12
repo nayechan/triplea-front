@@ -40,7 +40,8 @@ const ResultRoute = () => {
         day: planner.day,
         latitude: planner.latitude,
         longitude: planner.longitude,
-        touristDestinationName: planner.touristDestinationName
+        touristDestinationName: planner.touristDestinationName,
+        information: planner.information
       };
       if (!groupedByDay[convertedPlanner.day]) {
         groupedByDay[convertedPlanner.day] = [];

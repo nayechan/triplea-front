@@ -146,7 +146,7 @@ const InfoLocation = ({ isopen, setIsopen, tripLocation }) => {
             <p>{tripLocation?.name}</p>
             <br />
             <h3>설명</h3>
-            <p>Placeholder for description</p>
+            <p>{tripLocation?.information}</p>
           </LocationInputFormWrapper>
         </ContentWrapper>
         <ButtonContainer>
