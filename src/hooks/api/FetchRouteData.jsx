@@ -4,16 +4,22 @@ import axios from 'axios';
 const useFetchRouteData = (region, period, strength, residence) => {
   const [fetchedRouteData, setFetchedRouteData] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
-    setIsLoading(true);
-    const numStrength = strength === "weak" ? 2 :
-      strength === "normal" ? 3 :
-        strength === "hard" ? 4 :
-          0;
-
-    const fetchRouteData = async () => {
+    const fetchData = async () => {
+      setIsLoading(true);
+      
       try {
+        if (region === "" || period === "" || strength === "" || !residence) {
+          throw new Error('Blank parameter');
+        }
+    
+        const numStrength = strength === "weak" ? 2 :
+          strength === "normal" ? 3 :
+            strength === "hard" ? 4 :
+              0;
+
         const requestBody = ({
           area: region,
           day: `${period}`,
@@ -22,30 +28,24 @@ const useFetchRouteData = (region, period, strength, residence) => {
           accommodate_latitude: residence?.latitude,
           accommodate_longitude: residence?.longitude
         });
-
-
-        console.log(requestBody);
-
+  
         const response = await axios.get('http://localhost:8080/api/planners', {
           params: requestBody
         });
-
-        console.log(response);
-
+  
         setFetchedRouteData(response.data);
-
         setIsLoading(false);
       } catch (error) {
         console.error('Error fetching route data:', error);
+        setError(error);
         setIsLoading(false);
       }
     };
-
-    fetchRouteData();
-
+  
+    fetchData();
   }, [region, period, strength, residence]);
 
-  return { fetchedRouteData, isLoading };
+  return { fetchedRouteData, isLoading, error };
 };
 
 export default useFetchRouteData;

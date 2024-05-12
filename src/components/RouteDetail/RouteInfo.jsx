@@ -39,6 +39,7 @@ const StyledRouteInfo = styled.div`
 
     .locationTitle{
       font-size: 1em;
+      flex: 1;
     }
 
     .locationInput {

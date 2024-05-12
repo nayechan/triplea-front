@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { useLocation } from 'react-router-dom';
 import { Map, MapMarker } from 'react-kakao-maps-sdk';
-import { useSelectedResidenceContext } from 'contexts/SelectedResidenceContext';
-import { useSelectedRegionContext } from 'contexts/SelectedRegionContext';
 import ContentTemplate from 'components/ContentsTemplate';
 import LinkedButton from 'components/LinkedButton';
 import BackButton from 'components/BackButton';
@@ -32,8 +31,10 @@ const regionCoordinates = {
 };
 
 const Residence = () => {
-  const { setSelectedResidence } = useSelectedResidenceContext();
-  const { selectedRegion } = useSelectedRegionContext();
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+
+  const [selectedRegion] = useState(queryParams.get('region'));
   const [selectedLocation, setSelectedLocation] = useState(null);
   const [searchedInput, setSearchedInput] = useState('');
   const [cityCenter, setCityCenter] = useState({ lat: 37.5665, lng: 126.9780 });
@@ -118,10 +119,9 @@ const Residence = () => {
     setSearchedInput('');
     console.log(`${result.latitude}, ${result.longitude}, ${result.name} selected`);
   };
-  
+
   const handleNextButtonClick = () => {
     if (selectedLocation) {
-      setSelectedResidence(selectedLocation);
       console.log(`${selectedLocation.latitude}, ${selectedLocation.longitude}, ${selectedLocation.name || ''}last selected`);
     } else {
       console.log("No location selected");
@@ -143,7 +143,7 @@ const Residence = () => {
             <h1>숙소정보를 입력하세요. <span>(스킵가능)</span></h1>
             {selectedLocation && (
               <div className="marker-info">
-                {selectedLocation.name} <br/>
+                {selectedLocation.name} <br />
                 {selectedLocation.address}
               </div>
             )}
@@ -196,7 +196,16 @@ const Residence = () => {
         </div>
         <div className="residence-buttons">
           <BackButton />
-          <LinkedButton to="/resultRoute" onClick={handleNextButtonClick}>다음</LinkedButton>
+          <LinkedButton
+            to={{
+              pathname: "/resultRoute",
+              search: selectedLocation ?
+                `${location.search}&residence=${encodeURIComponent(JSON.stringify(selectedLocation))}` :
+                location.search
+            }}
+            onClick={handleNextButtonClick}>
+            다음
+          </LinkedButton>
         </div>
       </ContentTemplate>
     </div>

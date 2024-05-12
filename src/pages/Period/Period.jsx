@@ -1,5 +1,7 @@
 // period.js
 import React, { useState, useEffect } from "react";
+import { useLocation } from 'react-router-dom';
+
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import dayjs from 'dayjs';
@@ -8,7 +10,6 @@ import 'styles/Period/Period.css';
 import LinkedButton from "components/LinkedButton";
 import BackButton from "components/BackButton";
 import ContentTemplate from "components/ContentsTemplate";
-import { useSelectedPeriodContext } from "contexts/SelectedPeriodContext";
 
 const CustomDatePicker = ({ startDate, endDate, onChange }) => {
     return (
@@ -42,17 +43,17 @@ const formatDateRangeAndDifference = (start, end) => {
 
 
 const Period = () => {
+    const location = useLocation();
+
     const [startDate, setStartDate] = useState(null);
     const [endDate, setEndDate] = useState(null);
     const dateDifference = formatDateRangeAndDifference(startDate, endDate);
-    const { setSelectedPeriod } = useSelectedPeriodContext();
 
     const handleNextButtonClick = () => {
         if (!dateDifference) {
             alert("여행 기간을 선택해주세요.");
             return;
         }
-        setSelectedPeriod(dateDifference.differenceInDays);
         console.log(`${dateDifference.differenceInDays}일 last selected`);
     }
 
@@ -102,7 +103,17 @@ const Period = () => {
                 </div>
                 <div className="period-buttons">
                     <BackButton />
-                    <LinkedButton to={dateDifference ? "/strength" : "/period"} onClick={handleNextButtonClick}>다음</LinkedButton>
+                    <LinkedButton
+                        to={{
+                            pathname: dateDifference? "/strength": "/period",
+                            search: dateDifference? 
+                            `${location.search}&period=${dateDifference.differenceInDays}` : 
+                            location.search
+                        }}
+                        onClick={handleNextButtonClick}
+                    >
+                        다음
+                    </LinkedButton>
                 </div>
             </ContentTemplate>
         </div>

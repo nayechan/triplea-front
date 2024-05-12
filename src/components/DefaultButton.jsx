@@ -32,6 +32,7 @@ const StyledButton = styled.button`
     > p{
         display: inline;
         margin: auto;
+        font-family: 'Pretendard';
     }
 `;
 

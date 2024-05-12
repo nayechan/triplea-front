@@ -13,7 +13,7 @@ const StyledLinkedButton = styled(DefaultButton)`
     }
 `;
 
-const LinkedButton = ({ className, children, to, state, onClick }) => {
+const LinkedButton = ({ className, children, to, search="", state, onClick }) => {
     const handleButtonClick = () => {
         if (onClick) {
             onClick();
@@ -21,8 +21,8 @@ const LinkedButton = ({ className, children, to, state, onClick }) => {
     };
 
     return (
-        <Link to={{ pathname: to, state }} className={className} onClick={handleButtonClick}>
-            <StyledLinkedButton>{children}</StyledLinkedButton>
+        <Link to={to} onClick={handleButtonClick}>
+            <StyledLinkedButton className={className}>{children}</StyledLinkedButton>
         </Link>
     );
 }

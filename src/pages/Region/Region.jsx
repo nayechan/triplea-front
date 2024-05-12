@@ -1,16 +1,14 @@
 import React, { useState } from 'react';
 import 'styles/Region/Region.css';
-import { useSelectedRegionContext } from 'contexts/SelectedRegionContext';
 import ContentTemplate from 'components/ContentsTemplate';
 import LinkedButton from 'components/LinkedButton';
 
 const Region = () => {
-    const { setSelectedRegion } = useSelectedRegionContext();
     const [lastSelectedRegion, setLastSelectedRegion] = useState(null);
 
     const handleRegionSelect = (region) => {
         // 선택한 지역이 다른 지역과 같지 않은 경우 (다른 지역을 선택한 경우)
-        if (lastSelectedRegion != region) {
+        if (lastSelectedRegion !== region) {
             // 이전에 선택한 지역이 null이 아닌 경우 (이미 선택된 지역이 있는 경우)
             if (lastSelectedRegion != null) {
                 console.log(`${lastSelectedRegion} deselected`);
@@ -25,7 +23,6 @@ const Region = () => {
 
     const handleNextButtonClick = () => {
         if (lastSelectedRegion != null) { // 선택한 지역이 있는 경우
-            setSelectedRegion(lastSelectedRegion);
             console.log(`${lastSelectedRegion} last selected`);
         }else{ // 선택한 지역이 없을 경우
             alert("지역을 선택해주세요.")
@@ -61,7 +58,15 @@ const Region = () => {
                     </ul>
                 </div>
                 <div className="region-buttons">
-                    <LinkedButton to={lastSelectedRegion ? "/period" : "/region"} onClick={handleNextButtonClick}>다음</LinkedButton>
+                    <LinkedButton 
+                        to={{
+                            pathname: lastSelectedRegion ? "/period" : "/region",
+                            search: lastSelectedRegion ? `?region=${lastSelectedRegion}` : ''
+                        }} 
+                        onClick={handleNextButtonClick}
+                    >
+                        다음
+                    </LinkedButton>
                 </div>
             </ContentTemplate>
         </div>
