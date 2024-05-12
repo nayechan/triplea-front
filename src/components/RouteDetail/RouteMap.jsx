@@ -2,29 +2,6 @@ import { React, useState, useEffect, useRef, Fragment } from 'react';
 import { Map, MapMarker, Polyline } from 'react-kakao-maps-sdk';
 import LocationMarker from 'components/MapMarker/LocationMarker';
 
-const getCentralPoint = (points) => {
-  if (points.length === 0) {
-    return null;
-  }
-
-  let minLatitude = points[0].latitude;
-  let maxLatitude = points[0].latitude;
-  let minLongitude = points[0].longitude;
-  let maxLongitude = points[0].longitude;
-
-  points.forEach(point => {
-    minLatitude = Math.min(minLatitude, point.latitude);
-    maxLatitude = Math.max(maxLatitude, point.latitude);
-    minLongitude = Math.min(minLongitude, point.longitude);
-    maxLongitude = Math.max(maxLongitude, point.longitude);
-  });
-
-  const halfLatitude = (minLatitude + maxLatitude) / 2;
-  const halfLongitude = (minLongitude + maxLongitude) / 2;
-
-  return { latitude: halfLatitude, longitude: halfLongitude };
-};
-
 const calculateDistance = (point1, point2) => {
   const lat1 = point1.latitude;
   const lon1 = point1.longitude;
@@ -52,7 +29,7 @@ const calculateZoomLevel = (distance, size) => {
   let zoomLevel = 3; // Start from level 3
 
   // Each level halves the distance
-  while (distance > size * 0.4) {
+  while (distance > size * 0.48) {
     distance /= 2;
     zoomLevel++;
   }
@@ -104,24 +81,33 @@ const RouteMap = ({
   size = 1000
 }) => {
   const [zoomLevel, setZoomLevel] = useState(3);
-
-  const centralPoint = getCentralPoint(Object.values(route.plannersByDay).flat());
-  let maxDistance = 0;
+  
+  let minLat = route.residence.latitude;
+  let maxLat = route.residence.latitude;
+  let minLng = route.residence.longitude;
+  let maxLng = route.residence.longitude;
 
   // Calculate the maximum distance between any two consecutive points
   Object.entries(route.plannersByDay).forEach(([dayIndex, locations]) => {
     locations.forEach((locationData, locationIndex, array) => {
-      const nextIndex = (locationIndex + 1) % array.length;
-      const nextPlanner = array[nextIndex];
-      const distance = calculateDistance(
-        { latitude: locationData.latitude, longitude: locationData.longitude },
-        { latitude: nextPlanner.latitude, longitude: nextPlanner.longitude }
-      );
-      if (distance > maxDistance) {
-        maxDistance = distance;
-      }
+
+      if(locationData.latitude < minLat) minLat = locationData.latitude;
+      if(locationData.latitude > maxLat) maxLat = locationData.latitude;
+
+      if(locationData.longitude < minLng) minLng = locationData.longitude;
+      if(locationData.longitude > maxLng) maxLng = locationData.longitude;
     });
   });
+
+  const maxDistance = calculateDistance(
+    {latitude: minLat, longitude: minLng},
+    {latitude: maxLat, longitude: maxLng}
+  );
+
+  const centralPoint = { 
+    latitude: (minLat + maxLat) / 2, 
+    longitude: (minLng + maxLng) / 2 
+  };
 
   // Calculate the appropriate zoom level based on the maximum distance
   useEffect(() => {
