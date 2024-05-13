@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Header from '../../components/Header';
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
+import { useLocation, Link } from 'react-router-dom';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 
@@ -82,11 +82,22 @@ const StyledButton = styled.button`
     border-radius: 5px;
     cursor: pointer;
 `;
+const PostTextArea = styled.textarea`
+    width: 90%;
+    height: 200px;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    box-sizing: border-box;
+    resize: vertical;
+`;
 
 const BoardPost = ({ onAddPost }) => {
     const [title, setTitle] = useState('');
     const [content, setContent] = useState('');
     const [password, setPassword] = useState('');
+    const location = useLocation();
+    const { routeContent } = location.state || {};
 
     const handleTitleChange = (event) => {
         setTitle(event.target.value);
@@ -104,6 +115,10 @@ const BoardPost = ({ onAddPost }) => {
     const handleSavePost = () => {
         if (password === '') {
             alert('비밀번호를 입력해주세요.');
+        } else if (title === '') {
+            alert('제목을 입력해주세요.')
+        } else if (content === '') {
+            alert('내용을 입력해주세요')
         } else {
             const currentDate = new Date().toISOString().slice(0, 10);
             const newPost = {
@@ -140,11 +155,18 @@ const BoardPost = ({ onAddPost }) => {
                             type="checkbox"
                             checked
                             readOnly
-                            style={{width: '20px' }}
+                            style={{ width: '20px' }}
                         />
                         <div>익명</div>
                     </AuthorContainer>
                     <hr />
+                    <PostContainer style={{ display: routeContent ? 'flex' : 'none' }}>
+                        <PostTitle>여행 일정</PostTitle>
+                        <PostTextArea
+                            value={routeContent}
+                            readOnly
+                        />
+                    </PostContainer>
                     <ContentContainer>
                         <CKEditor
                             editor={ClassicEditor}

@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEdit, faTrashAlt, faPlus, faFileExport, faFileImport, faInfo, faPrint } from '@fortawesome/free-solid-svg-icons';
+import { faEdit, faTrashAlt, faPlus, faFileExport, faFileImport, faInfo, faPrint, faClipboard } from '@fortawesome/free-solid-svg-icons';
 import DefaultButton from 'components/DefaultButton';
 import Modal from 'components/Modal/Modal';
 import { Map, MapMarker, Polyline } from 'react-kakao-maps-sdk';
@@ -107,6 +108,7 @@ const RouteInfo = ({
   openPrintRouteModal
 }) => {
   const [routeName, setRouteName] = useState("");
+  const navigate = useNavigate();
 
   useEffect(()=>{
     if(route !== null)
@@ -124,6 +126,34 @@ const RouteInfo = ({
       ...prevRoute,
       name: routeName
     }));
+  }
+
+  const handlePostRouteBoard = () => {
+    const confirmed = window.confirm('게시글을 올리시겠습니까?');
+    if (confirmed) {
+      const content = prepareRouteContent(route);
+      console.log(content);
+      navigate('/boardPost', { state: { routeContent: content } });
+      console.log('post on.');
+    } else {
+      console.log('post cancel.');
+    }
+  };
+
+  const prepareRouteContent = (route) => {
+    const content = [];
+    content.push(`숙소: ${route.residence.name}`);
+
+    Object.entries(route.plannersByDay).forEach(([dayIndex, locations]) => {
+      const dayContent = [];
+      dayContent.push(`${dayIndex}일차`);
+      locations.forEach(locationData => {
+        dayContent.push(locationData.touristDestinationName);
+      });
+      content.push(dayContent.join('\n'));
+    });
+
+    return content.join('\n\n');
   }
 
   return (
@@ -190,6 +220,9 @@ const RouteInfo = ({
             </StyledButton> */}
             <StyledButton onClick={openPrintRouteModal}>
               <FontAwesomeIcon icon={faPrint}></FontAwesomeIcon>
+            </StyledButton>
+            <StyledButton onClick={handlePostRouteBoard}>
+              <FontAwesomeIcon icon={faClipboard}></FontAwesomeIcon>
             </StyledButton>
           </TopButtonContainer>
         </div>

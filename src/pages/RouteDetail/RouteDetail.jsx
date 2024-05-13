@@ -16,7 +16,6 @@ import InfoLocation from 'components/Modal/RouteDetail/InfoLocation';
 import EditResidenceLocation from 'components/Modal/RouteDetail/EditResidenceLocation';
 import PrintRoute from 'components/Modal/RouteDetail/PrintRoute';
 
-
 const RouteDetailModalWrapper = styled.div`
   position: relative; /* Ensure that z-index works */
   z-index: 9999; /* Set a high z-index value to bring the modal to the front */
@@ -80,7 +79,6 @@ const RouteDetail = () => {
   const openPrintRouteModal = ()=>{
     setIsPrintRouteModalOpen(true);
   }
-
   useEffect(() => {
     const unlisten = () => {
       if (location.action === 'POP') {
