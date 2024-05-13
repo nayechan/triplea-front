@@ -133,7 +133,7 @@ const RouteInfo = ({
     if (confirmed) {
       const content = prepareRouteContent(route);
       console.log(content);
-      navigate('/boardPost', { state: { routeContent: content },  target: '_blank'});
+      navigate('/boardPost', { state: { routeContent: content }});
       console.log('post on.');
     } else {
       console.log('post cancel.');
