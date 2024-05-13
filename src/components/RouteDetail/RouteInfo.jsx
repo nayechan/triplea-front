@@ -2,11 +2,7 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-<<<<<<< Updated upstream
 import { faEdit, faTrashAlt, faPlus, faFileExport, faFileImport, faInfo, faPrint, faClipboard } from '@fortawesome/free-solid-svg-icons';
-=======
-import { faEdit, faTrashAlt, faPlus, faInfo, faPrint } from '@fortawesome/free-solid-svg-icons';
->>>>>>> Stashed changes
 import DefaultButton from 'components/DefaultButton';
 
 const StyledRouteInfo = styled.div`

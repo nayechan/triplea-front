@@ -195,7 +195,7 @@ const AddLocation = ({ isopen, setIsopen, dayIndex, locationIndex }) => {
             address: location.address,
             latitude: location.latitude,
             longitude: location.longitude,
-            description: location.introduction
+            information: location.introduction
           };
         });
         setRecommendedLocations(regionsData);
@@ -294,9 +294,10 @@ const AddLocation = ({ isopen, setIsopen, dayIndex, locationIndex }) => {
                           day: tripLocation.day,
                           latitude: location.latitude,
                           longitude: location.longitude,
-                          touristDestinationName: location.name ? location.name : location.address
+                          touristDestinationName: location.name ? location.name : location.address,
+                          information: location.information
                         });
-                        setInputDescription(location.description);
+                        setInputDescription(location.information);
                         setMapPosition({
                           lat: location.latitude,
                           lng: location.longitude
