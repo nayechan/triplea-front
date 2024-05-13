@@ -8,7 +8,6 @@ import Header from 'components/Header';
 import RouteMap from 'components/RouteDetail/RouteMap';
 import RouteInfo from 'components/RouteDetail/RouteInfo';
 import ShrinkableSidebar from 'components/Sidebar/ShrinkableSidebar';
-import Modal from 'components/Modal/Modal';
 import EditLocation from 'components/Modal/RouteDetail/EditLocation';
 import AddLocation from 'components/Modal/RouteDetail/AddLocation';
 import DeleteLocation from 'components/Modal/RouteDetail/DeleteLocation';
@@ -33,8 +32,6 @@ const RouteDetail = () => {
   const [isEditLocationModalOpen, setIsEditLocationModalOpen] = useState(false);
   const [isDeleteLocationModalOpen, setIsDeleteLocationModalOpen] = useState(false);
   const [isInfoLocationModalOpen, setIsInfoLocationModalOpen] = useState(false);
-  const [isImportRouteModalOpen, setIsImportRouteModalOpen] = useState(false);
-  const [isExportRouteModalOpen, setIsExportRouteModalOpen] = useState(false);
   const [isPrintRouteModalOpen, setIsPrintRouteModalOpen] = useState(false);
 
   const [dayIndex, setDayIndex] = useState(null); // Define dayIndex state
@@ -67,14 +64,6 @@ const RouteDetail = () => {
     setIsInfoLocationModalOpen(true);
     setTripLocation(location);
   }
-
-  const openImportRouteModal = () => {
-
-  };
-
-  const openExportRouteModal = () => {
-
-  };
 
   const openPrintRouteModal = ()=>{
     setIsPrintRouteModalOpen(true);
@@ -116,8 +105,6 @@ const RouteDetail = () => {
               openEditLocationModal={openEditLocationModal}
               openDeleteLocationModal={openDeleteLocationModal}
               openInfoLocationModal={openInfoLocationModal}
-              openImportRouteModal={openImportRouteModal}
-              openExportRouteModal={openExportRouteModal}
               openPrintRouteModal={openPrintRouteModal}
             />
           </ShrinkableSidebar>
