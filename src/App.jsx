@@ -14,6 +14,7 @@ import BoardPost from 'pages/Board/BoardPost';
 import BoardDetail from 'pages/Board/BoardDetail'
 import ResultRoute from 'pages/ResultRoute/ResultRoute';
 import RouteDetail from 'pages/RouteDetail/RouteDetail';
+import { RouteTextProvider } from 'contexts/RouteTextContext';
 
 // HOC for wrapping components with providers
 const withProviders = (Component, providers) => {
@@ -33,13 +34,15 @@ function App() {
           <Route path="/strength" element={<Strength/>} />
           <Route path="/residence" element={<Residence/>} />
           <Route path="/boardList" element={<BoardList/>} />
-          <Route path="/boardPost" element={<BoardPost/>} />
+          <Route path="/boardPost" element={
+            withProviders(<BoardPost/>, [RouteTextProvider])
+          }/>
           <Route path="/post/:id" element={<BoardDetail/>} />
           <Route path="/resultRoute" element={
             withProviders(<ResultRoute/>, [ResultRouteDataProvider, CurrentRouteDataProvider])
           }/>
           <Route path="/routeDetail" element={
-            withProviders(<RouteDetail/>, [ResultRouteDataProvider, CurrentRouteDataProvider])
+            withProviders(<RouteDetail/>, [ResultRouteDataProvider, CurrentRouteDataProvider, RouteTextProvider])
           }/>
           <Route path="/" element={<Home/>} />
         </Routes>

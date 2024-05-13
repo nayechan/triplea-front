@@ -5,6 +5,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEdit, faTrashAlt, faPlus, faFileExport, faFileImport, faInfo, faPrint, faClipboard } from '@fortawesome/free-solid-svg-icons';
 import DefaultButton from 'components/DefaultButton';
 
+import { useRouteTextContext } from 'contexts/RouteTextContext';
+
 const StyledRouteInfo = styled.div`
     height: 100%;
     .routeName {
@@ -123,7 +125,10 @@ const RouteInfo = ({
   openPrintRouteModal
 }) => {
   const [routeName, setRouteName] = useState("");
+  const [tabId, setTabId] = useState(-1);
   const navigate = useNavigate();
+
+  const { updateRouteText, setOnReady } = useRouteTextContext();
 
   useEffect(() => {
     if (route !== null) {
@@ -142,18 +147,6 @@ const RouteInfo = ({
     }));
   }
 
-  const handlePostRouteBoard = () => {
-    const confirmed = window.confirm('게시글을 올리시겠습니까?');
-    if (confirmed) {
-      const content = prepareRouteContent(route);
-      console.log(content);
-      navigate('/boardPost', { state: { routeContent: content }});
-      console.log('post on.');
-    } else {
-      console.log('post cancel.');
-    }
-  };
-
   const prepareRouteContent = (route) => {
     const content = [];
     content.push(`숙소: ${route.residence.name}`);
@@ -169,6 +162,35 @@ const RouteInfo = ({
 
     return content.join('\n\n');
   }
+
+  // Define the callback function
+  const onBoardPostTabOpen = (tabId) => {
+    const content = prepareRouteContent(route);
+    console.log(content);
+    updateRouteText(content, tabId);
+  };
+
+  // Set the callback function immediately after the component mounts
+  useEffect(() => {
+    setOnReady((tabId)=>{onBoardPostTabOpen(tabId)});
+    console.log(onBoardPostTabOpen);
+
+    // Clean up the callback function when the component unmounts
+    return () => {
+      setOnReady(null);
+    };
+  }, [setOnReady]); // Only add setOnReadyCallback to the dependency array
+
+  const handlePostRouteBoard = () => {
+    const confirmed = window.confirm('게시글을 올리시겠습니까?');
+    if (confirmed) {
+      // Open new tab and provide callback function
+      const newTab = window.open('/boardPost', '_blank', 'noopener,noreferrer');
+
+    } else {
+      console.log('post cancel.');
+    }
+  };
 
   const handleRouteDayAdd = () => {
     setRoute(prevRoute => {

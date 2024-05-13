@@ -1,14 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Header from '../../components/Header';
 import styled from 'styled-components';
 import { useLocation, Link } from 'react-router-dom';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 
+import { useRouteTextContext, routeChannel } from 'contexts/RouteTextContext';
+
 const StyledContainer = styled.div`
     max-width: 800px;
     margin: 0 auto;
-    
 `;
 
 const PostTop = styled.h2`
@@ -26,7 +27,7 @@ const PostContainer = styled.div`
     justify-content: space-around;
     align-items: center;
     margin: 20px 0 20px 0;
-`
+`;
 
 const AuthorContainer = styled.div`
     display: flex;
@@ -35,17 +36,17 @@ const AuthorContainer = styled.div`
     input:focus {
         outline: none;
     }
-`
+`;
 
 const PostTitle = styled.div`
     font-weight: bold;
-`
+`;
 
 const PostAuthor = styled.div`
     font-weight: bold;
     padding: 5px;
     margin-right: 15px;
-`
+`;
 
 const PostInput = styled.input`
     width: 90%;
@@ -53,7 +54,7 @@ const PostInput = styled.input`
     border-radius: 5px;
     border: 1px solid #ddd;
     box-sizing: border-box;
-`
+`;
 
 const ContentContainer = styled.div`
     height: 400px;
@@ -65,13 +66,13 @@ const ContentContainer = styled.div`
     .ck.ck-content{
         height: 350px;
     }
-`
+`;
 
 const ButtonContainer = styled.div`
     display: flex;
     justify-content: space-between;
     margin-bottom: 80px;
-`
+`;
 
 const StyledButton = styled.button`
     padding: 10px;
@@ -82,6 +83,7 @@ const StyledButton = styled.button`
     border-radius: 5px;
     cursor: pointer;
 `;
+
 const PostTextArea = styled.textarea`
     width: 90%;
     height: 200px;
@@ -97,7 +99,12 @@ const BoardPost = ({ onAddPost }) => {
     const [content, setContent] = useState('');
     const [password, setPassword] = useState('');
     const location = useLocation();
-    const { routeContent } = location.state || {};
+
+    const { routeText: routeContent } = useRouteTextContext(); // Get route text from context
+
+    useEffect(() => {
+        console.log('routeContent:', routeContent);
+    }, [routeContent]);
 
     const handleTitleChange = (event) => {
         setTitle(event.target.value);
@@ -163,7 +170,7 @@ const BoardPost = ({ onAddPost }) => {
                     <PostContainer style={{ display: routeContent ? 'flex' : 'none' }}>
                         <PostTitle>여행 일정</PostTitle>
                         <PostTextArea
-                            value={routeContent}
+                            value={routeContent} // Display route text here
                             readOnly
                         />
                     </PostContainer>
@@ -171,33 +178,24 @@ const BoardPost = ({ onAddPost }) => {
                         <CKEditor
                             editor={ClassicEditor}
                             data={content}
-                            config={{
-                                height: '100%',
-                            }}
-                            onReady={editor => {
-                                console.log('Editor is ready to use!', editor);
-                            }}
                             onChange={handleContentChange}
-                            className="editor"
                         />
                     </ContentContainer>
-                    <hr />
                     <PostContainer>
-                        <PostTitle style={{ fontSize: '0.9rem' }}>비밀번호<span style={{ fontSize: '0.6rem' }}>(필수)</span></PostTitle>
+                        <PostTitle>비밀번호</PostTitle>
                         <PostInput
                             type="password"
                             value={password}
                             onChange={handlePasswordChange}
                         />
                     </PostContainer>
-                    <ButtonContainer>
-                        <Link to="/boardList">
-                            <StyledButton>목록 보기</StyledButton>
-                        </Link>
-                        <StyledButton onClick={handleSavePost}>저장</StyledButton>
-                    </ButtonContainer>
-
                 </div>
+                <ButtonContainer>
+                    <Link to="/board">
+                        <StyledButton>목록</StyledButton>
+                    </Link>
+                    <StyledButton onClick={handleSavePost}>저장</StyledButton>
+                </ButtonContainer>
             </StyledContainer>
         </div>
     );
