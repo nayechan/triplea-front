@@ -17,7 +17,7 @@ const useFetchInfoImage = (keyword) => {
 
           console.log(requestBody);
 
-          const response = await axios.get('http://localhost:8080/api/getImageSource', {
+          const response = await axios.get('http://52.62.34.185:8080/api/getImageSource', {
             params: requestBody
           });
 

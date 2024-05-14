@@ -29,7 +29,7 @@ const useFetchRouteData = (region, period, strength, residence) => {
           accommodate_longitude: residence?.longitude
         });
 
-        const response = await axios.get('http://localhost:8080/api/planners', {
+        const response = await axios.get('http://52.62.34.185:8080/api/planners', {
           params: requestBody
         });
 

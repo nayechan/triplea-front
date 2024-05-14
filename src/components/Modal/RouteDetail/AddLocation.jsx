@@ -186,7 +186,7 @@ const AddLocation = ({ isopen, setIsopen, dayIndex, locationIndex }) => {
 
   const fetchRegionData = async (region) => {
     try {
-      const response = await axios.get(`http://localhost:8080/api/tourlist?area=${region}`);
+      const response = await axios.get(`http://52.62.34.185:8080/api/tourlist?area=${region}`);
       if (response.status === 200) {
         const regionsData = response.data.map((location, index) => {
           return {

@@ -5,7 +5,7 @@ const useBoardData = () => {
     const [data, setData] = useState([]);
 
     useEffect (()=> {
-        axios.get('http://localhost:8080/api/notice_boards')
+        axios.get('http://52.62.34.185:8080/api/notice_boards')
         .then(response => {
             setData(response.data);
         })
@@ -15,7 +15,7 @@ const useBoardData = () => {
     }, []);
 
     const addPost = (newPost) => {
-        axios.post('http://localhost:8080/api/notice_boards', newPost)
+        axios.post('http://52.62.34.185:8080/api/notice_boards', newPost)
         .then(response => {
             setData(prevData => [...prevData, response.data]);
         })
