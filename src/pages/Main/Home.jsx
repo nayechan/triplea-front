@@ -80,10 +80,10 @@ const Home = () => {
                         <h1 style={{color: "#afd"}}>Trip:lanner</h1>
                         <h2 style={{color: "#efd"}}>쉽고 빠른 여행 일정표 생성 및 편집</h2>
                         <h3 style={{color: "#fff"}}>
-                            TripPlanner는 여행을 더욱 편리하고 즐겁게 만들어주는 웹 서비스입니다. 
+                            Trip:lanner는 여행을 더욱 편리하고 즐겁게 만들어주는 웹 서비스입니다. 
                             강도, 여행지, 숙소 위치와 같은 여러 요인을 고려하여 자동으로 최적의 여행 경로를 추천하고 생성합니다. 
                             또한 사용자는 생성된 경로를 자유롭게 편집하고 수정하여 자신만의 완벽한 여행 일정을 만들 수 있습니다. 
-                            TripPlanner와 함께라면 여행 계획을 세우는 과정이 즐거운 여정이 될 것입니다.
+                            Trip:lanner와 함께라면 여행 계획을 세우는 과정이 즐거운 여정이 될 것입니다.
                         </h3>
                     </div>
                     <StyledLinkedButton to="/region">
