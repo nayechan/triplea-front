@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import Header from '../../components/Header';
 import styled from 'styled-components';
-import { useLocation, Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
-
-import { useRouteTextContext, routeChannel } from 'contexts/RouteTextContext';
+import { useRouteTextContext } from 'contexts/RouteTextContext';
+import useBoardData from 'hooks/api/FetchBoardData';
 
 const StyledContainer = styled.div`
     max-width: 800px;
@@ -63,7 +63,7 @@ const ContentContainer = styled.div`
     overflow-y: auto;
     padding: 10px;
 
-    .ck.ck-content{
+    .ck.ck-content {
         height: 350px;
     }
 `;
@@ -94,11 +94,12 @@ const PostTextArea = styled.textarea`
     resize: vertical;
 `;
 
-const BoardPost = ({ onAddPost }) => {
+const BoardPost = () => {
     const [title, setTitle] = useState('');
     const [content, setContent] = useState('');
     const [password, setPassword] = useState('');
-    const location = useLocation();
+    const navigate = useNavigate();
+    const { addPost } = useBoardData();
 
     const { routeText: routeContent } = useRouteTextContext(); // Get route text from context
 
@@ -119,13 +120,13 @@ const BoardPost = ({ onAddPost }) => {
         setPassword(event.target.value);
     };
 
-    const handleSavePost = () => {
+    const handleSavePost = async () => {
         if (password === '') {
             alert('비밀번호를 입력해주세요.');
         } else if (title === '') {
-            alert('제목을 입력해주세요.')
+            alert('제목을 입력해주세요.');
         } else if (content === '') {
-            alert('내용을 입력해주세요')
+            alert('내용을 입력해주세요.');
         } else {
             const currentDate = new Date().toISOString().slice(0, 10);
             const newPost = {
@@ -134,11 +135,27 @@ const BoardPost = ({ onAddPost }) => {
                 password: password,
                 date: currentDate,
             };
-            onAddPost(newPost);
-            // 게시글 저장 후 폼 초기화
-            setTitle('');
-            setContent('');
-            setPassword('');
+            console.log('new post:', newPost);
+
+            try {
+                await addPost(newPost);
+                // 게시글 저장 후 폼 초기화
+                setTitle('');
+                setContent('');
+                setPassword('');
+                alert('게시글이 성공적으로 저장되었습니다.')
+                navigate('/boardList'); // Navigate to board list
+            } catch (error) {
+                console.error('Error saving post:', error);
+                alert('게시글 저장 중 오류가 발생했습니다.');
+            }
+        }
+    };
+
+    const handleKeyDown = (event) => {
+        if (event.key === 'Enter') {
+            event.preventDefault(); // 기본 엔터 키 동작 방지 (폼 제출 등)
+            handleSavePost();
         }
     };
 
@@ -152,8 +169,9 @@ const BoardPost = ({ onAddPost }) => {
                         <PostTitle>제목</PostTitle>
                         <PostInput
                             type="text"
-                            value={title}
-                            onChange={handleTitleChange}
+                        value={title}
+                        onChange={handleTitleChange}
+                        onKeyDown={handleKeyDown} // 엔터 키 핸들러 추가
                         />
                     </PostContainer>
                     <AuthorContainer>
@@ -187,11 +205,12 @@ const BoardPost = ({ onAddPost }) => {
                             type="password"
                             value={password}
                             onChange={handlePasswordChange}
+                            onKeyDown={handleKeyDown} // 엔터 키 핸들러 추가
                         />
                     </PostContainer>
                 </div>
                 <ButtonContainer>
-                    <Link to="/board">
+                    <Link to="/boardList">
                         <StyledButton>목록</StyledButton>
                     </Link>
                     <StyledButton onClick={handleSavePost}>저장</StyledButton>
