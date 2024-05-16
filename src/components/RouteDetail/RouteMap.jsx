@@ -81,32 +81,32 @@ const RouteMap = ({
   size = 1000
 }) => {
   const [zoomLevel, setZoomLevel] = useState(3);
-  
-  let minLat = route.residence.latitude;
-  let maxLat = route.residence.latitude;
-  let minLng = route.residence.longitude;
-  let maxLng = route.residence.longitude;
+
+  let minLat = route.residence ? route.residence.latitude : 999;
+  let maxLat = route.residence ? route.residence.latitude : -999;
+  let minLng = route.residence ? route.residence.longitude : 999;
+  let maxLng = route.residence ? route.residence.longitude : -999;
 
   // Calculate the maximum distance between any two consecutive points
   Object.entries(route.plannersByDay).forEach(([dayIndex, locations]) => {
     locations.forEach((locationData, locationIndex, array) => {
 
-      if(locationData.latitude < minLat) minLat = locationData.latitude;
-      if(locationData.latitude > maxLat) maxLat = locationData.latitude;
+      if (locationData.latitude < minLat) minLat = locationData.latitude;
+      if (locationData.latitude > maxLat) maxLat = locationData.latitude;
 
-      if(locationData.longitude < minLng) minLng = locationData.longitude;
-      if(locationData.longitude > maxLng) maxLng = locationData.longitude;
+      if (locationData.longitude < minLng) minLng = locationData.longitude;
+      if (locationData.longitude > maxLng) maxLng = locationData.longitude;
     });
   });
 
   const maxDistance = calculateDistance(
-    {latitude: minLat, longitude: minLng},
-    {latitude: maxLat, longitude: maxLng}
+    { latitude: minLat, longitude: minLng },
+    { latitude: maxLat, longitude: maxLng }
   );
 
-  const centralPoint = { 
-    latitude: (minLat + maxLat) / 2, 
-    longitude: (minLng + maxLng) / 2 
+  const centralPoint = {
+    latitude: (minLat + maxLat) / 2,
+    longitude: (minLng + maxLng) / 2
   };
 
   // Calculate the appropriate zoom level based on the maximum distance
@@ -121,14 +121,17 @@ const RouteMap = ({
       level={zoomLevel}
       draggable={draggable}
     >
-      <LocationMarker
-        position={{
-          lat: route.residence.latitude,
-          lng: route.residence.longitude,
-        }}
-        number={'H'}
-        color={'black'}
-      />
+      {route.residence && (
+        <LocationMarker
+          position={{
+            lat: route.residence.latitude,
+            lng: route.residence.longitude,
+          }}
+          number={'H'}
+          color={'black'}
+        />
+      )}
+
       {Object.entries(route.plannersByDay).map(([dayIndex, locations]) =>
         locations.map((locationData, locationIndex, array) => {
           const nextIndex = (locationIndex + 1) % array.length;

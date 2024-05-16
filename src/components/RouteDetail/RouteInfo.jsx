@@ -149,7 +149,8 @@ const RouteInfo = ({
 
   const prepareRouteContent = (route) => {
     const content = [];
-    content.push(`숙소: ${route.residence.name}`);
+    if(route.residence)
+      content.push(`숙소: ${route.residence.name}`);
 
     Object.entries(route.plannersByDay).forEach(([dayIndex, locations]) => {
       const dayContent = [];
@@ -172,7 +173,7 @@ const RouteInfo = ({
 
   // Set the callback function immediately after the component mounts
   useEffect(() => {
-    setOnReady((tabId)=>{onBoardPostTabOpen(tabId)});
+    setOnReady((tabId) => { onBoardPostTabOpen(tabId) });
     console.log(onBoardPostTabOpen);
 
     // Clean up the callback function when the component unmounts
@@ -225,17 +226,19 @@ const RouteInfo = ({
             onChange={handleRouteNameChange}
             onBlur={handleRouteNameBlur}
           />
-          <div style={{ marginBottom: "32px" }}>
-            <h3>숙소</h3>
-            <div key={-1} className='locationContainer'>
-              <div className='locationTitle'>{route.residence.name}</div>
-              <ButtonContainer>
-                <SmallStyledButton onClick={() => { openEditResidenceLocationModal() }}>
-                  <FontAwesomeIcon icon={faEdit} />
-                </SmallStyledButton>
-              </ButtonContainer>
-            </div>
-          </div>
+
+          {route.residence && (
+            <div style={{ marginBottom: "32px" }}>
+              <h3>숙소</h3>
+              <div key={-1} className='locationContainer'>
+                <div className='locationTitle'>{route.residence.name}</div>
+                <ButtonContainer>
+                  <SmallStyledButton onClick={() => { openEditResidenceLocationModal() }}>
+                    <FontAwesomeIcon icon={faEdit} />
+                  </SmallStyledButton>
+                </ButtonContainer>
+              </div>
+            </div>)}
           {Object.entries(route.plannersByDay).map(([dayIndex, locations]) => (
             <div key={dayIndex}>
               <DayWrapper>
