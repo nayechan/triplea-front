@@ -130,7 +130,7 @@ const BoardPost = ({ onAddPost }) => {
             const currentDate = new Date().toISOString().slice(0, 10);
             const newPost = {
                 title: title,
-                content: content,
+                contents: content,
                 password: password,
                 date: currentDate,
             };
