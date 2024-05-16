@@ -77,7 +77,7 @@ const Home = () => {
                 <Header/>
                 <HomeRegionContents>
                     <div className='home-content-title' style={{flex: 1}}>
-                        <h1 style={{color: "#afd"}}>Trip:lenner</h1>
+                        <h1 style={{color: "#afd"}}>Trip:lanner</h1>
                         <h2 style={{color: "#efd"}}>쉽고 빠른 여행 일정표 생성 및 편집</h2>
                         <h3 style={{color: "#fff"}}>
                             TripPlanner는 여행을 더욱 편리하고 즐겁게 만들어주는 웹 서비스입니다. 

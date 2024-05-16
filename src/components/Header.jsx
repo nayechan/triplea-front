@@ -13,7 +13,7 @@ const Header = ({className}) => {
         <header className={className}>
             <div className="header-contents">
                 <div className="header-image">
-                    <Link to="/"><b>Trip:lenner</b></Link>
+                    <Link to="/"><b>Trip:lanner</b></Link>
                 </div>
                 <div className="header-menu">
                     <div className="header-button">
