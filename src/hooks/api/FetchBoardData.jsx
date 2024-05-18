@@ -19,14 +19,38 @@ const useBoardData = () => {
         axios.post('http://localhost:8080/api/notice_boards', newPost)
             .then(response => {
                 setData(prevData => [...prevData, response.data]);
-                console.log('success post : ', response)
+                console.log('success post : ', response);
             })
             .catch(error => {
                 console.error('Error adding post:', error);
             });
     };
 
-    return { data, getPost, addPost };
-}
+    const updatePost = (id, updatedPost) => {
+        return axios.put(`http://localhost:8080/api/notice_boards/${id}`, updatedPost)
+            .then(response => {
+                setData(prevData => prevData.map(post => post.id === id ? response.data : post));
+                console.log('success update : ', response);
+            })
+            .catch(error => {
+                console.error('Error updating post:', error);
+                throw error;
+            });
+    };
+
+    const deletePost = (id, password) => {
+        return axios.delete(`http://localhost:8080/api/notice_boards/${id}`, { data: { password } })
+            .then(response => {
+                setData(prevData => prevData.filter(post => post.id !== id));
+                console.log('success delete : ', response);
+            })
+            .catch(error => {
+                console.error('Error deleting post:', error);
+                throw error;
+            });
+    };
+
+    return { data, getPost, addPost, updatePost, deletePost };
+};
 
 export default useBoardData;

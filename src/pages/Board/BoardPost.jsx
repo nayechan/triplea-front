@@ -99,13 +99,12 @@ const BoardPost = () => {
     const [content, setContent] = useState('');
     const [password, setPassword] = useState('');
     const navigate = useNavigate();
+    const { routeText, setRouteText } = useRouteTextContext();
     const { addPost } = useBoardData();
 
-    const { routeText: routeContent } = useRouteTextContext(); // Get route text from context
-
     useEffect(() => {
-        console.log('routeContent:', routeContent);
-    }, [routeContent]);
+        console.log('routeContent:', routeText);
+    }, [routeText]);
 
     const handleTitleChange = (event) => {
         setTitle(event.target.value);
@@ -143,6 +142,7 @@ const BoardPost = () => {
                 setTitle('');
                 setContent('');
                 setPassword('');
+                setRouteText('');
                 alert('게시글이 성공적으로 저장되었습니다.')
                 navigate('/boardList'); // Navigate to board list
             } catch (error) {
@@ -185,10 +185,10 @@ const BoardPost = () => {
                         <div>익명</div>
                     </AuthorContainer>
                     <hr />
-                    <PostContainer style={{ display: routeContent ? 'flex' : 'none' }}>
+                    <PostContainer style={{ display: routeText ? 'flex' : 'none' }}>
                         <PostTitle>여행 일정</PostTitle>
                         <PostTextArea
-                            value={routeContent} // Display route text here
+                            value={routeText} // Display route text here
                             readOnly
                         />
                     </PostContainer>
