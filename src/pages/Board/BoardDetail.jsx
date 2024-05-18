@@ -3,6 +3,7 @@ import { Link, useParams, useNavigate } from 'react-router-dom';
 import Header from '../../components/Header';
 import styled from 'styled-components';
 import useBoardData from 'hooks/api/FetchBoardData';
+import { previousTuesday } from 'date-fns';
 
 const StyledDetail = styled.div`
     max-width: 800px;
@@ -68,10 +69,11 @@ const BoardDetail = () => {
         const fetchData = async () => {
             await getPost();
             setLoading(false);
+            console.log(posts);
         };
 
         fetchData();
-    }, [getPost]);
+    }, []);
 
     if (loading) {
         return <div>Loading...</div>;
@@ -86,7 +88,7 @@ const BoardDetail = () => {
     const handleEdit = () => {
         let enteredPassword = '';
         let confirmed = false;
-
+        console.log('handle edit post', post.id);
         while (!confirmed) {
             enteredPassword = prompt('비밀번호를 입력하세요:');
             if (enteredPassword === null) return; // 사용자가 취소를 누른 경우
@@ -114,7 +116,7 @@ const BoardDetail = () => {
     const handleDelete = () => {
         let enteredPassword = '';
         let confirmed = false;
-
+        console.log('handle delete post', post.id);
         while (!confirmed) {
             enteredPassword = prompt('비밀번호를 입력하세요:');
             if (enteredPassword === null) return; // 사용자가 취소를 누른 경우

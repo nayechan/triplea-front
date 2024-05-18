@@ -39,9 +39,9 @@ const useBoardData = () => {
     };
 
     const deletePost = (id, password) => {
-        return axios.delete(`http://localhost:8080/api/notice_boards/${id}`, { data: { password } })
+        return axios.delete(`http://localhost:8080/api/notice_boards/${id}`, { data: { id: id, password : password } })
             .then(response => {
-                setData(prevData => prevData.filter(post => post.id !== id));
+                //setData(prevData => prevData.filter(post => post.id !== id));
                 console.log('success delete : ', response);
             })
             .catch(error => {

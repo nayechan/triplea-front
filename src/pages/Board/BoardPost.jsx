@@ -124,26 +124,26 @@ const BoardPost = () => {
             alert('비밀번호를 입력해주세요.');
         } else if (title === '') {
             alert('제목을 입력해주세요.');
-        } else if (content === '') {
+        } else if (content === '' && !routeText) {
             alert('내용을 입력해주세요.');
         } else {
+            const fullContent = `여행 일정:\n${routeText}\n\n${content}\n`; // 본문과 여행 일정을 결합
             const currentDate = new Date().toISOString().slice(0, 10);
             const newPost = {
                 title: title,
-                contents: content,
+                contents: fullContent, // 결합된 내용을 사용
                 password: password,
                 date: currentDate,
             };
             console.log('new post:', newPost);
-
+    
             try {
                 await addPost(newPost);
-                // 게시글 저장 후 폼 초기화
+                alert('게시글이 성공적으로 저장되었습니다.')
                 setTitle('');
                 setContent('');
                 setPassword('');
                 setRouteText('');
-                alert('게시글이 성공적으로 저장되었습니다.')
                 navigate('/boardList'); // Navigate to board list
             } catch (error) {
                 console.error('Error saving post:', error);
@@ -151,6 +151,7 @@ const BoardPost = () => {
             }
         }
     };
+    
 
     const handleKeyDown = (event) => {
         if (event.key === 'Enter') {
