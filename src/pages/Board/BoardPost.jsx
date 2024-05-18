@@ -99,7 +99,7 @@ const BoardPost = () => {
     const [content, setContent] = useState('');
     const [password, setPassword] = useState('');
     const navigate = useNavigate();
-    const { routeText, setRouteText } = useRouteTextContext();
+    const { routeText, updateRouteText } = useRouteTextContext();
     const { addPost } = useBoardData();
 
     useEffect(() => {
@@ -131,9 +131,9 @@ const BoardPost = () => {
             const currentDate = new Date().toISOString().slice(0, 10);
             const newPost = {
                 title: title,
+                date: currentDate,
                 contents: fullContent, // 결합된 내용을 사용
                 password: password,
-                date: currentDate,
             };
             console.log('new post:', newPost);
     
@@ -143,7 +143,7 @@ const BoardPost = () => {
                 setTitle('');
                 setContent('');
                 setPassword('');
-                setRouteText('');
+                updateRouteText('');
                 navigate('/boardList'); // Navigate to board list
             } catch (error) {
                 console.error('Error saving post:', error);
