@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Header from '../../components/Header';
 import styled from 'styled-components';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { useRouteTextContext } from 'contexts/RouteTextContext';
@@ -100,11 +100,19 @@ const BoardPost = () => {
     const [password, setPassword] = useState('');
     const navigate = useNavigate();
     const { routeText, setRouteText } = useRouteTextContext();
-    const { addPost } = useBoardData();
+    const { addPost, updatePost } = useBoardData();
+    const location = useLocation();
 
     useEffect(() => {
         console.log('routeContent:', routeText);
     }, [routeText]);
+
+    useEffect(() => {
+        if (location.state && location.state.post) {
+            setTitle(location.state.post.title);
+            setContent(location.state.post.contents);
+        }
+    }, [location.state]);
 
     const handleTitleChange = (event) => {
         setTitle(event.target.value);
@@ -129,6 +137,11 @@ const BoardPost = () => {
         } else {
             const fullContent = `여행 일정:\n${routeText}\n\n${content}\n`; // 본문과 여행 일정을 결합
             const currentDate = new Date().toISOString().slice(0, 10);
+            const updatePost = {
+                newTitle: title,
+                newContents: fullContent,
+                password: password
+            }
             const newPost = {
                 title: title,
                 contents: fullContent, // 결합된 내용을 사용
@@ -137,18 +150,45 @@ const BoardPost = () => {
             };
             console.log('new post:', newPost);
     
-            try {
-                await addPost(newPost);
-                alert('게시글이 성공적으로 저장되었습니다.')
-                setTitle('');
-                setContent('');
-                setPassword('');
-                setRouteText('');
-                navigate('/boardList'); // Navigate to board list
-            } catch (error) {
-                console.error('Error saving post:', error);
-                alert('게시글 저장 중 오류가 발생했습니다.');
+            try{
+                if(location.state && location.state.post){
+                    const stateId = location.state.post.id;
+                    updatePost(stateId, updatePost) // 게시글 수정
+                    .then(() => {
+                        alert('게시글이 성공적으로 수정되었습니다.');
+                    })
+                    .catch(error => {
+                        console.error('Error updaing post: ', error);
+                        alert('게시글 수정 중 오류가 발생했습니다.');
+                    });
+                }else{
+                    addPost(newPost)  // 게시글 추가
+                    .then(() => {
+                        alert('게시글이 성공적으로 저장되었습니다.');
+                    })
+                    .catch( error => {
+                        console.error('Error saving post: ', error);
+                        alert('게시글 저장 중 오류가 발생했습니다.');
+                    });
+                }
+                navigate('/post/${post.id}');
+            }catch(error){
+                console.error('Error post: ', error);
+                alert('게시글 저장 중 오류가 발생했습니다.')
             }
+
+            // try {
+            //     await addPost(newPost);
+            //     alert('게시글이 성공적으로 저장되었습니다.')
+            //     setTitle('');
+            //     setContent('');
+            //     setPassword('');
+            //     setRouteText('');
+            //     navigate('/boardList'); // Navigate to board list
+            // } catch (error) {
+            //     console.error('Error saving post:', error);
+            //     alert('게시글 저장 중 오류가 발생했습니다.');
+            // }
         }
     };
     
