@@ -138,6 +138,7 @@ const BoardPost = () => {
             const fullContent = `여행 일정:\n${routeText}\n\n${content}\n`; // 본문과 여행 일정을 결합
             const currentDate = new Date().toISOString().slice(0, 10);
             const updatePost = {
+                id: location.state.post.id,
                 newTitle: title,
                 newContents: fullContent,
                 password: password
