@@ -19,10 +19,13 @@ const useFetchRouteData = (region, period, strength, residence) => {
         switch (strength) {
           case "normal":
             numStrength = 3;
+            break;
           case "hard":
             numStrength = 4;
+            break;
           default:
             numStrength = 3;
+            break;
         }
 
         let requestBody;
@@ -51,6 +54,7 @@ const useFetchRouteData = (region, period, strength, residence) => {
         });
 
         setFetchedRouteData(response.data);
+        console.log(`${strength} : ${numStrength}`);
         setIsLoading(false);
       } catch (error) {
         console.error('Error fetching route data:', error);
