@@ -91,45 +91,25 @@ const BoardDetail = () => {
         console.log('handle edit post', post.id);
         enteredPassword = prompt('비밀번호를 입력하세요:');
             if (enteredPassword === null) return; // 사용자가 취소를 누른 경우
-            if (enteredPassword === post.password) {
+            if (enteredPassword) {
                 confirmed = window.confirm('글을 수정하시겠습니까?');
                 if(confirmed){
                     navigate('/BoardPost', {state : {post} });
                 }
-                // const title = prompt('새 제목을 입력하세요:', post.title);
-                // const content = prompt('새 내용을 입력하세요:', post.contents);
-                // if (title && content) {
-                //     updatePost(post.id, { title, contents: content, password: enteredPassword })
-                //         .then(() => {
-                //             alert('게시글이 성공적으로 수정되었습니다.');
-                //             navigate(`/post/${post.id}`); // 수정 후 현재 게시물로 리다이렉트
-                //         })
-                //         .catch(error => {
-                //             console.error('Error updating post:', error);
-                //             alert('게시글 수정 중 오류가 발생했습니다.');
-                //         });
-                // }
             }
     };
 
-    const handleDelete = () => {
-        let enteredPassword = '';
-        let confirmed = false;
+    const handleDelete = async () => {
         console.log('handle delete post', post.id);
-        enteredPassword = prompt('비밀번호를 입력하세요:');
-        if(enteredPassword === null) return;
-        if(enteredPassword){
-            confirmed = window.confirm('정말로 글을 삭제하시겠습니까?');
-            if(confirmed){
-               deletePost(post.id, enteredPassword)
-                        .then(() => {
-                            alert('게시글이 성공적으로 삭제되었습니다.');
-                            navigate('/boardList'); // 삭제 후 게시판 목록으로 이동
-                        })
-                        .catch(error => {
-                            console.error('Error deleting post:', error);
-                            alert('비밀번호를 다시 입력하세요.');
-                        });
+        const enteredPassword = prompt('비밀번호를 입력하세요:');
+        if (!enteredPassword) return; // 즉시 반환하여 함수 종료
+    
+        const confirmed = window.confirm('정말로 글을 삭제하시겠습니까?');
+        if (confirmed) {
+            try{
+                await deletePost(post.id, enteredPassword);
+            }catch(error){
+                console.error('Error deleting post:', error);
             }
         }
     };
