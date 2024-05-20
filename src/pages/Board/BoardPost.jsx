@@ -99,14 +99,10 @@ const BoardPost = () => {
     const [content, setContent] = useState('');
     const [password, setPassword] = useState('');
     const navigate = useNavigate();
-<<<<<<< HEAD
-    const { routeText, setRouteText } = useRouteTextContext();
     const { addPost, updatePost } = useBoardData();
     const location = useLocation();
-=======
     const { routeText, updateRouteText } = useRouteTextContext();
-    const { addPost } = useBoardData();
->>>>>>> 5d06298e6275e799e92983b5b43cb37c7bf459ee
+
 
     useEffect(() => {
         console.log('routeContent:', routeText);
