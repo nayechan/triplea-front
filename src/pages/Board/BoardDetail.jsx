@@ -3,7 +3,7 @@ import { Link, useParams, useNavigate } from 'react-router-dom';
 import Header from '../../components/Header';
 import styled from 'styled-components';
 import useBoardData from 'hooks/api/FetchBoardData';
-import { previousTuesday } from 'date-fns';
+import parse from 'html-react-parser';  // html-react-parser를 import
 
 const StyledDetail = styled.div`
     max-width: 800px;
@@ -37,7 +37,7 @@ const PostInfo = styled.div`
     margin-bottom: 20px;
 `;
 
-const PostContent = styled.p`
+const PostContent = styled.div`
     margin: 0;
     padding: 0 20px 40px 20px;
     border-bottom: 1px solid #070719;
@@ -69,7 +69,6 @@ const BoardDetail = () => {
         const fetchData = async () => {
             await getPost();
             setLoading(false);
-            console.log(posts);
         };
 
         fetchData();
@@ -86,29 +85,25 @@ const BoardDetail = () => {
     }
 
     const handleEdit = () => {
-        let enteredPassword = '';
-        let confirmed = false;
-        console.log('handle edit post', post.id);
-        enteredPassword = prompt('비밀번호를 입력하세요:');
-            if (enteredPassword === null) return; // 사용자가 취소를 누른 경우
-            if (enteredPassword) {
-                confirmed = window.confirm('글을 수정하시겠습니까?');
-                if(confirmed){
-                    navigate('/BoardPost', {state : {post} });
-                }
+        let enteredPassword = prompt('비밀번호를 입력하세요:');
+        if (enteredPassword === null) return; // 사용자가 취소를 누른 경우
+        if (enteredPassword) {
+            let confirmed = window.confirm('글을 수정하시겠습니까?');
+            if (confirmed) {
+                navigate('/BoardPost', { state: { post } });
             }
+        }
     };
 
     const handleDelete = async () => {
-        console.log('handle delete post', post.id);
         const enteredPassword = prompt('비밀번호를 입력하세요:');
         if (!enteredPassword) return; // 즉시 반환하여 함수 종료
     
         const confirmed = window.confirm('정말로 글을 삭제하시겠습니까?');
         if (confirmed) {
-            try{
+            try {
                 await deletePost(post.id, enteredPassword);
-            }catch(error){
+            } catch (error) {
                 console.error('Error deleting post:', error);
             }
         }
@@ -125,7 +120,9 @@ const BoardDetail = () => {
                     <div><b>작성자</b>&nbsp;&nbsp;익명</div>
                     <div><b>작성일</b>&nbsp;&nbsp;{post.date}</div>
                 </PostInfo>
-                <PostContent>{post.contents}</PostContent>
+                <PostContent>
+                    {parse(post.contents)}  
+                </PostContent>
                 <ButtonContainer>
                     <Link to="/boardList">
                         <ButtonContent>목록 보기</ButtonContent>
