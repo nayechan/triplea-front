@@ -128,75 +128,127 @@ const BoardPost = () => {
     };
 
     const handleSavePost = async () => {
-        if (password === '') {
+        // 입력 검증
+        if (!password) {
             alert('비밀번호를 입력해주세요.');
-        } else if (title === '') {
+            return;
+        }
+        if (!title) {
             alert('제목을 입력해주세요.');
-        } else if (content === '' && !routeText) {
+            return;
+        }
+        if (!content && !routeText) {
             alert('내용을 입력해주세요.');
-        } else {
-            const fullContent = `여행 일정:\n${routeText}\n\n${content}\n`; // 본문과 여행 일정을 결합
-            const currentDate = new Date().toISOString().slice(0, 10);
-            if (location.state && location.state.post) {
-                const updateData = {
-                    id: location.state.post.id, // Include the id in the update data
-                    newTitle: title,
-                    newContents: fullContent,
-                    password: password
-                };
+            return;
+        }
 
-                try {
-                    await updatePost(updateData.id, updateData)
-                        .then(() => {
-                            alert('게시글이 성공적으로 수정되었습니다.');
-                            navigate(`/post/${updateData.id}`); // Navigate using the id from updateData
-                        })
-                        .catch(error => {
-                            console.error('Error updating post: ', error);
-                            alert('게시글 수정 중 오류가 발생했습니다.');
-                        });
-                } catch (error) {
-                    console.error('Error post: ', error);
-                    alert('게시글 저장 중 오류가 발생했습니다.')
-                }
-            } else {
-                const newPost = {
-                    title: title,
-                    contents: fullContent,
-                    password: password,
-                    date: currentDate,
-                };
+        // 본문과 여행 일정을 결합
+        const fullContent = `${routeText}\n\n${content}\n`;
+        const currentDate = new Date().toISOString().slice(0, 10);
 
-                try {
-                    await addPost(newPost)
-                        .then((res) => {
-                            alert('게시글이 성공적으로 저장되었습니다.');
-                            navigate(`/post/${res.data.id}`); // Assuming res.data.id contains the new post's ID
-                        })
-                        .catch(error => {
-                            console.error('Error saving post: ', error);
-                            alert('게시글 저장 중 오류가 발생했습니다.');
-                        });
-                } catch (error) {
-                    console.error('Error saving new post: ', error);
-                    alert('게시글 저장 중 오류가 발생했습니다.')
-                }
-
+        // 게시글 수정 또는 새 게시글 저장
+        if (location.state && location.state.post) {
+            // 게시글 수정
+            const updateData = {
+                id: location.state.post.id,
+                newTitle: title,
+                newContents: fullContent,
+                password: password
             };
-            // try {
-            //     await addPost(newPost);
-            //     alert('게시글이 성공적으로 저장되었습니다.')
-            //     setTitle('');
-            //     setContent('');
-            //     setPassword('');
-            //     setRouteText('');
-            //     navigate('/boardList'); // Navigate to board list
-            // } catch (error) {
-            //     console.error('Error saving post:', error);
-            //     alert('게시글 저장 중 오류가 발생했습니다.');
-            // }
+            try {
+                await updatePost(updateData.id, updateData);
+            } catch (error) {
+                console.error('Error updating post:', error);
+            }
+        } else {
+            // 새 게시글 저장
+            const newPost = {
+                title: title,
+                contents: fullContent,
+                password: password,
+                date: currentDate,
+            };
+
+            try {
+                await addPost(newPost); // addPost는 이미 성공 및 오류 처리를 포함하고 있음
+            } catch (error) {
+                console.error('Error saving post:', error);
+            }
         }
     };
+
+
+
+    // const handleSavePost = async () => {
+    //     if (password === '') {
+    //         alert('비밀번호를 입력해주세요.');
+    //     } else if (title === '') {
+    //         alert('제목을 입력해주세요.');
+    //     } else if (content === '' && !routeText) {
+    //         alert('내용을 입력해주세요.');
+    //     } else {
+    //         const fullContent = `여행 일정:\n${routeText}\n\n${content}\n`; // 본문과 여행 일정을 결합
+    //         const currentDate = new Date().toISOString().slice(0, 10);
+    //         if (location.state && location.state.post) {
+    //             const updateData = {
+    //                 id: location.state.post.id, // Include the id in the update data
+    //                 newTitle: title,
+    //                 newContents: fullContent,
+    //                 password: password
+    //             };
+
+    //             try {
+    //                 await updatePost(updateData.id, updateData)
+    //                     .then(() => {
+    //                         alert('게시글이 성공적으로 수정되었습니다.');
+    //                         navigate(`/post/${updateData.id}`); // Navigate using the id from updateData
+    //                     })
+    //                     .catch(error => {
+    //                         console.error('Error updating post: ', error);
+    //                         alert('게시글 수정 중 오류가 발생했습니다.');
+    //                     });
+    //             } catch (error) {
+    //                 console.error('Error post: ', error);
+    //                 alert('게시글 저장 중 오류가 발생했습니다.')
+    //             }
+    //         } else {
+    //             const newPost = {
+    //                 title: title,
+    //                 contents: fullContent,
+    //                 password: password,
+    //                 date: currentDate,
+    //             };
+
+    //             try {
+    //                 await addPost(newPost)
+    //                     .then((res) => {
+    //                         alert('게시글이 성공적으로 저장되었습니다.');
+    //                         navigate(`/post/${res.data.id}`); // Assuming res.data.id contains the new post's ID
+    //                     })
+    //                     .catch(error => {
+    //                         console.error('Error saving post: ', error);
+    //                         alert('게시글 저장 중 오류가 발생했습니다.');
+    //                     });
+    //             } catch (error) {
+    //                 console.error('Error saving new post: ', error);
+    //                 alert('게시글 저장 중 오류가 발생했습니다.')
+    //             }
+
+    //         };
+    //         // try {
+    //         //     await addPost(newPost);
+    //         //     alert('게시글이 성공적으로 저장되었습니다.')
+    //         //     setTitle('');
+    //         //     setContent('');
+    //         //     setPassword('');
+    //         //     setRouteText('');
+    //         //     navigate('/boardList'); // Navigate to board list
+    //         // } catch (error) {
+    //         //     console.error('Error saving post:', error);
+    //         //     alert('게시글 저장 중 오류가 발생했습니다.');
+    //         // }
+    //     }
+    // };
 
 
     const handleKeyDown = (event) => {
