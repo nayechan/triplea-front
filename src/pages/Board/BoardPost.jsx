@@ -99,9 +99,14 @@ const BoardPost = () => {
     const [content, setContent] = useState('');
     const [password, setPassword] = useState('');
     const navigate = useNavigate();
+<<<<<<< HEAD
     const { routeText, setRouteText } = useRouteTextContext();
     const { addPost, updatePost } = useBoardData();
     const location = useLocation();
+=======
+    const { routeText, updateRouteText } = useRouteTextContext();
+    const { addPost } = useBoardData();
+>>>>>>> 5d06298e6275e799e92983b5b43cb37c7bf459ee
 
     useEffect(() => {
         console.log('routeContent:', routeText);
@@ -137,6 +142,7 @@ const BoardPost = () => {
         } else {
             const fullContent = `여행 일정:\n${routeText}\n\n${content}\n`; // 본문과 여행 일정을 결합
             const currentDate = new Date().toISOString().slice(0, 10);
+<<<<<<< HEAD
             if (location.state && location.state.post) {
                 const updateData = {
                     id: location.state.post.id, // Include the id in the update data
@@ -195,6 +201,28 @@ const BoardPost = () => {
             //     console.error('Error saving post:', error);
             //     alert('게시글 저장 중 오류가 발생했습니다.');
             // }
+=======
+            const newPost = {
+                title: title,
+                date: currentDate,
+                contents: fullContent, // 결합된 내용을 사용
+                password: password,
+            };
+            console.log('new post:', newPost);
+    
+            try {
+                await addPost(newPost);
+                alert('게시글이 성공적으로 저장되었습니다.')
+                setTitle('');
+                setContent('');
+                setPassword('');
+                updateRouteText('');
+                navigate('/boardList'); // Navigate to board list
+            } catch (error) {
+                console.error('Error saving post:', error);
+                alert('게시글 저장 중 오류가 발생했습니다.');
+            }
+>>>>>>> 5d06298e6275e799e92983b5b43cb37c7bf459ee
         }
     };
 
