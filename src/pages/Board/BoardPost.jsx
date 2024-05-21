@@ -174,7 +174,7 @@ const BoardPost = () => {
         setTitle('');
         setContent('');
         setPassword('');
-        setRouteText('');
+        //setRouteText('');
     };
 
 
