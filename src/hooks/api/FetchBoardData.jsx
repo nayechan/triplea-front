@@ -51,18 +51,15 @@ const useBoardData = () => {
             });
     };
 
-    const updatePost = async (id, updatedPost) => {
-        const config = {
-            method: 'put',
-            url: `http://localhost:8080/api/notice_boards/${id}`,
-            data: updatedPost,
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        };
-    
+    const updatePost = async (id, password, updatePost) => {
+
         try {
-            const response = await axios(config);
+            const response = await axios.put(`http://localhost:8080/api/notice_boards/${id}`, updatePost, {
+                params: { inputPassword : password },
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
             setData(prevData => 
                 prevData.map(post => 
                     post.id === id ? response.data : post
