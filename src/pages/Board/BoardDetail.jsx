@@ -90,7 +90,7 @@ const BoardDetail = () => {
         if (enteredPassword) {
             let confirmed = window.confirm('글을 수정하시겠습니까?');
             if (confirmed) {
-                navigate('/BoardPost', { state: { post } });
+                navigate('/BoardPost', { state: { post, enteredPassword } });
             }
         }
     };

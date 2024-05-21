@@ -143,32 +143,27 @@ const BoardPost = () => {
             return;
         }
 
+        const formattedRouteText = routeText.split('\n').map(line => `<div><b/>${line}</div>`).join('');
         // 본문과 여행 일정을 결합
-        const fullContent = `${routeText}\n\n${content}\n`;
+        const fullContent = `${formattedRouteText}\n\n${content}\n`;
         const currentDate = new Date().toISOString().slice(0, 10);
+        const newPost = {
+            title: title,
+            contents: fullContent,
+            password: password,
+            date: currentDate,
+        }
 
         // 게시글 수정 또는 새 게시글 저장
         if (location.state && location.state.post) {
             // 게시글 수정
-            const updateData = {
-                id: location.state.post.id,
-                newTitle: title,
-                newContents: fullContent,
-                password: password
-            };
             try {
-                await updatePost(updateData.id, updateData);
+                await updatePost(location.state.post.id, location.state.enteredPassword, newPost);
             } catch (error) {
                 console.error('Error updating post:', error);
             }
         } else {
             // 새 게시글 저장
-            const newPost = {
-                title: title,
-                contents: fullContent,
-                password: password,
-                date: currentDate,
-            };
 
             try {
                 await addPost(newPost); // addPost는 이미 성공 및 오류 처리를 포함하고 있음
@@ -176,6 +171,10 @@ const BoardPost = () => {
                 console.error('Error saving post:', error);
             }
         }
+        setTitle('');
+        setContent('');
+        setPassword('');
+        setRouteText('');
     };
 
 
@@ -289,7 +288,6 @@ const BoardPost = () => {
                         <PostTitle>여행 일정</PostTitle>
                         <PostTextArea
                             value={routeText} // Display route text here
-                            readOnly
                         />
                     </PostContainer>
                     <ContentContainer>
