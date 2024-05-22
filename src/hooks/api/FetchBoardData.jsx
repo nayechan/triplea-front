@@ -51,11 +51,10 @@ const useBoardData = () => {
             });
     };
 
-    const updatePost = async (id, password, updatePost) => {
+    const updatePost = async (id, updatePost) => {
 
         try {
             const response = await axios.put(`http://localhost:8080/api/notice_boards/${id}`, updatePost, {
-                params: { inputPassword : password },
                 headers: {
                     'Content-Type': 'application/json'
                 }
@@ -92,8 +91,20 @@ const useBoardData = () => {
                 alert('게시글 삭제 중 오류가 발생했습니다. 비밀번호를 확인하거나 다시 시도해 주세요.');
             });
     };
+
+    const verifyPassword = async (id, password) => {
+        try {
+            const response = await axios.get(`http://localhost:8080/api/notice_boards/${id}/verify?password=${encodeURIComponent(password)}`);
+            console.log('success verify : ', response);
+            return true; // 비밀번호 검증 성공
+        } catch (error) {
+            console.error('Error verifying password: ', error);
+            alert('비밀번호가 틀렸습니다. 다시 시도해 주세요.');
+            return false; // 비밀번호 검증 실패
+        }
+    };
     
-    return { data, getPost, addPost, updatePost, deletePost };
+    return { data, getPost, addPost, updatePost, deletePost, verifyPassword };
 };
 
 export default useBoardData;
