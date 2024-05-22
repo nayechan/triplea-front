@@ -326,8 +326,8 @@ const AddLocation = ({ isopen, setIsopen, dayIndex, locationIndex }) => {
       </ContentWrapper>
 
       <ButtonContainer>
-        <DefaultButton onClick={() => saveLocation()}>Confirm</DefaultButton>
-        <DefaultButton onClick={() => setIsopen(false)}>Cancel</DefaultButton>
+        <DefaultButton onClick={() => saveLocation()}>확인</DefaultButton>
+        <DefaultButton onClick={() => setIsopen(false)}>취소</DefaultButton>
       </ButtonContainer>
     </ModalWrapper>
   </Modal>

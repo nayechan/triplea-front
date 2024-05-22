@@ -5,6 +5,7 @@ import { Map, MapMarker } from 'react-kakao-maps-sdk';
 import DefaultButton from 'components/DefaultButton';
 import Modal from 'components/Modal/Modal';
 import useFetchInfoImage from 'hooks/api/FetchInfoImage';
+import { FaPhotoVideo } from 'react-icons/fa';
 
 const { kakao } = window;
 
@@ -150,7 +151,7 @@ const InfoLocation = ({ isopen, setIsopen, tripLocation }) => {
           </LocationInputFormWrapper>
         </ContentWrapper>
         <ButtonContainer>
-          <DefaultButton onClick={closeInfoLocationModal}>Close</DefaultButton>
+          <DefaultButton onClick={closeInfoLocationModal}>닫기</DefaultButton>
         </ButtonContainer>
       </ModalWrapper>
     </Modal>

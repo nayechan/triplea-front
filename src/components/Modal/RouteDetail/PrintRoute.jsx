@@ -87,8 +87,8 @@ const PrintRoute = ({ isopen, setIsopen }) => {
         </ContentWrapper>
 
         <ButtonContainer>
-          <PrintButton onClick={handlePrint}>Print</PrintButton>
-          <DefaultButton onClick={() => setIsopen(false)}>Close</DefaultButton>
+          <PrintButton onClick={handlePrint}>출력</PrintButton>
+          <DefaultButton onClick={() => setIsopen(false)}>닫기</DefaultButton>
         </ButtonContainer>
       </ModalWrapper>
     </Modal>

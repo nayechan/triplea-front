@@ -29,11 +29,11 @@ const DeleteLocation = ({ isopen, setIsopen, dayIndex, locationIndex }) => {
   return (
     <Modal isVisible={isopen} onClose={() => setIsopen(false)} width="500px" height="200px">
       <ModalWrapper>
-        <h2>Delete Location</h2>
-        <p>Are you sure you want to delete this location?</p>
+        <h2>여행지 삭제</h2>
+        <p>정말로 이 여행지를 경로에서 삭제하시겠습니까?</p>
         <ButtonContainer>
-          <DefaultButton onClick={confirmDelete}>Confirm</DefaultButton>
-          <DefaultButton onClick={() => setIsopen(false)}>Cancel</DefaultButton>
+          <DefaultButton onClick={confirmDelete}>예</DefaultButton>
+          <DefaultButton onClick={() => setIsopen(false)}>아니오</DefaultButton>
         </ButtonContainer>
       </ModalWrapper>
     </Modal>
