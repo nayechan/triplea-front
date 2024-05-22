@@ -1,4 +1,4 @@
-# Trip:lener
+# Trip:lanner
 여행 플래너 사이트 Trip:lener의 프론트엔드 프로젝트입니다
 
 ## How to start

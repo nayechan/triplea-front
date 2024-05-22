@@ -1,7 +1,9 @@
-import React, { useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { Link, useParams, useNavigate } from 'react-router-dom';
 import Header from '../../components/Header';
 import styled from 'styled-components';
+import useBoardData from 'hooks/api/FetchBoardData';
+import parse from 'html-react-parser';  // html-react-parser를 import
 
 const StyledDetail = styled.div`
     max-width: 800px;
@@ -35,7 +37,7 @@ const PostInfo = styled.div`
     margin-bottom: 20px;
 `;
 
-const PostContent = styled.p`
+const PostContent = styled.div`
     margin: 0;
     padding: 0 20px 40px 20px;
     border-bottom: 1px solid #070719;
@@ -57,42 +59,56 @@ const ButtonContent = styled.button`
     transition: background-color 0.3s;
 `;
 
-const BoardDetail = ({ posts }) => {
+const BoardDetail = () => {
     const { id } = useParams();
+    const { data: posts, getPost, verifyPassword, deletePost } = useBoardData();
+    const [loading, setLoading] = useState(true);
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        const fetchData = async () => {
+            await getPost();
+            setLoading(false);
+        };
+
+        fetchData();
+    }, []);
+
+    if (loading) {
+        return <div>Loading...</div>;
+    }
+
     const post = posts.find(post => post.id === parseInt(id));
 
     if (!post) {
         return <div>게시물을 찾을 수 없습니다.</div>;
     }
-    const handleEdit = () => {
-        let enteredPassword = '';
-        let confirmed = false;
 
-        while (!confirmed) {
-            enteredPassword = prompt('비밀번호를 입력하세요:');
-            if (enteredPassword === null) return; // 사용자가 취소를 누른 경우
-            if (enteredPassword === post.password) {
-                
-            } else {
-                alert('비밀번호가 틀렸습니다. 다시 입력하세요.');
+    const handleEdit = async () => {
+        let enteredPassword = prompt('비밀번호를 입력하세요:');
+        if (enteredPassword === null) return; // 사용자가 취소를 누른 경우
+    
+        const isPasswordCorrect = await verifyPassword(post.id, enteredPassword);
+        console.log("correct : ", isPasswordCorrect);
+        if (isPasswordCorrect) {
+            const confirmed = window.confirm('글을 수정하시겠습니까?');
+            if (confirmed) {
+                navigate('/BoardPost', { state: { post, enteredPassword } }); // 게시판 작성 페이지로 이동
             }
-        }
+        } 
     };
+    
 
-    const handleDelete = () => {
-        let enteredPassword = '';
-        let confirmed = false;
-
-        while (!confirmed) {
-            enteredPassword = prompt('비밀번호를 입력하세요:');
-            if (enteredPassword === null) return; // 사용자가 취소를 누른 경우
-            if (enteredPassword === post.password) {
-                confirmed = window.confirm('정말로 글을 삭제하시겠습니까?');
-                if (confirmed) {
-                    console.log('글 삭제');
-                }
-            } else {
-                alert('비밀번호가 틀렸습니다. 다시 입력하세요.');
+    const handleDelete = async () => {
+        const enteredPassword = prompt('비밀번호를 입력하세요:');
+        if (!enteredPassword) return; // 즉시 반환하여 함수 종료
+    
+        const confirmed = window.confirm('정말로 글을 삭제하시겠습니까?');
+        if (confirmed) {
+            try {
+                await deletePost(post.id, enteredPassword);
+            } catch (error) {
+                console.error('Error deleting post:', error);
             }
         }
     };
@@ -105,15 +121,17 @@ const BoardDetail = ({ posts }) => {
                     <PostTitle>{post.title}</PostTitle>
                 </DetailTitle>
                 <PostInfo>
-                    <div><b>작성자</b>&nbsp;&nbsp;{post.name}</div>
+                    <div><b>작성자</b>&nbsp;&nbsp;익명</div>
                     <div><b>작성일</b>&nbsp;&nbsp;{post.date}</div>
                 </PostInfo>
-                <PostContent>{post.content}</PostContent>
+                <PostContent>
+                    {parse(post.contents)}  
+                </PostContent>
                 <ButtonContainer>
                     <Link to="/boardList">
                         <ButtonContent>목록 보기</ButtonContent>
                     </Link>
-                    <ButtonContent onClick={handleEdit} style={{marginLeft: '500px'}}>글 수정</ButtonContent>
+                    <ButtonContent onClick={handleEdit} style={{ marginLeft: '500px' }}>글 수정</ButtonContent>
                     <ButtonContent onClick={handleDelete}>글 삭제</ButtonContent>
                 </ButtonContainer>
             </StyledDetail>

@@ -55,7 +55,7 @@ export const RouteTextProvider = ({ children }) => {
   }, []); // Add onReady to the dependency array
 
   return (
-    <RouteTextContext.Provider value={{ routeText, updateRouteText, setOnReady }}>
+    <RouteTextContext.Provider value={{ routeText, updateRouteText, setOnReady, setRouteText }}>
       {children}
     </RouteTextContext.Provider>
   );

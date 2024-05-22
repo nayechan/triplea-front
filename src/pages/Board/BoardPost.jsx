@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import Header from '../../components/Header';
 import styled from 'styled-components';
-import { useLocation, Link } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
-
-import { useRouteTextContext, routeChannel } from 'contexts/RouteTextContext';
+import { useRouteTextContext } from 'contexts/RouteTextContext';
+import useBoardData from 'hooks/api/FetchBoardData';
 
 const StyledContainer = styled.div`
     max-width: 800px;
@@ -63,7 +63,7 @@ const ContentContainer = styled.div`
     overflow-y: auto;
     padding: 10px;
 
-    .ck.ck-content{
+    .ck.ck-content {
         height: 350px;
     }
 `;
@@ -94,17 +94,26 @@ const PostTextArea = styled.textarea`
     resize: vertical;
 `;
 
-const BoardPost = ({ onAddPost }) => {
+const BoardPost = () => {
     const [title, setTitle] = useState('');
     const [content, setContent] = useState('');
     const [password, setPassword] = useState('');
+    const navigate = useNavigate();
+    const { addPost, updatePost } = useBoardData();
     const location = useLocation();
+    const { routeText, updateRouteText } = useRouteTextContext();
 
-    const { routeText: routeContent } = useRouteTextContext(); // Get route text from context
 
     useEffect(() => {
-        console.log('routeContent:', routeContent);
-    }, [routeContent]);
+        console.log('routeContent:', routeText);
+    }, [routeText]);
+
+    useEffect(() => {
+        if (location.state && location.state.post) {
+            setTitle(location.state.post.title);
+            setContent(location.state.post.contents);
+        }
+    }, [location.state]);
 
     const handleTitleChange = (event) => {
         setTitle(event.target.value);
@@ -119,26 +128,60 @@ const BoardPost = ({ onAddPost }) => {
         setPassword(event.target.value);
     };
 
-    const handleSavePost = () => {
-        if (password === '') {
+    const handleSavePost = async () => {
+        // 입력 검증
+        if (!password) {
             alert('비밀번호를 입력해주세요.');
-        } else if (title === '') {
-            alert('제목을 입력해주세요.')
-        } else if (content === '') {
-            alert('내용을 입력해주세요')
+            return;
+        }
+        if (!title) {
+            alert('제목을 입력해주세요.');
+            return;
+        }
+        if (!content && !routeText) {
+            alert('내용을 입력해주세요.');
+            return;
+        }
+
+        const formattedRouteText = routeText.split('\n').map(line => `<div><b/>${line}</div>`).join('');
+        // 본문과 여행 일정을 결합
+        const fullContent = `${formattedRouteText}\n\n${content}\n`;
+        const currentDate = new Date().toISOString().slice(0, 10);
+        const newPost = {
+            title: title,
+            contents: fullContent,
+            password: password,
+            date: currentDate,
+        }
+
+        // 게시글 수정 또는 새 게시글 저장
+        if (location.state && location.state.post) {
+            // 게시글 수정
+            try {
+                await updatePost(location.state.post.id, newPost);
+            } catch (error) {
+                console.error('Error updating post:', error);
+            }
         } else {
-            const currentDate = new Date().toISOString().slice(0, 10);
-            const newPost = {
-                title: title,
-                content: content,
-                password: password,
-                date: currentDate,
-            };
-            onAddPost(newPost);
-            // 게시글 저장 후 폼 초기화
-            setTitle('');
-            setContent('');
-            setPassword('');
+            // 새 게시글 저장
+
+            try {
+                await addPost(newPost); // addPost는 이미 성공 및 오류 처리를 포함하고 있음
+            } catch (error) {
+                console.error('Error saving post:', error);
+            }
+        }
+        setTitle('');
+        setContent('');
+        setPassword('');
+        //setRouteText('');
+    };
+
+
+    const handleKeyDown = (event) => {
+        if (event.key === 'Enter') {
+            event.preventDefault(); // 기본 엔터 키 동작 방지 (폼 제출 등)
+            handleSavePost();
         }
     };
 
@@ -154,6 +197,7 @@ const BoardPost = ({ onAddPost }) => {
                             type="text"
                             value={title}
                             onChange={handleTitleChange}
+                            onKeyDown={handleKeyDown} // 엔터 키 핸들러 추가
                         />
                     </PostContainer>
                     <AuthorContainer>
@@ -167,11 +211,10 @@ const BoardPost = ({ onAddPost }) => {
                         <div>익명</div>
                     </AuthorContainer>
                     <hr />
-                    <PostContainer style={{ display: routeContent ? 'flex' : 'none' }}>
+                    <PostContainer style={{ display: routeText ? 'flex' : 'none' }}>
                         <PostTitle>여행 일정</PostTitle>
                         <PostTextArea
-                            value={routeContent} // Display route text here
-                            readOnly
+                            value={routeText} // Display route text here
                         />
                     </PostContainer>
                     <ContentContainer>
@@ -187,11 +230,12 @@ const BoardPost = ({ onAddPost }) => {
                             type="password"
                             value={password}
                             onChange={handlePasswordChange}
+                            onKeyDown={handleKeyDown} // 엔터 키 핸들러 추가
                         />
                     </PostContainer>
                 </div>
                 <ButtonContainer>
-                    <Link to="/board">
+                    <Link to="/boardList">
                         <StyledButton>목록</StyledButton>
                     </Link>
                     <StyledButton onClick={handleSavePost}>저장</StyledButton>

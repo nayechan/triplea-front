@@ -57,8 +57,12 @@ const PrintRoute = ({ isopen, setIsopen }) => {
             <h3>{currentRoute.name}</h3>
 
             {/* Display residence location */}
-            <h4>숙소</h4>
-            <p>{currentRoute.residence.name}</p>
+            {currentRoute.residence && (
+              <div>
+                <h4>숙소</h4>
+                <p>{currentRoute.residence.name}</p>
+              </div>
+            )}
 
             {/* Display each day's route list */}
             {Object.entries(currentRoute.plannersByDay).map(([dayIndex, locations]) => (
@@ -83,8 +87,8 @@ const PrintRoute = ({ isopen, setIsopen }) => {
         </ContentWrapper>
 
         <ButtonContainer>
-          <PrintButton onClick={handlePrint}>Print</PrintButton>
-          <DefaultButton onClick={() => setIsopen(false)}>Close</DefaultButton>
+          <PrintButton onClick={handlePrint}>출력</PrintButton>
+          <DefaultButton onClick={() => setIsopen(false)}>닫기</DefaultButton>
         </ButtonContainer>
       </ModalWrapper>
     </Modal>

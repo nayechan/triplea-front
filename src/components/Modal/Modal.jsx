@@ -7,7 +7,7 @@ const Modal = ({ isVisible, onClose, width, height, children }) => {
   return (
     <div className="modal-overlay">
       <div className="modal" style={{ width: width, height: height }}>
-        <button className="close-button" onClick={onClose}>Close</button>
+        <button className="close-button" onClick={onClose}>닫기</button>
         {children}
       </div>
     </div>

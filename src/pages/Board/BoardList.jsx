@@ -1,9 +1,8 @@
-// src/pages/BoardList.js
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Header from '../../components/Header';
 import styled from 'styled-components';
-import useFetchBoardData from '../../hooks/api/FetchBoardData';
+import useBoardData from 'hooks/api/FetchBoardData';
 
 const StyledBoard = styled.div`
     width: 1200px;
@@ -115,7 +114,14 @@ const PageButton = styled.button`
 `;
 
 const BoardList = () => {
-    const posts = useFetchBoardData();
+    const { data: posts, getPost } = useBoardData();
+
+    useEffect(() => {
+        getPost();
+    }, []);
+
+    // 게시글 번호 내림차순 정렬
+    const sortedPosts = [...posts].sort((a, b) => b.id - a.id);
 
     // 페이지네이션 상태
     const [currentPage, setCurrentPage] = useState(1);
@@ -124,9 +130,7 @@ const BoardList = () => {
     // 현재 페이지의 게시글 목록
     const indexOfLastPost = currentPage * postsPerPage;
     const indexOfFirstPost = indexOfLastPost - postsPerPage;
-   // const currentPosts = posts.slice(indexOfFirstPost, indexOfLastPost);
-   const currentPosts = Array.isArray(posts) ? posts.slice(indexOfFirstPost, indexOfLastPost) : [];
-
+    const currentPosts = Array.isArray(sortedPosts) ? sortedPosts.slice(indexOfFirstPost, indexOfLastPost) : [];
 
     // 페이지 변경 함수
     const paginate = (pageNumber) => setCurrentPage(pageNumber);
@@ -146,10 +150,10 @@ const BoardList = () => {
                         <li>작성자</li>
                         <li>작성일</li>
                     </StyledListItemHeader>
-                    {currentPosts.map(post => (
+                    {currentPosts.map((post, index) => (
                         <StyledListItem key={post.id}>
                             <Link to={`/post/${post.id}`}>
-                                <li>{post.id}</li>
+                                <li>{post.id + 1}</li>
                                 <li>{post.title}</li>
                                 <li>익명</li>
                                 <li>{post.date}</li>
@@ -159,9 +163,13 @@ const BoardList = () => {
                 </StyledList>
             </StyledBoard>
             <Pagination>
-                <PageButton disabled>1</PageButton>
+                {Array.from({ length: Math.ceil(sortedPosts.length / postsPerPage) }, (_, i) => (
+                    <PageButton key={i + 1} active={i + 1 === currentPage} onClick={() => paginate(i + 1)}>
+                        {i + 1}
+                    </PageButton>
+                ))}
             </Pagination>
-        </div >
+        </div>
     );
 };
 

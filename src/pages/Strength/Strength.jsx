@@ -39,15 +39,10 @@ const Strength = () => {
                         <h1>여행 강도를 선택해주세요.</h1>
                     </div>
                     <ul className="strength-lists">
-                        <li onClick={() => handleStrengthSelect('weak')}
-                            className={lastSelectedStrength === 'weak' ? 'selected' : ''} >
-                            <img src={process.env.PUBLIC_URL + '/images/strength_weak.png'} alt="이미지 설명" style={{ width: '150px' }} />
-                            약함
-                        </li>
                         <li onClick={() => handleStrengthSelect('normal')}
                             className={lastSelectedStrength === 'normal' ? 'selected' : ''} >
                             <img src={process.env.PUBLIC_URL + '/images/strength_normal.png'} alt="이미지 설명" style={{ width: '150px' }} />
-                            중간
+                            보통
                         </li>
                         <li onClick={() => handleStrengthSelect('hard')} className={lastSelectedStrength === 'hard' ? 'selected' : ''} >
                             <img src={process.env.PUBLIC_URL + '/images/strength_strong.png'} alt="이미지 설명" style={{ width: '150px' }} />

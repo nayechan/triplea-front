@@ -11,29 +11,50 @@ const useFetchRouteData = (region, period, strength, residence) => {
       setIsLoading(true);
 
       try {
-        if (region === "" || period === "" || strength === "" || !residence) {
+        if (region === "" || period === "" || strength === "") {
           throw new Error('Blank parameter');
         }
 
-        const numStrength = strength === "weak" ? 2 :
-          strength === "normal" ? 3 :
-            strength === "hard" ? 4 :
-              0;
+        let numStrength;
+        switch (strength) {
+          case "normal":
+            numStrength = 3;
+            break;
+          case "hard":
+            numStrength = 4;
+            break;
+          default:
+            numStrength = 3;
+            break;
+        }
 
-        const requestBody = ({
-          area: region,
-          day: `${period}`,
-          strength: `${numStrength}`,
-          accommodationName: residence?.name,
-          accommodate_latitude: residence?.latitude,
-          accommodate_longitude: residence?.longitude
-        });
+        let requestBody;
+        if (residence) {
+          requestBody = ({
+            area: region,
+            day: `${period}`,
+            strength: `${numStrength}`,
+            accommodationName: residence?.name,
+            accommodate_latitude: residence?.latitude,
+            accommodate_longitude: residence?.longitude
+          });
+
+        }
+        else {
+          requestBody = ({
+            area: region,
+            day: `${period}`,
+            strength: `${numStrength}`,
+            accommodationName: ''
+          });
+        }
 
         const response = await axios.get('http://52.62.34.185:8080/api/planners', {
           params: requestBody
         });
 
         setFetchedRouteData(response.data);
+        console.log(`${strength} : ${numStrength}`);
         setIsLoading(false);
       } catch (error) {
         console.error('Error fetching route data:', error);
