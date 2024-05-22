@@ -61,7 +61,7 @@ const ButtonContent = styled.button`
 
 const BoardDetail = () => {
     const { id } = useParams();
-    const { data: posts, getPost, updatePost, deletePost } = useBoardData();
+    const { data: posts, getPost, verifyPassword, deletePost } = useBoardData();
     const [loading, setLoading] = useState(true);
     const navigate = useNavigate();
 
@@ -84,16 +84,20 @@ const BoardDetail = () => {
         return <div>게시물을 찾을 수 없습니다.</div>;
     }
 
-    const handleEdit = () => {
+    const handleEdit = async () => {
         let enteredPassword = prompt('비밀번호를 입력하세요:');
         if (enteredPassword === null) return; // 사용자가 취소를 누른 경우
-        if (enteredPassword) {
-            let confirmed = window.confirm('글을 수정하시겠습니까?');
+    
+        const isPasswordCorrect = await verifyPassword(post.id, enteredPassword);
+        console.log("correct : ", isPasswordCorrect);
+        if (isPasswordCorrect) {
+            const confirmed = window.confirm('글을 수정하시겠습니까?');
             if (confirmed) {
-                navigate('/BoardPost', { state: { post, enteredPassword } });
+                navigate('/BoardPost', { state: { post, enteredPassword } }); // 게시판 작성 페이지로 이동
             }
-        }
+        } 
     };
+    
 
     const handleDelete = async () => {
         const enteredPassword = prompt('비밀번호를 입력하세요:');
