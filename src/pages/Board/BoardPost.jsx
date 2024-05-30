@@ -102,6 +102,7 @@ const BoardPost = () => {
     const { addPost, updatePost } = useBoardData();
     const location = useLocation();
     const { routeText, updateRouteText } = useRouteTextContext();
+    const [showRouteInfo, setShowRouteInfo] = useState(false);
 
 
     useEffect(() => {
@@ -109,11 +110,14 @@ const BoardPost = () => {
     }, [routeText]);
 
     useEffect(() => {
+        const queryParams = new URLSearchParams(location.search);
+        setShowRouteInfo(queryParams.get('from') === 'routeDetail');
+        
         if (location.state && location.state.post) {
             setTitle(location.state.post.title);
             setContent(location.state.post.contents);
         }
-    }, [location.state]);
+    }, [location.search, location.state]);
 
     const handleTitleChange = (event) => {
         setTitle(event.target.value);
@@ -211,12 +215,13 @@ const BoardPost = () => {
                         <div>익명</div>
                     </AuthorContainer>
                     <hr />
-                    <PostContainer style={{ display: routeText ? 'flex' : 'none' }}>
+                    {showRouteInfo &&
+                    <PostContainer>
                         <PostTitle>여행 일정</PostTitle>
                         <PostTextArea
                             value={routeText} // Display route text here
                         />
-                    </PostContainer>
+                    </PostContainer>}
                     <ContentContainer>
                         <CKEditor
                             editor={ClassicEditor}

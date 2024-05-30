@@ -186,7 +186,7 @@ const RouteInfo = ({
     const confirmed = window.confirm('게시글을 올리시겠습니까?');
     if (confirmed) {
       // Open new tab and provide callback function
-      const newTab = window.open('/boardPost', '_blank', 'noopener,noreferrer');
+      const newTab = window.open('/boardPost?from=routeDetail', '_blank', 'noopener,noreferrer');
 
     } else {
       console.log('post cancel.');
