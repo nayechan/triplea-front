@@ -102,6 +102,7 @@ const BoardPost = () => {
     const { addPost, updatePost } = useBoardData();
     const location = useLocation();
     const { routeText, updateRouteText } = useRouteTextContext();
+    const [showRouteInfo, setShowRouteInfo] = useState(false);
 
 
     useEffect(() => {
@@ -109,11 +110,14 @@ const BoardPost = () => {
     }, [routeText]);
 
     useEffect(() => {
+        const queryParams = new URLSearchParams(location.search);
+        setShowRouteInfo(queryParams.get('from') === 'routeDetail');
+        
         if (location.state && location.state.post) {
             setTitle(location.state.post.title);
             setContent(location.state.post.contents);
         }
-    }, [location.state]);
+    }, [location.search, location.state]);
 
     const handleTitleChange = (event) => {
         setTitle(event.target.value);
@@ -142,29 +146,31 @@ const BoardPost = () => {
             alert('내용을 입력해주세요.');
             return;
         }
-
-        const formattedRouteText = routeText.split('\n').map(line => `<div><b/>${line}</div>`).join('');
-        // 본문과 여행 일정을 결합
-        const fullContent = `${formattedRouteText}\n\n${content}\n`;
+        let fullContent;
+        const formattedRouteText = routeText.split('\n').map(line => `<div><b/>${line}</div>`).join(''); // 여행일정을 내용과 구분하기 위해서
         const currentDate = new Date().toISOString().slice(0, 10);
-        const newPost = {
-            title: title,
-            contents: fullContent,
-            password: password,
-            date: currentDate,
-        }
 
-        // 게시글 수정 또는 새 게시글 저장
+        // 게시글 수정
         if (location.state && location.state.post) {
-            // 게시글 수정
+            const newPost = {
+                title: title,
+                contents: content,
+                password: password,
+                date: currentDate,
+            }
             try {
                 await updatePost(location.state.post.id, newPost);
             } catch (error) {
                 console.error('Error updating post:', error);
             }
-        } else {
-            // 새 게시글 저장
-
+        } else { // 새 게시글 저장
+            fullContent = `${formattedRouteText}\n\n${content}\n`;
+            const newPost = {
+                title: title,
+                contents: fullContent,
+                password: password,
+                date: currentDate,
+            }
             try {
                 await addPost(newPost); // addPost는 이미 성공 및 오류 처리를 포함하고 있음
             } catch (error) {
@@ -211,12 +217,13 @@ const BoardPost = () => {
                         <div>익명</div>
                     </AuthorContainer>
                     <hr />
-                    <PostContainer style={{ display: routeText ? 'flex' : 'none' }}>
+                    {showRouteInfo &&
+                    <PostContainer>
                         <PostTitle>여행 일정</PostTitle>
                         <PostTextArea
                             value={routeText} // Display route text here
                         />
-                    </PostContainer>
+                    </PostContainer>}
                     <ContentContainer>
                         <CKEditor
                             editor={ClassicEditor}
