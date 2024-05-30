@@ -82,10 +82,10 @@ const RouteMap = ({
 }) => {
   const [zoomLevel, setZoomLevel] = useState(3);
 
-  let minLat = route.residence ? route.residence.latitude : 999;
-  let maxLat = route.residence ? route.residence.latitude : -999;
-  let minLng = route.residence ? route.residence.longitude : 999;
-  let maxLng = route.residence ? route.residence.longitude : -999;
+  let minLat = parseFloat(route.residence ? route.residence.latitude : 999);
+  let maxLat = parseFloat(route.residence ? route.residence.latitude : -999);
+  let minLng = parseFloat(route.residence ? route.residence.longitude : 999);
+  let maxLng = parseFloat(route.residence ? route.residence.longitude : -999);
 
   // Calculate the maximum distance between any two consecutive points
   Object.entries(route.plannersByDay).forEach(([dayIndex, locations]) => {
