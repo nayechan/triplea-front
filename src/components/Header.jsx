@@ -29,7 +29,7 @@ const Header = ({className}) => {
                                     <Link to="/boardList" target="_blank">게시판</Link>
                                 </li>
                                 <li className="contact-button">
-                                    <Link to="https://www.naver.com" target="_blank">문의</Link>
+                                    <Link to="https://forms.gle/addw31RM13KhNYqA8" target="_blank">문의</Link>
                                 </li>
                             </ul>
                         </div>

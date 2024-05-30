@@ -153,7 +153,7 @@ const BoardList = () => {
                     {currentPosts.map((post, index) => (
                         <StyledListItem key={post.id}>
                             <Link to={`/post/${post.id}`}>
-                                <li>{post.id + 1}</li>
+                                <li>{posts.length - (indexOfFirstPost + index)}</li>
                                 <li>{post.title}</li>
                                 <li>익명</li>
                                 <li>{post.date}</li>
